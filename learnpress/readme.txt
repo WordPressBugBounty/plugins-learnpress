@@ -5,7 +5,7 @@ Tags: elearning, education, course, lms, learning management system
 Requires at least: 6.0
 Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 4.2.7.1
+Stable tag: 4.2.7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -209,6 +209,21 @@ https://www.transifex.com/projects/p/learnpress/
 8. Add-ons of LearnPress.
 
 == Changelog ==
+
+= 4.2.7.2 (2024-10-21) =
+~ Fixed: security.
+~ Fixed: set size for Gravatar user.
+~ Fixed: slug item's course use urldecode when edited.
+~ Fixed: display name courses has special character Mobile.
+~ Fixed: error save Enable/Disable all emails.
+~ Added: get_all_items method for LP_Order class, for fix case "Paid Memberships" assign more than 50 courses.
+~ Added: cover image feature on the Profile page.
+~ Tweak: handle tomSelect.
+~ Tweak: class LP_Datetime.
+~ Tweak: style page Archive Courses.
+~ Tweak: style page Profile.
+~ Tweak: layout Offline course.
+~ Update: lp icon fonts.
 
 = 4.2.7.1 (2024-09-11) =
 ~ Fixed: security.

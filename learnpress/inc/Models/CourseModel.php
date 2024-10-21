@@ -7,7 +7,7 @@
  * Another fields for query list courses faster
  *
  * @package LearnPress/Classes
- * @version 1.0.0
+ * @version 1.0.1
  * @since 4.2.6.9
  */
 
@@ -85,6 +85,7 @@ class CourseModel {
 	public $image_url = '';
 	public $permalink = '';
 	public $categories;
+	public $tags;
 	private $price = 0; // Not save in database, must auto reload calculate
 	private $passing_condition = '';
 	public $post_excerpt = '';
@@ -208,6 +209,26 @@ class CourseModel {
 		$this->categories = $categories;
 
 		return $this->categories;
+	}
+
+	/**
+	 * Get tags of course.
+	 *
+	 * @return array
+	 * @since 4.2.7.2
+	 * @version 1.0.0
+	 */
+	public function get_tags(): array {
+		if ( isset( $this->tags ) ) {
+			return $this->tags;
+		}
+
+		$post       = new PostModel( $this );
+		$tags = $post->get_tags();
+
+		$this->tags = $tags;
+
+		return $this->tags;
 	}
 
 	/**
@@ -475,7 +496,7 @@ class CourseModel {
 				$item->type    = $sections_item->item_type;
 				$item_tmp      = LP_Course_Item::get_item( $item->id );
 				if ( $item_tmp ) {
-					$item->title   = $item_tmp->get_title();
+					$item->title   = html_entity_decode( $item_tmp->get_title() );
 					$item->preview = $item_tmp->is_preview();
 				}
 
@@ -593,6 +614,17 @@ class CourseModel {
 	}
 
 	/**
+	 * Get short description of Course
+	 *
+	 * @return string
+	 */
+	public function get_short_description(): string {
+		$course_post = new CoursePostModel( $this );
+
+		return $course_post->get_the_excerpt();
+	}
+
+	/**
 	 * Get value option No enroll requirement
 	 *
 	 * @return bool
@@ -637,6 +669,19 @@ class CourseModel {
 	}
 
 	/**
+	 * Check course is in stock
+	 *
+	 * @return bool
+	 * @since 4.2.7.2
+	 * @version 1.0.0
+	 */
+	public function is_allow_repurchase():bool {
+		$enable = $this->get_meta_value_by_key( CoursePostModel::META_KEY_ALLOW_COURSE_REPURCHASE, 'no' );
+
+		return 'yes' === $enable;
+	}
+
+	/**
 	 * Get external link
 	 *
 	 * @return string
@@ -671,6 +716,21 @@ class CourseModel {
 		} catch ( Throwable $e ) {
 			error_log( $e->getMessage() );
 		}
+
+		return $total;
+	}
+
+	/**
+	 * Count number of students enrolled course.
+	 * Check global settings `enrolled_students_number`
+	 * and add the fake value if both are set.
+	 *
+	 * @return int
+	 * @move from LP_Abstract_Course
+	 */
+	public function count_students(): int {
+		$total  = $this->get_total_user_enrolled_or_purchased();
+		$total += (int) $this->get_meta_value_by_key( CoursePostModel::META_KEY_STUDENTS, 0 );
 
 		return $total;
 	}
