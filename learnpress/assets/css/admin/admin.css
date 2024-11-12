@@ -6424,6 +6424,13 @@ table.lp-material--table tr:nth-child(even) {
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
   margin-right: 5px;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  margin-top: -2px;
 }
 
 .button.lp-material--delete {

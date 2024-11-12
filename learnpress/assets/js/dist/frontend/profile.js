@@ -134,7 +134,7 @@ function Avatar() {
           canvas.height = height;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL('image/jpeg'));
+          resolve(canvas.toDataURL('image/png'));
         }
         resolve(base64);
       };
@@ -404,7 +404,7 @@ async function getCroppedImg(imageSrc, pixelCrop, rotation = 0, flip = {
   ctx.putImageData(data, 0, 0);
 
   // As Base64 string
-  return canvas.toDataURL('image/jpeg');
+  return canvas.toDataURL('image/png');
 }
 
 /***/ }),
@@ -908,43 +908,81 @@ const profileCoverImage = () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ recoverOrder)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const $ = window.jQuery;
-function recoverOrder() {
-  const wrap = $('.order-recover'),
-    buttonRecoverOrder = wrap.find('.button-recover-order');
-  const ajaxRecover = () => {
-    wrap.find('.learn-press-message').remove();
-    $('.profile-recover-order').find('.learn-press-message').remove();
-    $.post({
-      url: '',
-      data: wrap.serializeJSON(),
-      beforeSend() {
-        buttonRecoverOrder.addClass('loading').attr('disabled', 'disabled');
-      },
-      success(response) {
-        response = LP.parseJSON(response);
-        if (response.message) {
-          const $msg = $('<div class="learn-press-message icon"><i class="fa"></i> ' + response.message + '</div>');
-          if (response.result == 'error') {
-            $msg.addClass('error');
-          }
-          wrap.before($msg);
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/**
+ * JS Recover order
+ *
+ * @since 4.0.0
+ * @version 1.0.1
+ */
+const recoverOrder = () => {
+  const toastify = toastify_js__WEBPACK_IMPORTED_MODULE_1___default()({
+    gravity: lpData.toast.gravity,
+    // `top` or `bottom`
+    position: lpData.toast.position,
+    // `left`, `center` or `right`
+    close: lpData.toast.close == 1,
+    className: `${lpData.toast.classPrefix}`,
+    stopOnFocus: lpData.toast.stopOnFocus == 1,
+    duration: lpData.toast.duration
+  });
+
+  // Events
+  document.addEventListener('submit', e => {
+    const target = e.target;
+    if (target.classList.contains('lp-order-recover')) {
+      e.preventDefault();
+      ajaxRecover(target);
+    }
+  });
+  const ajaxRecover = form => {
+    const status = 'error';
+    const btnSubmit = form.querySelector('.button-recover-order');
+    if (!btnSubmit) {
+      return;
+    }
+    (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl)(btnSubmit, 1);
+    const url = new URL(window.location.href);
+    fetch(url, {
+      method: 'POST',
+      body: new FormData(form)
+    }).then(response => {
+      return response.json();
+    }).then(res => {
+      const {
+        status,
+        data: {
+          redirect
+        },
+        message
+      } = res;
+      if (status === 'success') {
+        toastify.options.text = message;
+        toastify.options.className += ` ${status}`;
+        toastify.showToast();
+        if (redirect) {
+          window.location.href = redirect;
         }
-        if (response.redirect) {
-          window.location.href = response.redirect;
-        }
-        buttonRecoverOrder.removeClass('loading').removeAttr('disabled', '');
-      },
-      error() {
-        buttonRecoverOrder.removeClass('loading').removeAttr('disabled', '');
+        btnSubmit.remove();
+      } else {
+        (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl)(btnSubmit, 0);
+        throw new Error(message);
       }
+    }).finally(() => {}).catch(err => {
+      toastify.options.text = err.message;
+      toastify.options.className += ` ${status}`;
+      toastify.showToast();
     });
   };
-  buttonRecoverOrder.on('click', ajaxRecover);
-}
-;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (recoverOrder);
 
 /***/ }),
 
@@ -6923,24 +6961,19 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 
 var stylesInDOM = [];
-
 function getIndexByIdentifier(identifier) {
   var result = -1;
-
   for (var i = 0; i < stylesInDOM.length; i++) {
     if (stylesInDOM[i].identifier === identifier) {
       result = i;
       break;
     }
   }
-
   return result;
 }
-
 function modulesToDom(list, options) {
   var idCountMap = {};
   var identifiers = [];
-
   for (var i = 0; i < list.length; i++) {
     var item = list[i];
     var id = options.base ? item[0] + options.base : item[0];
@@ -6955,7 +6988,6 @@ function modulesToDom(list, options) {
       supports: item[4],
       layer: item[5]
     };
-
     if (indexByIdentifier !== -1) {
       stylesInDOM[indexByIdentifier].references++;
       stylesInDOM[indexByIdentifier].updater(obj);
@@ -6968,59 +7000,45 @@ function modulesToDom(list, options) {
         references: 1
       });
     }
-
     identifiers.push(identifier);
   }
-
   return identifiers;
 }
-
 function addElementStyle(obj, options) {
   var api = options.domAPI(options);
   api.update(obj);
-
   var updater = function updater(newObj) {
     if (newObj) {
       if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
         return;
       }
-
       api.update(obj = newObj);
     } else {
       api.remove();
     }
   };
-
   return updater;
 }
-
 module.exports = function (list, options) {
   options = options || {};
   list = list || [];
   var lastIdentifiers = modulesToDom(list, options);
   return function update(newList) {
     newList = newList || [];
-
     for (var i = 0; i < lastIdentifiers.length; i++) {
       var identifier = lastIdentifiers[i];
       var index = getIndexByIdentifier(identifier);
       stylesInDOM[index].references--;
     }
-
     var newLastIdentifiers = modulesToDom(newList, options);
-
     for (var _i = 0; _i < lastIdentifiers.length; _i++) {
       var _identifier = lastIdentifiers[_i];
-
       var _index = getIndexByIdentifier(_identifier);
-
       if (stylesInDOM[_index].references === 0) {
         stylesInDOM[_index].updater();
-
         stylesInDOM.splice(_index, 1);
       }
     }
-
     lastIdentifiers = newLastIdentifiers;
   };
 };
@@ -7037,12 +7055,13 @@ module.exports = function (list, options) {
 
 
 var memo = {};
-/* istanbul ignore next  */
 
+/* istanbul ignore next  */
 function getTarget(target) {
   if (typeof memo[target] === "undefined") {
-    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+    var styleTarget = document.querySelector(target);
 
+    // Special case to return head of iframe instead of iframe itself
     if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
       try {
         // This will throw an exception if access to iframe is blocked
@@ -7053,25 +7072,19 @@ function getTarget(target) {
         styleTarget = null;
       }
     }
-
     memo[target] = styleTarget;
   }
-
   return memo[target];
 }
+
 /* istanbul ignore next  */
-
-
 function insertBySelector(insert, style) {
   var target = getTarget(insert);
-
   if (!target) {
     throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
   }
-
   target.appendChild(style);
 }
-
 module.exports = insertBySelector;
 
 /***/ }),
@@ -7092,7 +7105,6 @@ function insertStyleElement(options) {
   options.insert(element, options.options);
   return element;
 }
-
 module.exports = insertStyleElement;
 
 /***/ }),
@@ -7109,12 +7121,10 @@ module.exports = insertStyleElement;
 /* istanbul ignore next  */
 function setAttributesWithoutAttributes(styleElement) {
   var nonce =  true ? __webpack_require__.nc : 0;
-
   if (nonce) {
     styleElement.setAttribute("nonce", nonce);
   }
 }
-
 module.exports = setAttributesWithoutAttributes;
 
 /***/ }),
@@ -7131,59 +7141,51 @@ module.exports = setAttributesWithoutAttributes;
 /* istanbul ignore next  */
 function apply(styleElement, options, obj) {
   var css = "";
-
   if (obj.supports) {
     css += "@supports (".concat(obj.supports, ") {");
   }
-
   if (obj.media) {
     css += "@media ".concat(obj.media, " {");
   }
-
   var needLayer = typeof obj.layer !== "undefined";
-
   if (needLayer) {
     css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
   }
-
   css += obj.css;
-
   if (needLayer) {
     css += "}";
   }
-
   if (obj.media) {
     css += "}";
   }
-
   if (obj.supports) {
     css += "}";
   }
-
   var sourceMap = obj.sourceMap;
-
   if (sourceMap && typeof btoa !== "undefined") {
     css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  } // For old IE
+  }
 
+  // For old IE
   /* istanbul ignore if  */
-
-
   options.styleTagTransform(css, styleElement, options.options);
 }
-
 function removeStyleElement(styleElement) {
   // istanbul ignore if
   if (styleElement.parentNode === null) {
     return false;
   }
-
   styleElement.parentNode.removeChild(styleElement);
 }
+
 /* istanbul ignore next  */
-
-
 function domAPI(options) {
+  if (typeof document === "undefined") {
+    return {
+      update: function update() {},
+      remove: function remove() {}
+    };
+  }
   var styleElement = options.insertStyleElement(options);
   return {
     update: function update(obj) {
@@ -7194,7 +7196,6 @@ function domAPI(options) {
     }
   };
 }
-
 module.exports = domAPI;
 
 /***/ }),
@@ -7216,11 +7217,9 @@ function styleTagTransform(css, styleElement) {
     while (styleElement.firstChild) {
       styleElement.removeChild(styleElement.firstChild);
     }
-
     styleElement.appendChild(document.createTextNode(css));
   }
 }
-
 module.exports = styleTagTransform;
 
 /***/ }),
