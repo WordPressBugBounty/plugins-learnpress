@@ -751,7 +751,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./chunks/helpers.segment.js */ "./node_modules/chart.js/dist/chunks/helpers.segment.js");
 /*!
- * Chart.js v4.4.6
+ * Chart.js v4.4.7
  * https://www.chartjs.org
  * (c) 2024 Chart.js Contributors
  * Released under the MIT License
@@ -6274,7 +6274,7 @@ function needContext(proxy, names) {
     return false;
 }
 
-var version = "4.4.6";
+var version = "4.4.7";
 
 const KNOWN_POSITIONS = [
     'top',
@@ -12372,7 +12372,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _kurkle_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kurkle/color */ "./node_modules/@kurkle/color/dist/color.esm.js");
 /*!
- * Chart.js v4.4.6
+ * Chart.js v4.4.7
  * https://www.chartjs.org
  * (c) 2024 Chart.js Contributors
  * Released under the MIT License
@@ -12396,7 +12396,7 @@ __webpack_require__.r(__webpack_exports__);
  * @param value - The value to test.
  * @since 2.7.0
  */ function isNullOrUndef(value) {
-    return value === null || typeof value === 'undefined';
+    return value === null || value === undefined;
 }
 /**
  * Returns true if `value` is an array (including typed arrays), else returns false.

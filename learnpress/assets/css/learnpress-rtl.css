@@ -2463,9 +2463,6 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   margin-bottom: 10px;
 }
 .course-summary .course-price .origin-price,
-.course-summary .course-price .price {
-  vertical-align: middle;
-}
 .course-summary .course-price .origin-price {
   margin-left: 10px;
   font-size: 1.125em;
@@ -6381,7 +6378,7 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 
 #popup-footer {
   position: fixed;
-  z-index: 999;
+  z-index: 99999;
   left: 0;
   bottom: 0;
   right: 475px;
@@ -6655,7 +6652,7 @@ body.lp-sidebar-toggle__close #popup-header, body.lp-sidebar-toggle__close #popu
 }
 .content-item-wrap .quiz-buttons.align-center .button-left.fixed {
   position: fixed;
-  z-index: 99999;
+  z-index: 999991;
   bottom: 0;
   right: 50%;
   width: 100%;
