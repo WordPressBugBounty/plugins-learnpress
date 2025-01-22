@@ -122,7 +122,12 @@ const lpModalOverlayCompleteItem = {
         const form = e.target.closest('form');
         _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].elLPOverlay.show();
         _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].setTitleModal(form.dataset.title);
-        _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].setContentModal('<div class="pd-2em">' + form.dataset.confirm + '</div>');
+        // ESC html
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(form.dataset.confirm));
+        const contentModal = div.innerHTML;
+        // End ESC html
+        _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].setContentModal('<div class="pd-2em">' + contentModal + '</div>');
         _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].callBackYes = () => {
           form.submit();
         };

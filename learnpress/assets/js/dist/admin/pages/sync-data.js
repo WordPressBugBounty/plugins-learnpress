@@ -1,4 +1,4 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 var __webpack_exports__ = {};
 /*!*****************************************************!*\
   !*** ./assets/src/apps/js/admin/pages/sync-data.js ***!

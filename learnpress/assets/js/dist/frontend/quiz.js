@@ -337,6 +337,7 @@ class Buttons extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Component 
       } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.select)('learnpress/modal');
       if ('no' === confirm((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Are you sure you want to retake the quiz?', 'learnpress'), this.startQuiz)) {
         !isOpen() && btn && btn.removeAttribute('disabled');
+        btn.classList.remove('loading');
         return;
       }
     }
@@ -3004,7 +3005,12 @@ const lpModalOverlayCompleteItem = {
         const form = e.target.closest('form');
         _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].elLPOverlay.show();
         _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].setTitleModal(form.dataset.title);
-        _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].setContentModal('<div class="pd-2em">' + form.dataset.confirm + '</div>');
+        // ESC html
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(form.dataset.confirm));
+        const contentModal = div.innerHTML;
+        // End ESC html
+        _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].setContentModal('<div class="pd-2em">' + contentModal + '</div>');
         _utils_lp_modal_overlay__WEBPACK_IMPORTED_MODULE_0__["default"].callBackYes = () => {
           form.submit();
         };
@@ -3228,6 +3234,75 @@ const lpModalOverlay = {
 
 /***/ }),
 
+/***/ "./node_modules/classnames/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/classnames/index.js ***!
+  \******************************************/
+/***/ ((module, exports) => {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+	var nativeCodeString = '[native code]';
+
+	function classNames() {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				if (arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
+				}
+			} else if (argType === 'object') {
+				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+					classes.push(arg.toString());
+					continue;
+				}
+
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
+
+/***/ }),
+
 /***/ "./node_modules/refx/refx.js":
 /*!***********************************!*\
   !*** ./node_modules/refx/refx.js ***!
@@ -3361,92 +3436,6 @@ module.exports = window["wp"]["i18n"];
 
 "use strict";
 module.exports = window["wp"]["url"];
-
-/***/ }),
-
-/***/ "./node_modules/classnames/index.js":
-/*!******************************************!*\
-  !*** ./node_modules/classnames/index.js ***!
-  \******************************************/
-/***/ ((module, exports) => {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	Copyright (c) 2018 Jed Watson.
-	Licensed under the MIT License (MIT), see
-	http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-
-	function classNames () {
-		var classes = '';
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (arg) {
-				classes = appendClass(classes, parseValue(arg));
-			}
-		}
-
-		return classes;
-	}
-
-	function parseValue (arg) {
-		if (typeof arg === 'string' || typeof arg === 'number') {
-			return arg;
-		}
-
-		if (typeof arg !== 'object') {
-			return '';
-		}
-
-		if (Array.isArray(arg)) {
-			return classNames.apply(null, arg);
-		}
-
-		if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-			return arg.toString();
-		}
-
-		var classes = '';
-
-		for (var key in arg) {
-			if (hasOwn.call(arg, key) && arg[key]) {
-				classes = appendClass(classes, key);
-			}
-		}
-
-		return classes;
-	}
-
-	function appendClass (value, newClass) {
-		if (!newClass) {
-			return value;
-		}
-	
-		if (value) {
-			return value + ' ' + newClass;
-		}
-	
-		return value + newClass;
-	}
-
-	if ( true && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {}
-}());
-
 
 /***/ })
 
