@@ -1054,6 +1054,7 @@ __webpack_require__.r(__webpack_exports__);
     $('.lp-install-sample__response').remove();
     isRunning = true;
     $.ajax({
+      method: 'POST',
       url: $button.attr('href'),
       data: $('.lp-install-sample__options').serializeJSON(),
       success(response) {

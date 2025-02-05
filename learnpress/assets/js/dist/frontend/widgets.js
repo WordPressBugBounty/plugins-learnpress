@@ -58,6 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   listenElementViewed: () => (/* binding */ listenElementViewed),
 /* harmony export */   lpAddQueryArgs: () => (/* binding */ lpAddQueryArgs),
 /* harmony export */   lpAjaxParseJsonOld: () => (/* binding */ lpAjaxParseJsonOld),
+/* harmony export */   lpClassName: () => (/* binding */ lpClassName),
 /* harmony export */   lpFetchAPI: () => (/* binding */ lpFetchAPI),
 /* harmony export */   lpGetCurrentURLNoParam: () => (/* binding */ lpGetCurrentURLNoParam),
 /* harmony export */   lpOnElementReady: () => (/* binding */ lpOnElementReady),
@@ -345,6 +346,13 @@ function widgetRestAPI() {
         const elSkeleton = ele.querySelector('.lp-skeleton-animation');
         if (elSkeleton) {
           elSkeleton.remove();
+        }
+
+        // Set temporary count course fields filter selected
+        const classCourseFilter = 'lp-form-course-filter';
+        const courseFilter = document.querySelector(`.${classCourseFilter}`);
+        if (courseFilter) {
+          window.lpCourseFilter.countFieldsSelected(courseFilter);
         }
       }
     };

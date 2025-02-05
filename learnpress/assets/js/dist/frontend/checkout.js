@@ -14,6 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   listenElementViewed: () => (/* binding */ listenElementViewed),
 /* harmony export */   lpAddQueryArgs: () => (/* binding */ lpAddQueryArgs),
 /* harmony export */   lpAjaxParseJsonOld: () => (/* binding */ lpAjaxParseJsonOld),
+/* harmony export */   lpClassName: () => (/* binding */ lpClassName),
 /* harmony export */   lpFetchAPI: () => (/* binding */ lpFetchAPI),
 /* harmony export */   lpGetCurrentURLNoParam: () => (/* binding */ lpGetCurrentURLNoParam),
 /* harmony export */   lpOnElementReady: () => (/* binding */ lpOnElementReady),
@@ -324,11 +325,11 @@ window.lpCheckout = {
       success: response => {
         response = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAjaxParseJsonOld)(response);
         const {
-          messages,
+          message,
           result
         } = response;
         if ('success' !== result) {
-          window.lpCheckout.showErrors(formCheckout, 'error', messages);
+          window.lpCheckout.showErrors(formCheckout, 'error', message);
         } else {
           window.location.href = response.redirect;
         }

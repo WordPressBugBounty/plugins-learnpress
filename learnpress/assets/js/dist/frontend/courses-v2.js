@@ -58,6 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   listenElementViewed: () => (/* binding */ listenElementViewed),
 /* harmony export */   lpAddQueryArgs: () => (/* binding */ lpAddQueryArgs),
 /* harmony export */   lpAjaxParseJsonOld: () => (/* binding */ lpAjaxParseJsonOld),
+/* harmony export */   lpClassName: () => (/* binding */ lpClassName),
 /* harmony export */   lpFetchAPI: () => (/* binding */ lpFetchAPI),
 /* harmony export */   lpGetCurrentURLNoParam: () => (/* binding */ lpGetCurrentURLNoParam),
 /* harmony export */   lpOnElementReady: () => (/* binding */ lpOnElementReady),
@@ -332,6 +333,12 @@ document.addEventListener('submit', function (e) {
 
   //window.lpCourseList.searchCourse( e, target );
 });
+(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.lpOnElementReady)('.course-filter-btn-mobile', function (el) {
+  const widgetCourseFilter = document.querySelector('.widget_course_filter');
+  if (!widgetCourseFilter) {
+    el.remove();
+  }
+});
 let timeOutSearch;
 window.lpCoursesList = (() => {
   const classListCourse = '.lp-list-courses-no-css';
@@ -410,7 +417,7 @@ window.lpCoursesList = (() => {
           }
         }
       };
-      window.lpAJAXG.fetchAPI(_api__WEBPACK_IMPORTED_MODULE_0__["default"].frontend.apiAJAX, dataSend, callBack);
+      window.lpAJAXG.fetchAJAX(dataSend, callBack);
     },
     LoadMore: (e, target) => {
       const btnLoadMore = target.closest(`.${classLoadMore + ':not(.disabled)'}`);
@@ -469,7 +476,7 @@ window.lpCoursesList = (() => {
           btnLoadMore.classList.remove('disabled');
         }
       };
-      window.lpAJAXG.fetchAPI(_api__WEBPACK_IMPORTED_MODULE_0__["default"].frontend.apiAJAX, dataSend, callBack);
+      window.lpAJAXG.fetchAJAX(dataSend, callBack);
     },
     LoadInfinite: () => {
       // When see element, will call API to load more items.
@@ -526,7 +533,7 @@ window.lpCoursesList = (() => {
             elLoading.classList.remove('disabled');
           }
         };
-        window.lpAJAXG.fetchAPI(_api__WEBPACK_IMPORTED_MODULE_0__["default"].frontend.apiAJAX, dataSend, callBack);
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
       };
 
       // Listen el courses load infinite have just created.
@@ -596,7 +603,7 @@ window.lpCoursesList = (() => {
           }
         }
       };
-      window.lpAJAXG.fetchAPI(_api__WEBPACK_IMPORTED_MODULE_0__["default"].frontend.apiAJAX, dataSend, callBack);
+      window.lpAJAXG.fetchAJAX(dataSend, callBack);
     },
     onChangeTypeLayout: (e, target) => {
       if ('lp-switch-layout-btn' !== target.getAttribute('name')) {
@@ -660,7 +667,7 @@ window.lpCoursesList = (() => {
               //console.log( 'completed' );
             }
           };
-          window.lpAJAXG.fetchAPI(_api__WEBPACK_IMPORTED_MODULE_0__["default"].frontend.apiAJAX, dataSend, callBack);
+          window.lpAJAXG.fetchAJAX(dataSend, callBack);
         }, 800);
       }
     }

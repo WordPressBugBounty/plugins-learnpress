@@ -33,9 +33,11 @@ function lpMaterialsLoad() {
   const getResponse = async (ele, page = 1) => {
     const course_id = parseInt(ele.dataset.courseId),
       item_id = parseInt(ele.dataset.itemId);
+    const elListMaterial = ele.closest('.lp-list-material');
     const elementMaterial = ele.querySelector('.course-material-table');
     const loadMoreBtn = document.querySelector('.lp-loadmore-material');
     const elListItems = document.querySelector('.lp-list-material');
+    const elSkeleton = ele.querySelector('.lp-skeleton-animation');
     try {
       const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
         path: `lp/v1/material/by-item`,
@@ -51,13 +53,14 @@ function lpMaterialsLoad() {
         status,
         message
       } = response;
+      if (elSkeleton) {
+        elSkeleton.remove();
+      }
       if (status !== 'success') {
-        return console.log(message);
+        elListMaterial.insertAdjacentHTML('beforeend', message);
+        return;
       }
       if (data.items && data.items.length > 0) {
-        if (ele.querySelector('.lp-skeleton-animation')) {
-          ele.querySelector('.lp-skeleton-animation').remove();
-        }
         elementMaterial.style.display = 'table';
         elementMaterial.querySelector('tbody').insertAdjacentHTML('beforeend', data.items);
       } else {
