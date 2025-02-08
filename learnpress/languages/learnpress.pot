@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LearnPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LearnPress 4.2.7.6\n"
+"Project-Id-Version: LearnPress 4.2.7.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-05T10:18:03+03:00\n"
+"POT-Creation-Date: 2025-02-07T14:40:57+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: learnpress\n"
@@ -1189,7 +1189,7 @@ msgstr ""
 #: inc/admin/lp-admin-actions.php:214
 #: inc/admin/sub-menus/class-lp-submenu-statistics.php:22
 #: inc/admin/views/tools/course/html-user.php:30
-#: inc/class-lp-page-controller.php:201
+#: inc/class-lp-page-controller.php:243
 #: inc/custom-post-types/course.php:53
 #: inc/custom-post-types/course.php:55
 #: inc/lp-template-functions.php:337
@@ -1233,7 +1233,7 @@ msgstr ""
 #: config/settings/permalink.php:141
 #: inc/admin/sub-menus/class-lp-submenu-settings.php:18
 #: inc/admin/views/addons.php:181
-#: learnpress.php:704
+#: learnpress.php:711
 msgid "Settings"
 msgstr ""
 
@@ -2824,7 +2824,7 @@ msgid "Reset Password"
 msgstr ""
 
 #: inc/admin/sub-menus/class-lp-submenu-addons.php:14
-#: learnpress.php:706
+#: learnpress.php:713
 msgid "Add-ons"
 msgstr ""
 
@@ -4888,12 +4888,12 @@ msgstr ""
 msgid "Update failed!"
 msgstr ""
 
-#: inc/class-lp-page-controller.php:191
+#: inc/class-lp-page-controller.php:233
 #: inc/lp-template-functions.php:335
 msgid "Course Search Results"
 msgstr ""
 
-#: inc/class-lp-page-controller.php:273
+#: inc/class-lp-page-controller.php:315
 msgid "No payment method is available."
 msgstr ""
 
@@ -8025,7 +8025,7 @@ msgstr ""
 msgid "Params is invalid!"
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-addon-controller.php:201
+#: inc/rest-api/v1/frontend/class-lp-rest-addon-controller.php:203
 msgid "successfully"
 msgstr ""
 
@@ -9107,7 +9107,7 @@ msgstr ""
 msgid "Recent Courses"
 msgstr ""
 
-#: learnpress.php:705
+#: learnpress.php:712
 msgid "Documentation"
 msgstr ""
 
