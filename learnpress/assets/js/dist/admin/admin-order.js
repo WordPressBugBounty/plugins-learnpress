@@ -2447,7 +2447,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -2624,7 +2624,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -2689,7 +2689,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -2882,7 +2882,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -2969,7 +2969,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3203,7 +3203,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3319,7 +3319,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3547,7 +3547,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3635,7 +3635,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3675,7 +3675,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3721,7 +3721,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3821,7 +3821,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -3969,7 +3969,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -4025,7 +4025,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ plugin)
 /* harmony export */ });
 /**
-* Tom Select v2.4.1
+* Tom Select v2.4.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 

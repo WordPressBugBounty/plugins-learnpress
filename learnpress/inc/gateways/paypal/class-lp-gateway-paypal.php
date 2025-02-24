@@ -286,7 +286,7 @@ if ( ! class_exists( 'LP_Gateway_Paypal' ) ) {
 		 *
 		 * @return array
 		 * @since 4.2.4
-		 * @version 1.0.1
+		 * @version 1.0.2
 		 */
 		public function get_order_args( LP_Order $order ): array {
 			$lp_cart    = LearnPress::instance()->get_cart();
@@ -295,6 +295,10 @@ if ( ! class_exists( 'LP_Gateway_Paypal' ) ) {
 			$return_url = esc_url_raw(
 				add_query_arg( 'paypay_express_checkout', 1, $this->get_return_url( $order ) )
 			);
+			$cancel_url = esc_url_raw(
+				learn_press_is_enable_cart() ? learn_press_get_page_link( 'cart' ) : get_home_url()
+			);
+			$brand_name = ! empty( get_bloginfo() ) ? get_bloginfo() : 'LearnPress';
 			$data       = [
 				'intent'         => 'CAPTURE',
 				'purchase_units' => [
@@ -310,11 +314,11 @@ if ( ! class_exists( 'LP_Gateway_Paypal' ) ) {
 					'paypal' => [
 						'experience_context' => [
 							'payment_method_preference' => 'UNRESTRICTED',
-							'brand_name'                => get_bloginfo(),
+							'brand_name'                => $brand_name,
 							'landing_page'              => 'LOGIN',
 							'user_action'               => 'PAY_NOW',
 							'return_url'                => $return_url,
-							'cancel_url'                => esc_url_raw( learn_press_is_enable_cart() ? learn_press_get_page_link( 'cart' ) : get_home_url() ),
+							'cancel_url'                => $cancel_url,
 						],
 					],
 				],
@@ -359,8 +363,17 @@ if ( ! class_exists( 'LP_Gateway_Paypal' ) ) {
 				throw new Exception( $result->error_description );
 			}
 
-			if ( empty( $result->links ) ) {
-				throw new Exception( __( 'Invalid Paypal checkout url', 'learnpress' ) );
+			/**
+			 * Error response
+			 *
+			 * https://developer.paypal.com/api/rest/reference/orders/v2/errors/
+			 */
+			if ( isset( $result->name ) && isset( $result->details[0] ) ) {
+				throw new Exception( $result->details[0]->description );
+			}
+
+			if ( empty( $result->id ) ) {
+				throw new Exception( __( 'Invalid Paypal checkout', 'learnpress' ) );
 			}
 
 			foreach ( $result->links as $link ) {
