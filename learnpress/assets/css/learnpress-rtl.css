@@ -3236,15 +3236,15 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   content: "\f023";
   color: #999;
 }
-.lp-course-curriculum .course-section .course-item-ico.passed::before {
+.lp-course-curriculum .course-section .course-item-ico.passed.completed::before {
   content: "\f00c";
   color: #3bb54a;
 }
-.lp-course-curriculum .course-section .course-item-ico.in-progress::before {
+.lp-course-curriculum .course-section .course-item-ico.in-progress::before, .lp-course-curriculum .course-section .course-item-ico.completed::before {
   content: "\f00c";
   color: #999;
 }
-.lp-course-curriculum .course-section .course-item-ico.failed::before {
+.lp-course-curriculum .course-section .course-item-ico.failed.completed::before {
   content: "\f00d";
   color: #f02425;
 }
@@ -7258,14 +7258,17 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   background: transparent;
   line-height: 1px;
   box-shadow: none;
+  /*&::before {
+  	color: $text-color-accent;
+  	font-family: 'lp-icon';
+  	content: "\f002";
+  }*/
 }
 #popup-sidebar .search-course button:focus {
   outline: none;
 }
-#popup-sidebar .search-course button::before {
+#popup-sidebar .search-course button i {
   color: var(--lp-color-accent, #666);
-  font-family: "lp-icon";
-  content: "\f002";
 }
 #popup-sidebar .search-course button.clear {
   display: none;
@@ -7597,6 +7600,11 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 #sidebar-toggle:focus {
   border: 0;
   outline: 0;
+}
+
+.course-item-popup .lp-course-curriculum .course-section .course-item__content {
+  flex-direction: column;
+  row-gap: 4px;
 }
 
 body.admin-bar #popup-course {

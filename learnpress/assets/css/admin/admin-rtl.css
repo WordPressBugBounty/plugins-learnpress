@@ -608,6 +608,7 @@ ul .clearfix {
   border-radius: var(--lp-border-radius);
 }
 .ts-wrapper .ts-control .item {
+  margin: 0 0 5px 8px;
   padding: 3px 8px;
   background: #eee;
   border-radius: var(--lp-border-radius);
@@ -6459,7 +6460,7 @@ table.lp-material--table tr:nth-child(even) {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=114") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=182") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: block;
