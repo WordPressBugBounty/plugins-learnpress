@@ -1813,6 +1813,20 @@ button.learnpress_avatar__button + button {
 .lp-user-profile .lp-profile-content .course-categories {
   padding: 0;
 }
+.lp-user-profile .lp-profile-content #profile-subtab-quiz-content .inline-form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.lp-user-profile .lp-profile-content #profile-subtab-quiz-content .inline-form input[type=number] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  width: 60px;
+}
+.lp-user-profile .lp-profile-content #profile-subtab-quiz-content .inline-form button {
+  cursor: pointer;
+  line-height: 1;
+}
 .lp-user-profile .profile-orders .profile-heading {
   display: none;
 }
@@ -2034,6 +2048,16 @@ button.learnpress_avatar__button + button {
 .lp-profile-content ul {
   list-style: none !important;
   padding: 0 !important;
+}
+
+.lp-user-avatar__buttons {
+  display: inline-flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.lp-list-table .learn-press-pagination {
+  text-align: right;
 }
 
 .course-extra-box {

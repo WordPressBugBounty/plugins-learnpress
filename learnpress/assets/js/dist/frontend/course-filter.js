@@ -495,8 +495,16 @@ window.lpCourseFilter = {
         } = res;
         if (data && status === 'success') {
           widgetForm.innerHTML = data;
+          const elBtnDone = widgetForm.querySelector('.course-filter-submit.lp-btn-done');
+          if (elBtnDone) {
+            if (window.outerWidth <= 991) {
+              (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.lpShowHideEl)(elBtnDone, 1);
+            } else {
+              (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.lpShowHideEl)(elBtnDone, 0);
+            }
+          }
         } else if (message) {
-          parent.insertAdjacentHTML('afterbegin', `<div class="lp-ajax-message error" style="display:block">${message}</div>`);
+          console.error(message);
         }
       },
       error: error => {},

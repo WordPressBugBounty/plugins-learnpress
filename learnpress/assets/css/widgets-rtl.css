@@ -60,7 +60,7 @@
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=52") format("woff2");
+  src: url("../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=128") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -1044,9 +1044,10 @@
     position: fixed !important;
     left: 0;
     top: 0;
+    bottom: 0;
     z-index: 999999;
     width: 300px;
-    height: 100vh;
+    height: 100%;
     background-color: #fff;
     transition: 0.3s;
     display: block;
@@ -1111,6 +1112,8 @@
 @media (max-width: 500px) {
   .widget_course_filter {
     width: 100%;
+    right: 0;
+    left: 0;
   }
 }
 .elementor-widget-container .lp-form-course-filter__close {

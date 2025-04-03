@@ -298,7 +298,7 @@ var __webpack_exports__ = {};
   !*** ./assets/src/js/frontend/widgets.js ***!
   \*******************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./assets/src/js/utils.js");
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils.js */ "./assets/src/js/utils.js");
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api */ "./assets/src/js/api.js");
 
 
@@ -339,6 +339,14 @@ function widgetRestAPI() {
         } else if (message) {
           ele.insertAdjacentHTML('afterbegin', `<div class="lp-ajax-message error" style="display:block">${message}</div>`);
         }
+        const elBtnDone = ele.querySelector('.course-filter-submit.lp-btn-done');
+        if (elBtnDone) {
+          if (window.outerWidth <= 991) {
+            (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl)(elBtnDone, 1);
+          } else {
+            (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl)(elBtnDone, 0);
+          }
+        }
       },
       error: error => {},
       completed: () => {
@@ -358,7 +366,7 @@ function widgetRestAPI() {
     };
 
     // Call API load widget
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI)(url, paramsFetch, callBack);
+    (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI)(url, paramsFetch, callBack);
   };
   widgets.forEach(ele => {
     ele.classList.add('loaded');

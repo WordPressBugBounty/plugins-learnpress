@@ -307,7 +307,7 @@ __webpack_require__.r(__webpack_exports__);
  * Load all you need via AJAX
  *
  * @since 4.2.5.7
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 
@@ -325,6 +325,8 @@ if ('undefined' !== typeof lpDataAdmin) {
 // End Handle general parameter in the Frontend and Backend
 
 const lpAJAX = () => {
+  const classLPTarget = '.lp-target';
+  const urlCurrent = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpGetCurrentURLNoParam)();
   return {
     autoLoadAPIs: () => {
       console.log('autoLoadAPIs');
@@ -390,7 +392,7 @@ const lpAJAX = () => {
               lang: lpSettings.urlParams.lang
             });
           }
-          const elTarget = element.querySelector('.lp-target');
+          const elTarget = element.querySelector(`${classLPTarget}`);
           if (!elTarget) {
             return;
           }
@@ -430,11 +432,83 @@ const lpAJAX = () => {
           window.lpAJAXG.fetchAJAX(dataSend, callBack);
         });
       }
+    },
+    clickNumberPage: (e, target) => {
+      const btnNumber = target.closest('.page-numbers:not(.disabled)');
+      if (!btnNumber) {
+        return;
+      }
+      const elLPTarget = btnNumber.closest(`${classLPTarget}`);
+      if (!elLPTarget) {
+        return;
+      }
+      const dataObj = JSON.parse(elLPTarget.dataset.send);
+      const dataSend = {
+        ...dataObj
+      };
+      if (!dataSend.args.hasOwnProperty('paged')) {
+        dataSend.args.paged = 1;
+      }
+      e.preventDefault();
+      if (btnNumber.classList.contains('prev')) {
+        dataSend.args.paged--;
+      } else if (btnNumber.classList.contains('next')) {
+        dataSend.args.paged++;
+      } else {
+        dataSend.args.paged = btnNumber.textContent;
+      }
+      elLPTarget.dataset.send = JSON.stringify(dataSend);
+
+      // Set url params to reload page.
+      // Todo: need check allow set url params.
+      lpData.urlParams.paged = dataSend.args.paged;
+      window.history.pushState({}, '', (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs)(urlCurrent, lpData.urlParams));
+      // End.
+
+      // Show loading
+      const elLoading = elLPTarget.closest(`div:not(${classLPTarget})`).querySelector('.lp-loading-change');
+      if (elLoading) {
+        elLoading.style.display = 'block';
+      }
+      // End
+
+      // Scroll to archive element
+      const elLPTargetY = elLPTarget.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({
+        top: elLPTargetY
+      });
+      const callBack = {
+        success: response => {
+          //console.log( 'response', response );
+          const {
+            status,
+            message,
+            data
+          } = response;
+          elLPTarget.innerHTML = data.content || '';
+        },
+        error: error => {
+          console.log(error);
+        },
+        completed: () => {
+          //console.log( 'completed' );
+          if (elLoading) {
+            elLoading.style.display = 'none';
+          }
+        }
+      };
+      window.lpAJAXG.fetchAJAX(dataSend, callBack);
     }
   };
 };
 window.lpAJAXG = lpAJAX();
 window.lpAJAXG.getElements();
+
+// Events
+document.addEventListener('click', function (e) {
+  const target = e.target;
+  window.lpAJAXG.clickNumberPage(e, target);
+});
 
 // Listen element created
 (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.listenElementCreated)(node => {
