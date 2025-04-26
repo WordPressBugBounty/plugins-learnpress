@@ -13,6 +13,7 @@ use LearnPress\Models\UserItems\UserCourseModel;
 use LearnPress\Models\UserItems\UserItemModel;
 use LearnPress\Models\UserModel;
 use LearnPress\TemplateHooks\Course\ListCoursesTemplate;
+use LearnPress\TemplateHooks\Course\SingleCourseTemplate;
 
 class LP_REST_Courses_Controller extends LP_Abstract_REST_Controller {
 	/**
@@ -29,6 +30,14 @@ class LP_REST_Courses_Controller extends LP_Abstract_REST_Controller {
 	 */
 	public function register_routes() {
 		$this->routes = array(
+			''                       => array(
+				array(
+					'methods'             => WP_REST_Server::ALLMETHODS,
+					'callback'            => array( $this, 'get_courses' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(),
+				),
+			),
 			'purchase-course'        => array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
@@ -115,6 +124,65 @@ class LP_REST_Courses_Controller extends LP_Abstract_REST_Controller {
 	 */
 	public function check_admin_permission(): bool {
 		return LP_Abstract_API::check_admin_permission();
+	}
+
+	/**
+	 * Get list courses, return JSON data, not to handle HTML
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return LP_REST_Response
+	 * @since 4.2.8.2
+	 * @version 1.0.0
+	 */
+	public function get_courses( WP_REST_Request $request ): LP_REST_Response {
+		$response = new LP_REST_Response();
+
+		try {
+			$filter     = new LP_Course_Filter();
+			$params     = $request->get_params();
+			$total_rows = 0;
+
+			Courses::handle_params_for_query_courses( $filter, $params );
+			$filter->only_fields = [ 'ID' ];
+			$coursesRs           = Courses::get_courses( $filter, $total_rows );
+
+			$courses              = [];
+			$singleCourseTemplate = SingleCourseTemplate::instance();
+			foreach ( $coursesRs as $course ) {
+				$courseModel = CourseModel::find( $course->ID, true );
+				if ( ! $courseModel ) {
+					continue;
+				}
+
+				$courseItem              = new stdClass();
+				$courseItem->ID          = $course->ID;
+				$courseItem->description = $singleCourseTemplate->html_short_description( $courseModel, 15 );
+				$courseItem->price       = $singleCourseTemplate->html_price( $courseModel );
+				$courseItem->title       = $courseModel->get_title();
+				$courseItem->student     = $singleCourseTemplate->html_count_student( $courseModel );
+				$courseItem->lesson      = $singleCourseTemplate->html_count_item( $courseModel, LP_LESSON_CPT );
+				$courseItem->duration    = $singleCourseTemplate->html_duration( $courseModel );
+				$courseItem->quiz        = $singleCourseTemplate->html_count_item( $courseModel, LP_QUIZ_CPT );
+				$courseItem->level       = $singleCourseTemplate->html_level( $courseModel );
+				$courseItem->image       = $singleCourseTemplate->html_image( $courseModel );
+				$courseItem->instructor  = $singleCourseTemplate->html_instructor( $courseModel, false, [ 'is_link' => 'false' ] );
+				$courseItem->category    = $singleCourseTemplate->html_categories( $courseModel );
+				$courseItem->button      = __( 'Read more', 'learnpress' );
+
+				$courses[] = apply_filters( 'lp/rest-api/frontend/course/archive_course/courses', $courseItem, $courseModel );
+			}
+
+			$response->status            = 'success';
+			$response->data->courses     = $courses;
+			$response->data->total       = $total_rows;
+			$response->data->page        = $filter->page;
+			$response->data->total_pages = LP_Database::get_total_pages( $filter->limit, $total_rows );
+		} catch ( Throwable $e ) {
+			$response->message = $e->getMessage();
+		}
+
+		return apply_filters( 'lp/rest-api/frontend/course/archive_course/response', $response );
 	}
 
 	/**

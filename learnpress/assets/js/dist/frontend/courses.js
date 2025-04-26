@@ -16,11 +16,13 @@ __webpack_require__.r(__webpack_exports__);
  * List API on backend
  *
  * @since 4.2.6
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 const lplistAPI = {};
+let lp_rest_url;
 if ('undefined' !== typeof lpDataAdmin) {
+  lp_rest_url = lpDataAdmin.lp_rest_url;
   lplistAPI.admin = {
     apiAdminNotice: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/admin-notices',
     apiAdminOrderStatic: lpDataAdmin.lp_rest_url + 'lp/v1/orders/statistic',
@@ -30,17 +32,21 @@ if ('undefined' !== typeof lpDataAdmin) {
     apiSearchCourses: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/search-course',
     apiSearchUsers: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/search-user',
     apiAssignUserCourse: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/assign-user-course',
-    apiUnAssignUserCourse: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/unassign-user-course',
-    apiAJAX: lpDataAdmin.lp_rest_url + 'lp/v1/load_content_via_ajax/'
+    apiUnAssignUserCourse: lpDataAdmin.lp_rest_url + 'lp/v1/admin/tools/unassign-user-course'
   };
 }
 if ('undefined' !== typeof lpData) {
+  lp_rest_url = lpData.lp_rest_url;
   lplistAPI.frontend = {
     apiWidgets: lpData.lp_rest_url + 'lp/v1/widgets/api',
     apiCourses: lpData.lp_rest_url + 'lp/v1/courses/archive-course',
     apiAJAX: lpData.lp_rest_url + 'lp/v1/load_content_via_ajax/',
     apiProfileCoverImage: lpData.lp_rest_url + 'lp/v1/profile/cover-image'
   };
+}
+if (lp_rest_url) {
+  lplistAPI.apiAJAX = lp_rest_url + 'lp/v1/load_content_via_ajax/';
+  lplistAPI.apiCourses = lp_rest_url + 'lp/v1/courses/';
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
 
@@ -375,6 +381,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const elListCoursesIdNewDefault = '.lp-list-courses-default';
+const classBlockPagination = 'learnpress-block-pagination';
+const classBlockOrderBy = 'block-courses-order-by';
 if ('undefined' === typeof lpData || 'undefined' === typeof lpSettingCourses) {
   console.log('lpData || lpSettingCourses is undefined');
 }
@@ -478,6 +486,14 @@ window.lpCourseList = (() => {
       typeEventBeforeFetch = type;
     },
     onChangeSortBy: (e, target) => {
+      // Add js block order by
+      const parenBlockOrderBy = target.closest(`.${classBlockOrderBy}`);
+      if (parenBlockOrderBy) {
+        const filterCourses = JSON.parse(window.localStorage.getItem('lp_filter_courses')) || {};
+        filterCourses.order_by = target.value || '';
+        window.location.href = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.lpAddQueryArgs)(currentUrl, filterCourses);
+        return;
+      }
       if (!target.classList.contains('courses-order-by')) {
         return;
       }
@@ -510,6 +526,25 @@ window.lpCourseList = (() => {
       }
     },
     clickNumberPage: (e, target) => {
+      // Add js block pagination
+      const parenBlockPagination = target.closest(`.${classBlockPagination}`);
+      if (parenBlockPagination) {
+        if (target.classList.contains('page-numbers')) {
+          e.preventDefault();
+          const pageCurrent = filterCourses.paged;
+          if (target.classList.contains('prev')) {
+            filterCourses.paged = pageCurrent - 1;
+          } else if (target.classList.contains('next')) {
+            filterCourses.paged = pageCurrent + 1;
+          } else {
+            filterCourses.paged = parseInt(target.textContent);
+          }
+          typeEventBeforeFetch = 'number';
+          window.location.href = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.lpAddQueryArgs)(currentUrl, filterCourses);
+          return;
+        }
+        return;
+      }
       if (!lpArchiveLoadAjax || parseInt(lpSettingCourses.noLoadCoursesJs)) {
         return;
       }

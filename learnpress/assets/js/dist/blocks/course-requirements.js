@@ -25,13 +25,11 @@ const edit = props => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, " ", 'Requirements', " "), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "line"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "line"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "line"
-  })));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-requirements extra-box"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
+    className: "extra-box__title"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Requirements', 'learnpress')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, 'Afflueret videsne commoventur debilitas etsi adridens habitus placuit hoc conatum deinde fruentem dirigentes longam sapientem'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, 'Lucullo summas debeatis varietate indoctum vitae cavere cornibus avaritias sequamini persequi assignatum polemoni'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, 'Laboro excelsiores meo utebare causam arripuit levem motu seditione egregio malitias istam')))));
 };
 
 /***/ }),
@@ -96,7 +94,7 @@ module.exports = window["wp"]["i18n"];
   \**********************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-requirements","title":"Course Requirements","category":"learnpress-course-elements","icon":"index-card","description":"Renders template Box Extra Requirements Course PHP templates.","textdomain":"learnpress","keywords":["box extra requirements single course","learnpress"],"usesContext":[],"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":false,"gradients":false,"__experimentalDefaultControls":{"text":true}},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"margin":false,"padding":false}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-requirements","title":"Course Requirements","category":"learnpress-course-elements","icon":"index-card","description":"Renders template Box Extra Requirements Course PHP templates.","textdomain":"learnpress","keywords":["box extra requirements single course","learnpress"],"usesContext":[],"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":false,"heading":true,"gradients":false,"__experimentalDefaultControls":{"text":true,"h3":true}},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"margin":false,"padding":false}}}}');
 
 /***/ })
 

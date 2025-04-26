@@ -10,7 +10,7 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   edit: () => (/* binding */ edit)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -24,40 +24,56 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const edit = props => {
+const Edit = props => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+  const {
+    attributes,
+    setAttributes,
+    context
+  } = props;
+  const {
+    lpCourseData
+  } = context;
+  const courseCategory = lpCourseData?.category || 'Category';
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: "Settings"
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'learnpress')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Show text 'by'",
-    checked: props.attributes.showText ? true : false,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Show text 'by'", 'learnpress'),
+    checked: attributes.showText,
     onChange: value => {
-      props.setAttributes({
-        showText: value ? true : false
+      setAttributes({
+        showText: value
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Is link",
-    checked: props.attributes.isLink ? true : false,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the category a link', 'learnpress'),
+    checked: attributes.isLink,
     onChange: value => {
-      props.setAttributes({
-        isLink: value ? true : false
+      setAttributes({
+        isLink: value
       });
     }
-  }), props.attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Open is new tab",
-    checked: props.attributes.target ? true : false,
+  }), attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Open is new tab', 'learnpress'),
+    checked: attributes.target,
     onChange: value => {
-      props.setAttributes({
-        target: value ? true : false
+      setAttributes({
+        target: value
       });
     }
   }) : '')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "category"
-  }, props.attributes.showText ? 'in ' : '', props.attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", null, 'Category') : 'Category')));
+    className: "is-layout-flex c-gap-4"
+  }, attributes.showText ? 'in ' : '', (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-categories"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    dangerouslySetInnerHTML: {
+      __html: courseCategory
+    }
+  })))));
 };
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
 /***/ }),
 
@@ -131,7 +147,7 @@ module.exports = window["wp"]["i18n"];
   \********************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-categories","title":"Course Categories","category":"learnpress-course-elements","icon":"category","description":"Renders template List Categories Course PHP templates.","textdomain":"learnpress","keywords":["category categories single course","learnpress"],"usesContext":[],"attributes":{"showText":{"type":"boolean","default":true},"isLink":{"type":"boolean","default":true},"target":{"type":"boolean","default":false}},"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":true,"__experimentalDefaultControls":{"link":false,"text":true}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-categories","title":"Course Category","category":"learnpress-course-elements","icon":"category","description":"Renders template List Category Course PHP templates.","textdomain":"learnpress","keywords":["category Category single course","learnpress"],"usesContext":[],"attributes":{"showText":{"type":"boolean","default":true},"isLink":{"type":"boolean","default":true},"target":{"type":"boolean","default":false}},"supports":{"multiple":true,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":true,"__experimentalDefaultControls":{"link":false,"text":true}}}}');
 
 /***/ })
 
@@ -238,7 +254,7 @@ __webpack_require__.r(__webpack_exports__);
       d: "M20.1 11.2l-6.7-6.7c-.1-.1-.3-.2-.5-.2H5c-.4-.1-.8.3-.8.7v7.8c0 .2.1.4.2.5l6.7 6.7c.2.2.5.4.7.5s.6.2.9.2c.3 0 .6-.1.9-.2.3-.1.5-.3.8-.5l5.6-5.6c.4-.4.7-1 .7-1.6.1-.6-.2-1.2-.6-1.6zM19 13.4L13.4 19c-.1.1-.2.1-.3.2-.2.1-.4.1-.6 0-.1 0-.2-.1-.3-.2l-6.5-6.5V5.8h6.8l6.5 6.5c.2.2.2.4.2.6 0 .1 0 .3-.2.5zM9 8c-.6 0-1 .4-1 1s.4 1 1 1 1-.4 1-1-.4-1-1-1z"
     }))
   },
-  edit: _edit__WEBPACK_IMPORTED_MODULE_1__.edit,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_2__.save
 });
 /******/ })()

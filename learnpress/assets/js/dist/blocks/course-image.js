@@ -22,11 +22,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const edit = props => {
+  const {
+    attributes,
+    setAttributes,
+    context
+  } = props;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "img-single-course"
+  const {
+    lpCourseData
+  } = context;
+  const courseImage = lpCourseData?.image || '<div className="course-img"><img src="https://placehold.co/500x300?text=Course+Image"/></div>';
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ...blockProps,
+    dangerouslySetInnerHTML: {
+      __html: courseImage
+    }
   })));
 };
 
@@ -92,7 +102,7 @@ module.exports = window["wp"]["i18n"];
   \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-image","title":"Course Image","category":"learnpress-course-elements","icon":"format-image","description":"Renders template Image Course PHP templates.","textdomain":"learnpress","keywords":["image single course","learnpress"],"usesContext":[],"supports":{"inserter":true,"reusable":true,"reorder":true,"html":false,"multiple":true}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-image","title":"Course Image","category":"learnpress-course-elements","icon":"format-image","description":"Renders template Image Course PHP templates.","textdomain":"learnpress","keywords":["image single course","learnpress"],"usesContext":["lpCourseData"],"supports":{"multiple":true,"html":false,"shadow":true,"__experimentalBorder":{"color":true,"radius":true,"width":true,"__experimentalDefaultControls":{"width":false,"color":false,"radius":false}}}}');
 
 /***/ })
 

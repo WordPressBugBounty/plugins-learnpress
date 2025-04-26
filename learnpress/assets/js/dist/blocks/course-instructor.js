@@ -26,10 +26,19 @@ __webpack_require__.r(__webpack_exports__);
 
 const edit = props => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+  const {
+    attributes,
+    setAttributes,
+    context
+  } = props;
+  const {
+    lpCourseData
+  } = context;
+  const courseInstructor = lpCourseData?.instructor || '<strong>Instructor</strong>';
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: "Settings"
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'learnpress')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Show text 'by'",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Show text 'by'", 'learnpress'),
     checked: props.attributes.showText ? true : false,
     onChange: value => {
       props.setAttributes({
@@ -37,7 +46,7 @@ const edit = props => {
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Is link",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the instrucotr a link', 'learnpress'),
     checked: props.attributes.isLink ? true : false,
     onChange: value => {
       props.setAttributes({
@@ -45,7 +54,7 @@ const edit = props => {
       });
     }
   }), props.attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Open is new tab",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Open is new tab', 'learnpress'),
     checked: props.attributes.target ? true : false,
     onChange: value => {
       props.setAttributes({
@@ -55,8 +64,18 @@ const edit = props => {
   }) : '')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "instructor"
-  }, props.attributes.showText ? 'by ' : '', props.attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", null, ' ', (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, 'Instructor'), ' ') : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", null, 'Instructor'))));
+    className: "is-layout-flex c-gap-4"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, props.attributes.showText ? 'by ' : ''), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-instructor"
+  }, props.attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    dangerouslySetInnerHTML: {
+      __html: courseInstructor
+    }
+  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    dangerouslySetInnerHTML: {
+      __html: courseInstructor
+    }
+  })))));
 };
 
 /***/ }),
@@ -131,7 +150,7 @@ module.exports = window["wp"]["i18n"];
   \********************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-instructor","title":"Course Instructor","category":"learnpress-course-elements","description":"Renders template Instructor Course PHP templates.","textdomain":"learnpress","keywords":["instructor single course","learnpress"],"usesContext":[],"attributes":{"showText":{"type":"boolean","default":true},"isLink":{"type":"boolean","default":true},"target":{"type":"boolean","default":false}},"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":true,"__experimentalDefaultControls":{"link":false,"text":true}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-instructor","title":"Course Instructor","category":"learnpress-course-elements","description":"Renders template Instructor Course PHP templates.","textdomain":"learnpress","keywords":["instructor single course","learnpress"],"usesContext":["lpCourseData"],"attributes":{"showText":{"type":"boolean","default":true},"isLink":{"type":"boolean","default":true},"target":{"type":"boolean","default":false}},"supports":{"multiple":true,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":true,"__experimentalDefaultControls":{"link":false,"text":true}}}}');
 
 /***/ })
 

@@ -24,7 +24,9 @@ const edit = props => {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "instructor-avatar"
-  })));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://placehold.co/300x300?text=Avatar+Instructor"
+  }))));
 };
 
 /***/ }),

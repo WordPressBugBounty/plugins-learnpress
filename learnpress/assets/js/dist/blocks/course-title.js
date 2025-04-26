@@ -70,16 +70,18 @@ const Edit = props => {
   const courseTitle = lpCourseData?.title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Course Title', 'learnpress');
   const TagName = tag;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
-    title: "Settings"
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'learnpress')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-    label: "Tag",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tag', 'learnpress'),
     value: tag,
     options: tagOptions,
     onChange: value => setAttributes({
       tag: value
     })
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-    label: "Is Link",
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl
+  // Default text of WP so not need text-domain
+  , {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the title a link'),
     checked: !!isLink,
     onChange: value => {
       props.setAttributes({
@@ -87,7 +89,7 @@ const Edit = props => {
       });
     }
   }), props.attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-    label: "Open is new tab",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Open is new tab', 'learnpress'),
     checked: !!target,
     onChange: value => {
       props.setAttributes({
@@ -186,7 +188,7 @@ module.exports = window["wp"]["i18n"];
   \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-title","title":"Course Title","category":"learnpress-course-elements","description":"Course title.","textdomain":"learnpress","keywords":["course title","learnpress"],"attributes":{"tag":{"type":"string","default":"span"},"isLink":{"type":"boolean","default":true},"target":{"type":"boolean","default":false}},"usesContext":["lpCourseData"],"supports":{"multiple":true,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"textTransform":false,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":true,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true,"textTransform":false}},"color":{"text":true,"link":false,"background":false,"__experimentalDefaultControls":{"text":true}},"__experimentalBorder":{"color":false,"radius":false,"width":false},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"margin":false,"padding":false}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-title","title":"Course Title","category":"learnpress-course-elements","description":"Course title.","textdomain":"learnpress","keywords":["course title","learnpress"],"attributes":{"tag":{"type":"string","default":"span"},"isLink":{"type":"boolean","default":false},"target":{"type":"boolean","default":false}},"usesContext":["lpCourseData"],"supports":{"multiple":true,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"textTransform":false,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":true,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true,"textTransform":false}},"color":{"text":true,"link":true,"background":true,"__experimentalDefaultControls":{"text":true,"link":false,"background":false}},"__experimentalBorder":{"color":false,"radius":false,"width":false},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"margin":false,"padding":false}}}}');
 
 /***/ })
 

@@ -74,10 +74,8 @@
   --lp-container-max-width: var(--wp--style--global--wide-size);
 }
 
-* {
+*, :after, :before {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 /*  start reset css */
@@ -90,6 +88,71 @@ body.learnpress-page {
 
 button {
   cursor: pointer;
+}
+
+.learnpress-page input[type=text],
+.learnpress-page input[type=email],
+.learnpress-page input[type=number],
+.learnpress-page input[type=password], .learnpress-page textarea {
+  border-color: var(--lp-border-color, #E2E0DB);
+  -webkit-border-radius: var(--lp-border-radius, 5px);
+  -moz-border-radius: var(--lp-border-radius, 5px);
+  border-radius: var(--lp-border-radius, 5px);
+}
+.learnpress-page input[type=text]:focus,
+.learnpress-page input[type=email]:focus,
+.learnpress-page input[type=number]:focus,
+.learnpress-page input[type=password]:focus, .learnpress-page textarea:focus {
+  outline: none;
+  border-color: var(--lp-primary-color, #ffb606);
+}
+.learnpress-page .lp-button, .learnpress-page #lp-button {
+  padding: 12px 24px;
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  color: var(--lp-color-base, #333);
+  background: transparent;
+  box-shadow: unset;
+  font-family: inherit;
+  font-weight: 400;
+  text-align: center;
+  text-transform: capitalize;
+  -webkit-border-radius: var(--lp-border-radius, 5px);
+  -moz-border-radius: var(--lp-border-radius, 5px);
+  border-radius: var(--lp-border-radius, 5px);
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -ms-transition: all 0.25s;
+  -o-transition: all 0.25s;
+  transition: all 0.25s;
+}
+.learnpress-page .lp-button.large, .learnpress-page #lp-button.large {
+  height: 52px;
+  padding: 18px 30px;
+  font-size: 1.1em;
+}
+.learnpress-page .lp-button:hover, .learnpress-page #lp-button:hover {
+  border-color: var(--lp-primary-color);
+  color: #fff;
+  background: var(--lp-primary-color);
+}
+.learnpress-page .lp-button.btn-ajax-off .icon, .learnpress-page #lp-button.btn-ajax-off .icon {
+  display: none;
+}
+.learnpress-page .lp-button.btn-ajax-on .icon, .learnpress-page #lp-button.btn-ajax-on .icon {
+  display: inline-block;
+  margin-left: 5px;
+  -webkit-animation: lp-rotating 1s linear infinite;
+  -moz-animation: lp-rotating 1s linear infinite;
+  animation: lp-rotating 1s linear infinite;
+}
+.learnpress-page .lp-button:focus, .learnpress-page #lp-button:focus {
+  outline: 0;
+}
+.learnpress-page .rwmb-field .description {
+  margin-top: 8px;
+  color: #999;
+  font-size: smaller;
+  font-style: italic;
 }
 
 input, button, select, textarea {
@@ -109,7 +172,7 @@ a {
 }
 
 p {
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 p:last-child {
   margin: 0;
@@ -158,6 +221,13 @@ p:last-child {
 
 .lp-hidden {
   display: none !important;
+}
+
+.course-price .origin-price {
+  text-decoration: line-through;
+  margin-left: 4px;
+  font-size: calc(var(--lp-font-size-base, 1em) * 0.925);
+  opacity: 0.6;
 }
 
 /**
@@ -240,7 +310,7 @@ body .wp-site-blocks {
   white-space: nowrap;
 }
 .lp-list-instructors .ul-list-instructors li.item-instructor .instructor-info > div .lp-ico {
-  color: var(--lp-primary-color);
+  color: var(--lp-primary-color, #ffb606);
 }
 .lp-list-instructors .ul-list-instructors li.item-instructor .instructor-btn-view {
   padding: 8px 24px;
@@ -254,15 +324,17 @@ body .wp-site-blocks {
   text-align: center;
 }
 .lp-list-instructors .ul-list-instructors li.item-instructor .instructor-btn-view:hover {
-  background: var(--lp-primary-color);
+  background: var(--lp-primary-color, #ffb606);
   color: var(--lp-color-white, #fff);
-  border-color: var(--lp-primary-color);
+  border-color: var(--lp-primary-color, #ffb606);
 }
 
+.learnpress-block-pagination,
 .learn-press-pagination {
   margin: 20px 0;
   text-align: center;
 }
+.learnpress-block-pagination .page-numbers,
 .learn-press-pagination .page-numbers {
   display: inline-block;
   margin: 0;
@@ -272,20 +344,24 @@ body .wp-site-blocks {
   background: transparent;
   list-style: none;
 }
+.learnpress-block-pagination .page-numbers > li,
 .learn-press-pagination .page-numbers > li {
   display: inline-block;
   margin: 0;
 }
+.learnpress-block-pagination .page-numbers > li .page-numbers,
 .learn-press-pagination .page-numbers > li .page-numbers {
   float: unset;
   padding: 0 12px;
   color: #666;
   text-decoration: none;
 }
+.learnpress-block-pagination .page-numbers > li .page-numbers.current,
 .learn-press-pagination .page-numbers > li .page-numbers.current {
   color: var(--lp-primary-color);
   font-weight: 400;
 }
+.learnpress-block-pagination .page-numbers > li .page-numbers:hover,
 .learn-press-pagination .page-numbers > li .page-numbers:hover {
   color: var(--lp-primary-color);
 }

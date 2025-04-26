@@ -14,23 +14,98 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-
-
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 
 
 const edit = props => {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
+  const TEMPLATE = [['core/group', {
+    metadata: {
+      name: 'Header'
+    },
+    className: 'lp-single-course__header',
+    layout: {
+      type: 'default'
+    }
+  }, [['core/group', {
+    metadata: {
+      name: 'Inner'
+    },
+    className: 'lp-single-course__header__inner',
+    layout: {
+      type: 'default'
+    }
+  }, [['learnpress/breadcrumb', {}], ['learnpress/course-title', {
+    tag: 'h1'
+  }], ['core/group', {
+    metadata: {
+      name: 'Meta Left'
+    },
+    className: 'course-instructor-category',
+    layout: {
+      type: 'flex',
+      flexWrap: 'nowrap'
+    }
+  }, [['learnpress/course-instructor', {}], ['learnpress/course-categories', {}]]], ['learnpress/course-date', {}]]]]], ['core/group', {
+    metadata: {
+      name: 'Area'
+    },
+    className: 'lp-content-area',
+    layout: {
+      type: 'default'
+    }
+  }, [['core/group', {
+    metadata: {
+      name: 'Main'
+    },
+    className: 'lp-single-course-main',
+    layout: {
+      type: 'default'
+    }
+  }, [['core/group', {
+    metadata: {
+      name: 'Left'
+    },
+    className: 'lp-single-course-main__left',
+    layout: {
+      type: 'default'
+    }
+  }, [['learnpress/course-description', {}], ['learnpress/course-features', {}], ['learnpress/course-target-audiences', {}], ['learnpress/course-requirements', {}], ['learnpress/course-faqs', {}], ['learnpress/course-curriculum', {}], ['learnpress/course-instructor-info', {}], ['learnpress/course-comment', {}]]], ['core/group', {
+    metadata: {
+      name: 'Right'
+    },
+    className: 'lp-single-course-main__right',
+    layout: {
+      type: 'default'
+    }
+  }, [['core/group', {
+    className: 'lp-single-course-main__right__inner',
+    layout: {
+      type: 'default'
+    }
+  }, [['learnpress/course-image', {}], ['learnpress/course-price', {}], ['learnpress/course-progress', {}], ['core/group', {
+    metadata: {
+      name: 'Meta'
+    },
+    className: 'info-metas',
+    layout: {
+      type: 'default'
+    }
+  }, [['learnpress/course-student', {}], ['learnpress/course-lesson', {}], ['learnpress/course-duration', {}], ['learnpress/course-quiz', {}], ['learnpress/course-level', {}]]], ['learnpress/course-button', {}], ['learnpress/course-share', {}], ['learnpress/course-feature-review', {}]]]]]]], ['core/group', {
+    metadata: {
+      name: 'Related'
+    },
+    className: 'lp-list-courses-related',
+    layout: {
+      type: 'default'
+    }
+  }, [['learnpress/course-related', {}]]]]]];
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Placeholder, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Single Course', 'learnpress')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This is an editor placeholder for the Single Course page. Content will render content of single course. Should be not remove it', 'learnpress'))));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
+    template: TEMPLATE
+  })));
 };
 
 /***/ }),
@@ -45,7 +120,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   save: () => (/* binding */ save)
 /* harmony export */ });
-const save = props => null;
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const save = props => {
+  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null));
+};
 
 /***/ }),
 
@@ -79,33 +163,13 @@ module.exports = window["wp"]["blocks"];
 
 /***/ }),
 
-/***/ "@wordpress/components":
-/*!************************************!*\
-  !*** external ["wp","components"] ***!
-  \************************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["components"];
-
-/***/ }),
-
-/***/ "@wordpress/i18n":
-/*!******************************!*\
-  !*** external ["wp","i18n"] ***!
-  \******************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["i18n"];
-
-/***/ }),
-
 /***/ "./assets/src/apps/js/blocks/single-course/block.json":
 /*!************************************************************!*\
   !*** ./assets/src/apps/js/blocks/single-course/block.json ***!
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"learnpress/single-course","title":"Single Course","category":"learnpress-category","description":"Renders template Single Course PHP templates.","textdomain":"learnpress","keywords":["single course","learnpress"],"usesContext":[],"supports":{}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/single-course","title":"Single Course","category":"learnpress-category","icon":"archive","description":"Renders Template Single Course PHP templates.","textdomain":"learnpress","keywords":["learnpress single course","learnpress"],"usesContext":[],"supports":{"inserter":true,"reusable":true,"reorder":true,"html":false,"multiple":true,"wrapper":false}}');
 
 /***/ })
 
@@ -182,22 +246,39 @@ var __webpack_exports__ = {};
   !*** ./assets/src/apps/js/blocks/single-course/index.js ***!
   \**********************************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/single-course/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/single-course/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/single-course/block.json");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/single-course/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/single-course/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/single-course/block.json");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
+
 /**
- * Register block single course.
+ * Register block single course property.
  */
 
 
 
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)('learnpress/single-course', {
-  ..._block_json__WEBPACK_IMPORTED_MODULE_2__,
-  edit: _edit__WEBPACK_IMPORTED_MODULE_0__.edit,
-  save: _save__WEBPACK_IMPORTED_MODULE_1__.save
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)('learnpress/single-course', {
+  ..._block_json__WEBPACK_IMPORTED_MODULE_3__,
+  icon: {
+    src: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      width: "24",
+      height: "24",
+      "aria-hidden": "true",
+      focusable: "false"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      fillRule: "evenodd",
+      d: "M5 5.5h14a.5.5 0 01.5.5v1.5a.5.5 0 01-.5.5H5a.5.5 0 01-.5-.5V6a.5.5 0 01.5-.5zM4 9.232A2 2 0 013 7.5V6a2 2 0 012-2h14a2 2 0 012 2v1.5a2 2 0 01-1 1.732V18a2 2 0 01-2 2H6a2 2 0 01-2-2V9.232zm1.5.268V18a.5.5 0 00.5.5h12a.5.5 0 00.5-.5V9.5h-13z",
+      clipRule: "evenodd"
+    }))
+  },
+  edit: _edit__WEBPACK_IMPORTED_MODULE_1__.edit,
+  save: _save__WEBPACK_IMPORTED_MODULE_2__.save
 });
 /******/ })()
 ;

@@ -36,6 +36,9 @@ class ListCoursesTemplate {
 	}
 
 	public function allow_callback( $callbacks ) {
+		/**
+		 * @uses self::render_courses()
+		 */
 		$callbacks[] = get_class( $this ) . ':render_courses';
 
 		return $callbacks;
@@ -277,7 +280,7 @@ class ListCoursesTemplate {
 				[
 					'wrapper'                     => '<div class="course-content">',
 					'title'                       => sprintf(
-						'<a class="course-permalink" href="%s">%s</a>',
+						'<h3 class="wap-course-title"><a class="course-permalink" href="%s">%s</a></h3>',
 						$course->get_permalink(),
 						$singleCourseTemplate->html_title( $course )
 					),
@@ -373,7 +376,7 @@ class ListCoursesTemplate {
 			return '';
 		}
 
-		$html_wrapper = [
+		$html_wrapper = $data['wrapper'] ?? [
 			'<nav class="learn-press-pagination navigation pagination">' => '</nav>',
 		];
 
@@ -543,10 +546,11 @@ class ListCoursesTemplate {
 	}
 
 	public function html_search_form( array $data = [] ) {
-		$s = $data['c_search'] ?? '';
+		$s     = $data['c_search'] ?? '';
+		$class = $data['class'] ?? 'search-courses';
 		ob_start();
 		?>
-		<form class="search-courses" method="get"
+		<form class="<?php echo esc_attr( $class ); ?>" method="get"
 			action="<?php echo esc_url_raw( learn_press_get_page_link( 'courses' ) ); ?>">
 			<input type="search" placeholder="<?php esc_attr_e( 'Search courses...', 'learnpress' ); ?>"
 					name="c_search"
@@ -836,7 +840,7 @@ class ListCoursesTemplate {
 					break;
 				}
 
-				++ $i;
+				++$i;
 			}
 		}
 

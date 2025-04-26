@@ -10,7 +10,7 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   edit: () => (/* binding */ edit)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -21,18 +21,137 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const edit = props => {
+const Edit = props => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, 'Curriculum'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "line"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "line"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "line"
-  })));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "lp-course-curriculum"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
+    className: "lp-course-curriculum__title"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Curriculum', 'learnpress')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-curriculum-info"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "course-curriculum-info__left"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-count-section"
+  }, '2 Sections'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-count-lesson"
+  }, '3 Lessons'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-duration"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-duration"
+  }, '3 Weeks'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-curriculum-info__right"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-toggle-all-sections"
+  }, 'Expand all sections'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-curriculum"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "course-sections"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-section-header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "section-toggle"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "lp-icon-angle-up"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-section-info"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-section__title"
+  }, 'Section 1')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "section-count-items"
+  }, '3')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "course-section__items"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-item"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "course-item__link"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__info"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-item-ico lp_lesson"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__left"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item-title"
+  }, 'What is LearnPress?')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__right"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "duration"
+  }, '20 Minutes'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__status"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-item-ico in-progress"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-item "
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "course-item__link"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__info"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-item-ico lp_lesson"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__left"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item-title"
+  }, 'How to use LearnPress?')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__right"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "duration"
+  }, '60 Minutes'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__status"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-item-ico preview"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-item "
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "course-item__link"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__info"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-item-ico lp_quiz"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__left"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item-title"
+  }, 'Demo the Quiz of LearnPress')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__right"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "duration"
+  }, '10 Minutes'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "question-count"
+  }, '4 Questions'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-item__status"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "course-item-ico locked"
+  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "course-section lp-collapse"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-section-header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "section-toggle"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "lp-icon-angle-down"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-section-info"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-section__title"
+  }, 'Section 2'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "course-section__description"
+  }, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "section-count-items"
+  }, '10'))))))));
 };
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
 /***/ }),
 
@@ -96,7 +215,7 @@ module.exports = window["wp"]["i18n"];
   \********************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-curriculum","title":"Course Curriculum","category":"learnpress-course-elements","description":"Renders template Curriculum Course PHP templates.","textdomain":"learnpress","keywords":["curriculum single course","learnpress"],"usesContext":[],"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":false,"gradients":false,"__experimentalDefaultControls":{"text":true}},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"margin":false,"padding":false}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-curriculum","title":"Course Curriculum","category":"learnpress-course-elements","description":"Renders template Curriculum Course PHP templates.","textdomain":"learnpress","keywords":["curriculum single course","learnpress"],"usesContext":[],"supports":{"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":false,"heading":true,"gradients":false,"__experimentalDefaultControls":{"text":true,"h3":true}},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"margin":false,"padding":false}}}}');
 
 /***/ })
 
@@ -205,7 +324,7 @@ __webpack_require__.r(__webpack_exports__);
       clipRule: "evenodd"
     }))
   },
-  edit: _edit__WEBPACK_IMPORTED_MODULE_1__.edit,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_2__.save
 });
 /******/ })()

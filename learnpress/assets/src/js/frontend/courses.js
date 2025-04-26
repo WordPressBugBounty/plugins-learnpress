@@ -9,7 +9,8 @@ import { lpAddQueryArgs, lpFetchAPI, lpGetCurrentURLNoParam } from '../utils';
 import Cookies from '../utils/cookies';
 
 const elListCoursesIdNewDefault = '.lp-list-courses-default';
-
+const classBlockPagination = 'learnpress-block-pagination';
+const classBlockOrderBy = 'block-courses-order-by';
 if ( 'undefined' === typeof lpData || 'undefined' === typeof lpSettingCourses ) {
 	console.log( 'lpData || lpSettingCourses is undefined' );
 }
@@ -123,6 +124,20 @@ window.lpCourseList = ( () => {
 			typeEventBeforeFetch = type;
 		},
 		onChangeSortBy: ( e, target ) => {
+			// Add js block order by
+			const parenBlockOrderBy = target.closest( `.${ classBlockOrderBy }` );
+			if ( parenBlockOrderBy ) {
+				const filterCourses =
+				JSON.parse( window.localStorage.getItem( 'lp_filter_courses' ) ) ||
+				{};
+				filterCourses.order_by = target.value || '';
+				window.location.href = lpAddQueryArgs(
+					currentUrl,
+					filterCourses,
+				);
+				return;
+			}
+
 			if ( ! target.classList.contains( 'courses-order-by' ) ) {
 				return;
 			}
@@ -132,12 +147,17 @@ window.lpCourseList = ( () => {
 			const filterCourses = JSON.parse( window.localStorage.getItem( 'lp_filter_courses' ) ) || {};
 			filterCourses.order_by = target.value || '';
 
-			if ( 'undefined' !== typeof lpSettingCourses &&
+			if (
+				'undefined' !== typeof lpSettingCourses &&
 				lpData.is_course_archive &&
-				lpSettingCourses.lpArchiveLoadAjax ) {
+				lpSettingCourses.lpArchiveLoadAjax
+			) {
 				window.lpCourseList.triggerFetchAPI( filterCourses );
 			} else {
-				window.location.href = lpAddQueryArgs( currentUrl, filterCourses );
+				window.location.href = lpAddQueryArgs(
+					currentUrl,
+					filterCourses,
+				);
 			}
 		},
 		onChangeTypeLayout: ( e, target ) => {
@@ -160,6 +180,32 @@ window.lpCourseList = ( () => {
 			}
 		},
 		clickNumberPage: ( e, target ) => {
+			// Add js block pagination
+			const parenBlockPagination = target.closest(
+				`.${ classBlockPagination }`,
+			);
+			if ( parenBlockPagination ) {
+				if ( target.classList.contains( 'page-numbers' ) ) {
+					e.preventDefault();
+					const pageCurrent = filterCourses.paged;
+					if ( target.classList.contains( 'prev' ) ) {
+						filterCourses.paged = pageCurrent - 1;
+					} else if ( target.classList.contains( 'next' ) ) {
+						filterCourses.paged = pageCurrent + 1;
+					} else {
+						filterCourses.paged = parseInt( target.textContent );
+					}
+
+					typeEventBeforeFetch = 'number';
+					window.location.href = lpAddQueryArgs(
+						currentUrl,
+						filterCourses,
+					);
+					return;
+				}
+				return;
+			}
+
 			if ( ! lpArchiveLoadAjax || parseInt( lpSettingCourses.noLoadCoursesJs ) ) {
 				return;
 			}

@@ -3,8 +3,9 @@ import API from '../api';
 
 function widgetRestAPI() {
 	const widgets = document.querySelectorAll( '.learnpress-widget-wrapper:not(.loaded)' );
+	const widgetBlocks = document.querySelectorAll( '.learnpress-block-widget-wrapper:not(.loaded)' );
 
-	if ( ! widgets.length ) {
+	if ( ! widgets.length && ! widgetBlocks.length ) {
 		return;
 	}
 
@@ -69,12 +70,23 @@ function widgetRestAPI() {
 		lpFetchAPI( url, paramsFetch, callBack );
 	};
 
-	widgets.forEach( ( ele ) => {
-		ele.classList.add( 'loaded' );
-		if ( ele.classList.contains( 'learnpress-widget-wrapper__restapi' ) ) {
-			getResponse( ele );
-		}
-	} );
+	if ( widgets.length ) {
+		widgets.forEach( ( ele ) => {
+			ele.classList.add( 'loaded' );
+			if ( ele.classList.contains( 'learnpress-widget-wrapper__restapi' ) ) {
+				getResponse( ele );
+			}
+		} );
+	}
+
+	if ( widgetBlocks.length ) {
+		widgetBlocks.forEach( ( ele ) => {
+			ele.classList.add( 'loaded' );
+			if ( ele.classList.contains( 'learnpress-widget-wrapper__restapi' ) ) {
+				getResponse( ele );
+			}
+		} );
+	}
 }
 
 widgetRestAPI();

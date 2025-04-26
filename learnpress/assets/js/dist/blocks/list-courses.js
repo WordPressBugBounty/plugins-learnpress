@@ -25,19 +25,50 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Edit = props => {
+  var _courseQuery$term_id, _courseQuery$tag_id;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
   const {
     attributes,
-    setAttributes
+    setAttributes,
+    clientId
   } = props;
   const {
     courseQuery
   } = attributes;
-  const QUERY_LOOP_TEMPLATE = [['learnpress/course-item-template', {
-    postTest: 'lp_lesson'
-  }, [['learnpress/course-title'], ['core/site-title']]]];
+  const QUERY_LOOP_TEMPLATE = [['learnpress/course-item-template']];
+  const resetAllTaxonomy = () => {
+    setAttributes({
+      courseQuery: {
+        ...courseQuery,
+        term_id: '',
+        tag_id: ''
+      }
+    });
+  };
+  const orderByData = [{
+    label: 'Newly published',
+    value: 'post_date'
+  }, {
+    label: 'Title a-z',
+    value: 'post_title'
+  }, {
+    label: 'Title z-a',
+    value: 'post_title_desc'
+  }, {
+    label: 'Price high to low',
+    value: 'price'
+  }, {
+    label: 'Price low to high',
+    value: 'price_low'
+  }, {
+    label: 'Popular',
+    value: 'popular'
+  }, {
+    label: 'Average Ratings',
+    value: 'rating'
+  }];
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Query Settings')
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Query Settings', 'learnpress')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Posts per page'),
     value: courseQuery.limit,
@@ -48,42 +79,89 @@ const Edit = props => {
       }
     }),
     min: 1,
-    max: 100
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Order by'),
-    value: courseQuery.order_by,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Date'),
-      value: 'post_date'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Title A-Z'),
-      value: 'post_title'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Title Z-A'),
-      value: 'post_title_desc'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Price high to low'),
-      value: 'price'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Price low to high'),
-      value: 'price_low'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Menu Order'),
-      value: 'menu_order'
-    }],
-    onChange: order_by => setAttributes({
-      courseQuery: {
-        ...courseQuery,
-        order_by
+    max: 20
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Related Course', 'learnpress'),
+    checked: courseQuery.related,
+    onChange: related => {
+      if (related) {
+        setAttributes({
+          courseQuery: {
+            ...courseQuery,
+            term_id: '',
+            tag_id: '',
+            pagination: false,
+            order_by: 'post_date',
+            related
+          }
+        });
+      } else {
+        setAttributes({
+          courseQuery: {
+            ...courseQuery,
+            related
+          }
+        });
       }
-    })
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    }
+  }), !courseQuery.related && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Order by', 'learnpress'),
+    value: courseQuery.order_by,
+    options: orderByData,
+    onChange: order_by => {
+      setAttributes({
+        courseQuery: {
+          ...courseQuery,
+          order_by
+        }
+      });
+    }
+  }), !courseQuery.related && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pagination', 'learnpress'),
+    checked: courseQuery.pagination,
+    onChange: pagination => {
+      setAttributes({
+        courseQuery: {
+          ...courseQuery,
+          pagination
+        }
+      });
+    }
+  })), !courseQuery.related && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToolsPanel, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filter', 'learnpress'),
+    resetAll: resetAllTaxonomy
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToolsPanelItem, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Taxonomy', 'learnpress'),
+    onSelect: () => resetAllTaxonomy(),
+    hasValue: () => !!courseQuery.term_id || !!courseQuery.tag_id,
+    onDeselect: () => resetAllTaxonomy()
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Category', 'learnpress'),
+    onChange: term_id => {
+      setAttributes({
+        courseQuery: {
+          ...courseQuery,
+          term_id
+        }
+      });
+    },
+    value: (_courseQuery$term_id = courseQuery.term_id) !== null && _courseQuery$term_id !== void 0 ? _courseQuery$term_id : ''
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tag', 'learnpress'),
+    onChange: tag_id => {
+      setAttributes({
+        courseQuery: {
+          ...courseQuery,
+          tag_id
+        }
+      });
+    },
+    value: (_courseQuery$tag_id = courseQuery.tag_id) !== null && _courseQuery$tag_id !== void 0 ? _courseQuery$tag_id : ''
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "post-query-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InnerBlocks, {
     template: QUERY_LOOP_TEMPLATE
-  }))));
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
@@ -171,7 +249,7 @@ module.exports = window["wp"]["i18n"];
   \*******************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/list-courses","title":"List Courses","category":"learnpress-category","description":"List courses block","textdomain":"learnpress","keywords":["list courses","learnpress","query loop"],"usesContext":[],"attributes":{"courseQuery":{"type":"object","default":{"limit":3,"order_by":"post_date"}}},"providesContext":{"lpCourseQuery":"courseQuery"},"supports":{"html":false,"align":["wide","full"]}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/list-courses","title":"Course Listing","category":"learnpress-category","description":"Course Listing block","textdomain":"learnpress","keywords":["listing course","learnpress","query loop"],"usesContext":[],"attributes":{"courseQuery":{"type":"object","default":{"limit":3,"order_by":"post_date","related":false,"pagination":false,"tag_id":"","term_id":""}}},"providesContext":{"lpCourseQuery":"courseQuery"},"supports":{"html":false,"align":["wide","full"]}}');
 
 /***/ })
 

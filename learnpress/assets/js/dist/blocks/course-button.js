@@ -10,7 +10,7 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   edit: () => (/* binding */ edit)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -21,14 +21,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const edit = props => {
+const Edit = props => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  const {
+    attributes,
+    setAttributes,
+    context
+  } = props;
+  const {
+    lpCourseData
+  } = context;
+  // classOfDiv to fix align.
+  let classOfDiv = blockProps.className;
+  classOfDiv = classOfDiv.replaceAll('wp-block-learnpress-course-button', '');
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: classOfDiv
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "button"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, 'Buy'))));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Buy Now', 'learnpress')));
 };
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
 /***/ }),
 
@@ -92,7 +104,7 @@ module.exports = window["wp"]["i18n"];
   \****************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-button","title":"Course Button","category":"learnpress-course-elements","icon":"button","description":"Renders template Button Course PHP templates.","textdomain":"learnpress","keywords":["button single course","learnpress"],"usesContext":[],"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":true,"text":true,"__experimentalDefaultControls":{"background":true,"text":true}},"__experimentalBorder":{"color":true,"radius":true,"width":true,"__experimentalDefaultControls":{"width":false,"color":false,"radius":false}},"spacing":{"padding":true,"content":true,"__experimentalDefaultControls":{"padding":false,"content":true}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-button","title":"Course Button","category":"learnpress-course-elements","icon":"button","description":"Renders template Button Course PHP templates.","textdomain":"learnpress","keywords":["button single course","learnpress"],"usesContext":["lpCourseData"],"supports":{"multiple":true,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":true,"text":true,"__experimentalDefaultControls":{"background":true,"text":true}},"__experimentalBorder":{"color":true,"radius":true,"width":true,"__experimentalDefaultControls":{"width":false,"color":false,"radius":false}},"spacing":{"margin":true,"padding":true,"content":true,"__experimentalDefaultControls":{"margin":false,"padding":false,"content":true}}}}');
 
 /***/ })
 
@@ -199,7 +211,7 @@ __webpack_require__.r(__webpack_exports__);
       d: "M8 12.5h8V11H8v1.5Z M19 6.5H5a2 2 0 0 0-2 2V15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2ZM5 8h14a.5.5 0 0 1 .5.5V15a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V8.5A.5.5 0 0 1 5 8Z"
     }))
   },
-  edit: _edit__WEBPACK_IMPORTED_MODULE_1__.edit,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_2__.save
 });
 /******/ })()

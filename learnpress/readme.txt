@@ -2,8 +2,8 @@
 Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla, thongta, kendy73, leehld
 Donate link:
 Tags: e-learning, education, course, lms, learning management system
-Tested up to: 6.7
-Stable tag: 4.2.8.2
+Tested up to: 6.8
+Stable tag: 4.2.8.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,6 +13,7 @@ A WordPress LMS Plugin to create WordPress Learning Management System. Turn your
 
 LearnPress is a comprehensive *WordPress LMS Plugin* for WordPress. This is one of the best WordPress LMS Plugins which can be used to easily create & sell courses online. You can create a course curriculum with lessons & quizzes included which is managed with an easy-to-use interface for users. With our newest features, you can also sell your in-person classes and workshops using online payment gateways. Having this WordPress LMS Plugin, now you have a chance to quickly and easily create education, online school, online-course, offline-course websites with no coding knowledge required.
 
+<a href="https://learnpresslms.com/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Official Website - Explore more about LearnPress</a>
 <a href="https://edupress.thimpress.com" target="_blank">Live Demo</a> | <a href="https://docs.thimpress.com/learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content" target="_blank">Documentation</a> | <a href="https://help.thimpress.com" target="_blank">Support</a>
 <a href="https://thimpress.com/product/education-wordpress-starter-theme-for-learnpress/?utm_source=WPORG&utm_medium=LP&utm_campaign=Content">Free LearnPress Theme</a>
 <a href="https://1.envato.market/G5Ook" target="_blank">Premium LearnPress Themes</a>
@@ -220,6 +221,10 @@ https://www.transifex.com/projects/p/learnpress/
 13. Add-ons: Unlock endless possibilities with our add-ons from additional payment gateways to more managing course options. Tailor to your needs and easily scale as your site grow
 
 == Changelog ==
+
+= 4.2.8.3 (2025-04-26) =
+~ Provide: blocks for Gutenberg, build page Single Course, Archive Course, List Course.
+~ Compatible: with WP 6.8.
 
 = 4.2.8.2 (2025-04-03) =
 ~ Feature: add filter course by type online/offline.

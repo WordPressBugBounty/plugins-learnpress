@@ -26,6 +26,7 @@ use LP_Checkout;
 use LP_Course;
 use LP_Course_Item;
 use LP_Datetime;
+use LP_Global;
 use LP_Material_Files_DB;
 use LP_Settings;
 use stdClass;
@@ -136,16 +137,22 @@ class SingleCourseTemplate {
 	}
 
 	/**
-	 * Get display title course.
+	 * Get display categories course.
 	 *
 	 * @param LP_Course|CourseModel $course
+	 * @param array $setting
 	 *
 	 * @return string
 	 * @since 4.2.6
-	 * @version 1.0.2
+	 * @version 1.0.3
 	 */
-	public function html_categories( $course ): string {
-		$html = '';
+	public function html_categories( $course, array $setting = [] ): string {
+		$html            = '';
+		$default_setting = [
+			'is_link' => '',
+			'new_tab' => '',
+		];
+		$setting         = array_merge( $default_setting, $setting );
 
 		try {
 			if ( $course instanceof LP_Course ) {
@@ -161,13 +168,21 @@ class SingleCourseTemplate {
 				return '';
 			}
 
-			$cat_names = [];
+			$is_link          = $setting['is_link'] ?? false;
+			$attribute_target = ! empty( $setting['new_tab'] ) ? 'target="_blank"' : '';
+			$cat_names        = [];
 			foreach ( $cats as $cat ) {
-				$term        = sprintf(
-					'<a href="%s">%s</a>',
-					get_term_link( $cat ),
-					$cat->name
-				);
+				if ( $is_link ) {
+					$term = sprintf(
+						'<a href="%s" %s>%s</a>',
+						get_term_link( $cat ),
+						$attribute_target,
+						$cat->name
+					);
+				} else {
+					$term = $cat->name;
+				}
+
 				$cat_names[] = $term;
 			}
 
@@ -310,11 +325,15 @@ class SingleCourseTemplate {
 	 *
 	 * @return string
 	 * @since 4.2.5.8
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
-	public function html_instructor( $course, bool $with_avatar = false ): string {
-		$content = '';
-
+	public function html_instructor( $course, bool $with_avatar = false, $setting = [] ): string {
+		$content         = '';
+		$default_setting = [
+			'is_link' => '',
+			'new_tab' => '',
+		];
+		$setting         = array_merge( $default_setting, $setting );
 		try {
 			$instructor = $course->get_author_model();
 			if ( ! $instructor ) {
@@ -323,13 +342,23 @@ class SingleCourseTemplate {
 
 			$singleInstructorTemplate = SingleInstructorTemplate::instance();
 			$userTemplate             = new UserTemplate( 'instructor' );
-
-			$link_instructor = sprintf(
-				'<a href="%s">%s %s</a>',
-				$instructor->get_url_instructor(),
-				$with_avatar ? $userTemplate->html_avatar( $instructor ) : '',
-				$singleInstructorTemplate->html_display_name( $instructor )
-			);
+			$is_link                  = $setting['is_link'] === 'false' ? false : true;
+			if ( $is_link ) {
+				$attribute_target = $setting['new_tab'] === 'true' ? 'target="_blank"' : '';
+				$link_instructor  = sprintf(
+					'<a href="%s" %s >%s %s</a>',
+					$instructor->get_url_instructor(),
+					$attribute_target,
+					$with_avatar ? $userTemplate->html_avatar( $instructor ) : '',
+					$singleInstructorTemplate->html_display_name( $instructor )
+				);
+			} else {
+				$link_instructor = sprintf(
+					'%s %s',
+					$with_avatar ? $userTemplate->html_avatar( $instructor ) : '',
+					$singleInstructorTemplate->html_display_name( $instructor )
+				);
+			}
 
 			$section = apply_filters(
 				'learn-press/course/instructor-html',

@@ -1,10 +1,12 @@
 /**
 * Style widget list courses by page
 */
+.learnpress-block-pagination,
 .learn-press-pagination {
   margin: 20px 0;
   text-align: center;
 }
+.learnpress-block-pagination .page-numbers,
 .learn-press-pagination .page-numbers {
   display: inline-block;
   margin: 0;
@@ -14,20 +16,24 @@
   background: transparent;
   list-style: none;
 }
+.learnpress-block-pagination .page-numbers > li,
 .learn-press-pagination .page-numbers > li {
   display: inline-block;
   margin: 0;
 }
+.learnpress-block-pagination .page-numbers > li .page-numbers,
 .learn-press-pagination .page-numbers > li .page-numbers {
   float: unset;
   padding: 0 12px;
   color: #666;
   text-decoration: none;
 }
+.learnpress-block-pagination .page-numbers > li .page-numbers.current,
 .learn-press-pagination .page-numbers > li .page-numbers.current {
   color: var(--lp-primary-color);
   font-weight: 400;
 }
+.learnpress-block-pagination .page-numbers > li .page-numbers:hover,
 .learn-press-pagination .page-numbers > li .page-numbers:hover {
   color: var(--lp-primary-color);
 }
