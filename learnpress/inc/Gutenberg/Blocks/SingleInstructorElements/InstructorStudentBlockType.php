@@ -37,10 +37,6 @@ class InstructorStudentBlockType extends AbstractSingleInstructorBlockType {
 		];
 	}
 
-	public function get_ancestor() {
-		return [ 'learnpress/single-instructor' ];
-	}
-
 	/**
 	 * Render content of block tag
 	 *
@@ -61,9 +57,8 @@ class InstructorStudentBlockType extends AbstractSingleInstructorBlockType {
 			ob_start();
 			$html_wrapper = [
 				'wrapper'     => '<div class="wrapper-instructor-total-students">',
-				'span'        => $hidden === 'icon' ? '' : '<span class="lp-ico lp-icon-students">',
+				'icon'        => $hidden === 'icon' ? '' : '<i class="lp-ico lp-icon-students"></i>',
 				'content'     => SingleInstructorTemplate::instance()->html_count_students( $instructor, $hidden ),
-				'end_span'    => '</span>',
 				'end_wrapper' => '</div>',
 			];
 			$html_student = Template::combine_components( $html_wrapper );

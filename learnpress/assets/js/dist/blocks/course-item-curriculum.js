@@ -49,6 +49,61 @@ const save = props => null;
 
 /***/ }),
 
+/***/ "./assets/src/apps/js/blocks/utilBlock.js":
+/*!************************************************!*\
+  !*** ./assets/src/apps/js/blocks/utilBlock.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   checkTemplatesCanLoadBlock: () => (/* binding */ checkTemplatesCanLoadBlock)
+/* harmony export */ });
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/**
+ * Check if the block can be loaded in the current template.
+ *
+ * @since 4.2.8.4
+ * @version 1.0.0
+ */
+
+
+let currentPostIdOld = null;
+const checkTemplatesCanLoadBlock = (templates, metadata, callBack) => {
+  (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.subscribe)(() => {
+    const metaDataNew = {
+      ...metadata
+    };
+    const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.select)('core/editor');
+    const currentPostId = store.getCurrentPostId();
+    if (currentPostId === null) {
+      return;
+    }
+    if (currentPostIdOld === currentPostId) {
+      return;
+    }
+    currentPostIdOld = currentPostId;
+    if ((0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.getBlockType)(metaDataNew.name)) {
+      (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.unregisterBlockType)(metaDataNew.name);
+      if (templates.includes(currentPostId)) {
+        metaDataNew.ancestor = null;
+        callBack(metaDataNew);
+      } else {
+        if (!metaDataNew.ancestor) {
+          metaDataNew.ancestor = [];
+        }
+        callBack(metaDataNew);
+      }
+    }
+  });
+};
+
+
+/***/ }),
+
 /***/ "react":
 /*!************************!*\
   !*** external "React" ***!
@@ -89,6 +144,16 @@ module.exports = window["wp"]["components"];
 
 /***/ }),
 
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -105,7 +170,7 @@ module.exports = window["wp"]["i18n"];
   \*************************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-item-curriculum","title":"Course Item Curriculum (Legacy)","category":"learnpress-course-elements","icon":"format-chat","description":"Renders Course Item Curriculum Block PHP Template.","textdomain":"learnpress","keywords":["item curriculum course single","learnpress"],"usesContext":[],"supports":{"inserter":true,"reusable":true,"reorder":true,"html":false,"multiple":true}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-item-curriculum","title":"Course Item Curriculum (Legacy)","category":"learnpress-course-elements","icon":"welcome-learn-more","description":"Renders Course Item Curriculum Block PHP Template.","textdomain":"learnpress","keywords":["item curriculum course single","learnpress"],"ancestor":["learnpress/single-course"],"usesContext":[],"supports":{"inserter":true,"reusable":true,"reorder":true,"html":false,"multiple":true}}');
 
 /***/ })
 
@@ -182,14 +247,12 @@ var __webpack_exports__ = {};
   !*** ./assets/src/apps/js/blocks/course-elements/course-item-curriculum/index.js ***!
   \***********************************************************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/course-elements/course-item-curriculum/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/course-elements/course-item-curriculum/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/course-elements/course-item-curriculum/block.json");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
-
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/course-elements/course-item-curriculum/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/course-elements/course-item-curriculum/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/course-elements/course-item-curriculum/block.json");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utilBlock_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utilBlock.js */ "./assets/src/apps/js/blocks/utilBlock.js");
 /**
  * Register block course item curriculum.
  */
@@ -197,25 +260,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)('learnpress/course-item-curriculum', {
-  ..._block_json__WEBPACK_IMPORTED_MODULE_3__,
-  icon: {
-    src: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      fill: "none",
-      viewBox: "0 0 24 24",
-      "stroke-width": "1.5",
-      stroke: "currentColor",
-      class: "size-6"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      fill: "#ffffff",
-      d: "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
-    }))
-  },
-  edit: _edit__WEBPACK_IMPORTED_MODULE_1__.edit,
-  save: _save__WEBPACK_IMPORTED_MODULE_2__.save
+
+
+const templatesName = ['learnpress/learnpress//single-lp_course_item'];
+(0,_utilBlock_js__WEBPACK_IMPORTED_MODULE_4__.checkTemplatesCanLoadBlock)(templatesName, _block_json__WEBPACK_IMPORTED_MODULE_2__, metadataNew => {
+  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)(metadataNew.name, {
+    ...metadataNew,
+    edit: _edit__WEBPACK_IMPORTED_MODULE_0__.edit,
+    save: _save__WEBPACK_IMPORTED_MODULE_1__.save
+  });
+});
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
+  ..._block_json__WEBPACK_IMPORTED_MODULE_2__,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_0__.edit,
+  save: _save__WEBPACK_IMPORTED_MODULE_1__.save
 });
 /******/ })()
 ;

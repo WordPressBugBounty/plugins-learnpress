@@ -35,6 +35,11 @@ const Edit = ( props ) => {
 		{ label: 'Popular', value: 'popular' },
 		{ label: 'Average Ratings', value: 'rating' },
 	];
+	const paginationTypes = [
+		{ label: __( 'Number', 'learnpress' ), value: 'number' },
+		{ label: __( 'Load more', 'learnpress' ), value: 'load-more' },
+		{ label: __( 'Infinite Scroll', 'learnpress' ), value: 'infinite' },
+	];
 
 	return (
 		<>
@@ -73,6 +78,20 @@ const Edit = ( props ) => {
 							}
 						} }
 					/>
+					<ToggleControl
+						label={ __( 'Enable AJAX', 'learnpress' ) }
+						checked={ courseQuery.load_ajax }
+						onChange={ ( load_ajax ) => {
+							setAttributes( {
+								courseQuery: {
+									...courseQuery,
+									load_ajax,
+									load_ajax_after: ! load_ajax ? false : courseQuery.load_ajax_after,
+								},
+							} );
+						} }
+					/>
+
 					{ ! courseQuery.related && (
 						<SelectControl
 							label={ __( 'Order by', 'learnpress' ) }
@@ -92,13 +111,30 @@ const Edit = ( props ) => {
 							checked={ courseQuery.pagination }
 							onChange={ ( pagination ) => {
 								setAttributes( {
-									courseQuery: { ...courseQuery, pagination },
+									courseQuery: {
+										...courseQuery,
+										pagination,
+										pagination_type: ! pagination ? 'number' : courseQuery.pagination_type,
+									},
+								} );
+							} }
+						/>
+					) }
+
+					{ courseQuery.pagination && (
+						<SelectControl
+							label={ __( 'Pagination Type', 'learnpress' ) }
+							value={ courseQuery.pagination_type }
+							options={ paginationTypes }
+							onChange={ ( pagination_type ) => {
+								setAttributes( {
+									courseQuery: { ...courseQuery, pagination_type },
 								} );
 							} }
 						/>
 					) }
 				</PanelBody>
-				{ ! courseQuery.related && (
+				{ /* { ! courseQuery.related && (
 					<ToolsPanel label={ __( 'Filter', 'learnpress' ) } resetAll={ resetAllTaxonomy }>
 						<ToolsPanelItem
 							label={ __( 'Taxonomy', 'learnpress' ) }
@@ -130,7 +166,7 @@ const Edit = ( props ) => {
 							/>
 						</ToolsPanelItem>
 					</ToolsPanel>
-				) }
+				) } */ }
 			</InspectorControls>
 			<div { ...blockProps }>
 				<InnerBlocks template={ QUERY_LOOP_TEMPLATE } />

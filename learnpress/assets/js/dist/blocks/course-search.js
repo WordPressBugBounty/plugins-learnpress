@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/apps/js/blocks/course-elements/course-search/edit.js":
-/*!*************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-elements/course-search/edit.js ***!
-  \*************************************************************************/
+/***/ "./assets/src/apps/js/blocks/courses/course-search/edit.js":
+/*!*****************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/courses/course-search/edit.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -43,10 +43,10 @@ const edit = props => {
 
 /***/ }),
 
-/***/ "./assets/src/apps/js/blocks/course-elements/course-search/save.js":
-/*!*************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-elements/course-search/save.js ***!
-  \*************************************************************************/
+/***/ "./assets/src/apps/js/blocks/courses/course-search/save.js":
+/*!*****************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/courses/course-search/save.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -97,13 +97,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./assets/src/apps/js/blocks/course-elements/course-search/block.json":
-/*!****************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-elements/course-search/block.json ***!
-  \****************************************************************************/
+/***/ "./assets/src/apps/js/blocks/courses/course-search/block.json":
+/*!********************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/courses/course-search/block.json ***!
+  \********************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-search","title":"Course Search","category":"learnpress-course-elements","icon":"search","description":"Renders Template Search Course PHP templates.","textdomain":"learnpress","keywords":["search archive course","learnpress"],"usesContext":[],"supports":{"multiple":true,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":false,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":false,"gradients":false,"__experimentalDefaultControls":{"text":true}}},"ancestor":["learnpress/list-courses"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-search","title":"Course Search","category":"learnpress-course-elements","icon":"search","description":"Show Search Course.","textdomain":"learnpress","keywords":["search","learnpress"],"ancestor":["learnpress/list-courses"],"usesContext":[],"supports":{"multiple":true,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":false,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"link":false,"gradients":false,"__experimentalDefaultControls":{"text":true}}}}');
 
 /***/ })
 
@@ -176,18 +176,15 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-/*!**************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-elements/course-search/index.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/courses/course-search/index.js ***!
+  \******************************************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/course-elements/course-search/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/course-elements/course-search/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/course-elements/course-search/block.json");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
-
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/courses/course-search/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/courses/course-search/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/courses/course-search/block.json");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
 /**
  * Register block course search.
  */
@@ -195,34 +192,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)('learnpress/course-search', {
-  ..._block_json__WEBPACK_IMPORTED_MODULE_3__,
-  icon: {
-    src: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
-      width: "24",
-      height: "24",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      xmlns: "http://www.w3.org/2000/svg"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-      fillRule: "evenodd",
-      clipRule: "evenodd",
-      d: "M19 11H5C4.72386 11 4.5 11.2239 4.5 11.5V17.5C4.5 17.7761 4.72386 18 5 18H19C19.2761 18 19.5 17.7761 19.5 17.5V11.5C19.5 11.2239 19.2761 11 19 11ZM5 9.5H19C20.1046 9.5 21 10.3954 21 11.5V17.5C21 18.6046 20.1046 19.5 19 19.5H5C3.89543 19.5 3 18.6046 3 17.5V11.5C3 10.3954 3.89543 9.5 5 9.5Z",
-      fill: "currentColor"
-    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-      fillRule: "evenodd",
-      clipRule: "evenodd",
-      d: "M18 7.5C18 7.77614 17.7761 8 17.5 8L6.5 8C6.22386 8 6 7.77614 6 7.5V7.5C6 7.22386 6.22386 7 6.5 7L17.5 7C17.7761 7 18 7.22386 18 7.5V7.5Z",
-      fill: "currentColor"
-    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-      fillRule: "evenodd",
-      clipRule: "evenodd",
-      d: "M16 5C16 5.27614 15.7761 5.5 15.5 5.5L8.5 5.5C8.22386 5.5 8 5.27614 8 5V5C8 4.72386 8.22386 4.5 8.5 4.5L15.5 4.5C15.7761 4.5 16 4.72386 16 5V5Z",
-      fill: "currentColor"
-    }))
-  },
-  edit: _edit__WEBPACK_IMPORTED_MODULE_1__.edit,
-  save: _save__WEBPACK_IMPORTED_MODULE_2__.save
+
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
+  ..._block_json__WEBPACK_IMPORTED_MODULE_2__,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_0__.edit,
+  save: _save__WEBPACK_IMPORTED_MODULE_1__.save
 });
 /******/ })()
 ;

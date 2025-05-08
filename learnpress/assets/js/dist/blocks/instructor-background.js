@@ -160,7 +160,7 @@ module.exports = window["wp"]["i18n"];
   \****************************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/instructor-background","title":"Instructor Background","category":"learnpress-course-elements","icon":"format-image","description":"Renders template Instructor Background PHP templates.","textdomain":"learnpress","keywords":["instructor background single","learnpress"],"usesContext":[],"attributes":{"position":{"type":"string","default":"center"},"size":{"type":"string","default":"cover"},"repeat":{"type":"boolean","default":false}},"supports":{"inserter":true,"reusable":true,"reorder":true,"html":false,"multiple":false},"ancestor":["learnpress/single-instructor"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/instructor-background","title":"Instructor Background","category":"learnpress-course-elements","icon":"format-image","description":"Renders template Instructor Background PHP templates.","textdomain":"learnpress","keywords":["instructor background single","learnpress"],"ancestor":["learnpress/single-instructor"],"usesContext":[],"attributes":{"position":{"type":"string","default":"center"},"size":{"type":"string","default":"cover"},"repeat":{"type":"boolean","default":false}},"supports":{"inserter":true,"reusable":true,"reorder":true,"html":false,"multiple":false}}');
 
 /***/ })
 
@@ -237,14 +237,11 @@ var __webpack_exports__ = {};
   !*** ./assets/src/apps/js/blocks/instructor-elements/instructor-background/index.js ***!
   \**************************************************************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/instructor-elements/instructor-background/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/instructor-elements/instructor-background/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/instructor-elements/instructor-background/block.json");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
-
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/instructor-elements/instructor-background/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/instructor-elements/instructor-background/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/instructor-elements/instructor-background/block.json");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
 /**
  * Register block instructor background.
  */
@@ -252,23 +249,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)('learnpress/instructor-background', {
-  ..._block_json__WEBPACK_IMPORTED_MODULE_3__,
-  icon: {
-    src: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
-      viewBox: "0 0 24 24",
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "24",
-      height: "24",
-      className: "wc-block-editor-components-block-icon",
-      "aria-hidden": "true",
-      focusable: "false"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-      d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 4.5h14c.3 0 .5.2.5.5v8.4l-3-2.9c-.3-.3-.8-.3-1 0L11.9 14 9 12c-.3-.2-.6-.2-.8 0l-3.6 2.6V5c-.1-.3.1-.5.4-.5zm14 15H5c-.3 0-.5-.2-.5-.5v-2.4l4.1-3 3 1.9c.3.2.7.2.9-.1L16 12l3.5 3.4V19c0 .3-.2.5-.5.5z"
-    }))
-  },
-  edit: _edit__WEBPACK_IMPORTED_MODULE_1__.edit,
-  save: _save__WEBPACK_IMPORTED_MODULE_2__.save
+
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
+  ..._block_json__WEBPACK_IMPORTED_MODULE_2__,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_0__.edit,
+  save: _save__WEBPACK_IMPORTED_MODULE_1__.save
 });
 /******/ })()
 ;

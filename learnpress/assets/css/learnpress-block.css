@@ -159,6 +159,12 @@
   position: relative;
 }
 
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
 .learnpress-block-pagination,
 .learn-press-pagination {
   margin: 20px 0;
@@ -253,6 +259,7 @@
 .social-share-toggle .btn-clipboard {
   position: relative;
   padding: 12px 20px;
+  white-space: nowrap;
 }
 .social-share-toggle .btn-clipboard .tooltip {
   display: none;
@@ -290,6 +297,7 @@
 .social-share-toggle .clipboard-value {
   border: 1px solid var(--lp-border-color, #E2E0DB);
   padding: 12px 20px;
+  flex: 1;
 }
 @media (max-width: 600px) {
   .social-share-toggle .clipboard-value {
@@ -346,6 +354,9 @@
     flex-wrap: wrap;
   }
 }
+.lp-instructor-info .lp-section-instructor {
+  flex: 1;
+}
 .lp-instructor-info .instructor-display-name {
   font-size: 1.4rem;
 }
@@ -354,11 +365,15 @@
 }
 .lp-instructor-info .lp-instructor-meta {
   margin-top: 16px;
+  display: flex;
+  column-gap: 20px;
+  row-gap: 8px;
 }
 .lp-instructor-info .instructor-description {
   margin-top: 16px;
 }
 .lp-instructor-info img {
+  max-width: 100%;
   border-radius: var(--lp-border-radius, 5px);
 }
 .lp-instructor-info .instructor-social {
@@ -395,40 +410,19 @@
 
 .instructor-item-meta {
   display: inline-flex;
-}
-
-.instructor-total-students,
-.instructor-total-courses {
-  display: inline-flex;
   border-left: 1px solid var(--lp-border-color, #E2E0DB);
-  margin-left: 12px;
-  padding-left: 12px;
+  padding-left: 20px;
 }
 
-.wrapper-instructor-total-courses .instructor-total-courses {
-  border-left: 0;
-  margin-left: 0;
+.lp-instructor-meta .instructor-item-meta:first-child {
+  border: none;
   padding-left: 0;
 }
 
-.wrapper-instructor-total-courses:has(.lp-icon-courses) .instructor-total-courses {
-  display: inline-flex;
-  border-left: 1px solid var(--lp-border-color, #E2E0DB);
-  margin-left: 12px;
-  padding-left: 12px;
-}
-
-.wrapper-instructor-total-students .instructor-total-students {
-  border-left: 0;
-  margin-left: 0;
-  padding-left: 0;
-}
-
-.wrapper-instructor-total-students:has(.lp-icon-students) .instructor-total-students {
-  display: inline-flex;
-  border-left: 1px solid var(--lp-border-color, #E2E0DB);
-  margin-left: 12px;
-  padding-left: 12px;
+.wrapper-instructor-total-students, .wrapper-instructor-total-courses {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 
 .course-extra-box {
@@ -1287,65 +1281,6 @@ Css for Block of Gutenberg
 * @since 4.2.3
 * @version 1.0.0
 */
-/**
- * Mixin
- */
-@-webkit-keyframes rotating4 {
-  from {
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes rotating4 {
-  from {
-    -ms-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes animation4 {
-  from {
-    left: -40%;
-    width: 40%;
-  }
-  to {
-    left: 100%;
-    width: 10%;
-  }
-}
-@keyframes animation4 {
-  from {
-    left: -40%;
-    width: 40%;
-  }
-  to {
-    left: 100%;
-    width: 10%;
-  }
-}
-:root {
-  --lp-cotainer-max-with: var(--lp-container-max-width);
-}
-
-.wp-block-group {
-  --lp-container-max-width: var(--wp--style--global--wide-size);
-}
-
 .lp-ico svg {
   width: 20px;
   height: 20px;
@@ -1362,23 +1297,29 @@ Css for Block of Gutenberg
   opacity: 0.6;
 }
 
-[class*=wp-block-learnpress] img, .block-editor-block-list__block img {
+[class*=wp-block-learnpress] img,
+.block-editor-block-list__block img {
   max-width: 100%;
   height: auto;
 }
-[class*=wp-block-learnpress] .info-meta-item, .block-editor-block-list__block .info-meta-item {
+[class*=wp-block-learnpress] .info-meta-item,
+.block-editor-block-list__block .info-meta-item {
   display: flex;
   gap: 4px;
+  flex-wrap: wrap;
 }
-[class*=wp-block-learnpress] .info-meta-item i, .block-editor-block-list__block .info-meta-item i {
+[class*=wp-block-learnpress] .info-meta-item i,
+.block-editor-block-list__block .info-meta-item i {
   color: var(--lp-primary-color, #ffb606);
 }
-[class*=wp-block-learnpress] .info-meta-left, .block-editor-block-list__block .info-meta-left {
+[class*=wp-block-learnpress] .info-meta-left,
+.block-editor-block-list__block .info-meta-left {
   display: flex;
   gap: 8px;
   align-items: center;
 }
-[class*=wp-block-learnpress] a, .block-editor-block-list__block a {
+[class*=wp-block-learnpress] a,
+.block-editor-block-list__block a {
   text-decoration: none;
 }
 
@@ -1386,7 +1327,8 @@ Css for Block of Gutenberg
   overflow: hidden;
 }
 
-.wp-block-learnpress-course-instructor > div > *, .wp-block-learnpress-course-categories > div > * {
+.wp-block-learnpress-course-instructor > div > *,
+.wp-block-learnpress-course-categories > div > * {
   display: inline;
   vertical-align: middle;
 }
@@ -1413,63 +1355,24 @@ Breadcrumb
   color: inherit;
 }
 
-/**
- * Mixin
- */
-@-webkit-keyframes rotating4 {
-  from {
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+.courses-btn-load-more {
+  padding: 8px 24px;
+  border-radius: var(--lp-border-radius, 5px);
+  color: var(--lp-color-base, #333);
+  border: 1px solid var(--lp-color-base, #333);
+  font-size: var(--lp-font-size-base, 1em);
+  transition: all 0.3s;
+  display: block;
+  background: transparent;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  margin: 20px auto;
 }
-@keyframes rotating4 {
-  from {
-    -ms-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes animation4 {
-  from {
-    left: -40%;
-    width: 40%;
-  }
-  to {
-    left: 100%;
-    width: 10%;
-  }
-}
-@keyframes animation4 {
-  from {
-    left: -40%;
-    width: 40%;
-  }
-  to {
-    left: 100%;
-    width: 10%;
-  }
-}
-:root {
-  --lp-cotainer-max-with: var(--lp-container-max-width);
-}
-
-.wp-block-group {
-  --lp-container-max-width: var(--wp--style--global--wide-size);
+.courses-btn-load-more:hover {
+  background: var(--lp-primary-color, #ffb606);
+  color: var(--lp-color-white, #fff);
+  border-color: var(--lp-primary-color, #ffb606);
 }
 
 .c-gap-4 {
@@ -1536,6 +1439,7 @@ Breadcrumb
     margin-block-start: -260px !important;
   }
 }
+.courses-order-by,
 .block-courses-order-by {
   border: 1px solid var(--lp-border-color, #E2E0DB);
   border-radius: var(--lp-border-radius, 5px);
@@ -1554,9 +1458,11 @@ Breadcrumb
   appearance: none;
   line-height: 1.1;
 }
+.woocommerce-js .courses-order-by,
 .woocommerce-js .block-courses-order-by {
   background-position-x: calc(100% - 10px);
 }
+.courses-order-by:focus,
 .block-courses-order-by:focus {
   border-color: var(--lp-primary-color);
   outline: 0;
@@ -1627,6 +1533,15 @@ Breadcrumb
   animation: lp-rotating 1s linear infinite;
 }
 
+@media (max-width: 767px) {
+  .wp-block-learnpress-course-search {
+    width: 100%;
+  }
+  .wp-block-learnpress-course-search input {
+    min-width: 240px;
+    max-width: unset;
+  }
+}
 .course-filter-btn-mobile {
   display: inline-flex;
   align-items: center;
@@ -1682,6 +1597,32 @@ ul.wp-block-learn-press-courses.lp-columns-3 {
   border-color: var(--lp-primary-color, #ffb606);
 }
 
+.courses-order-by-wrapper .courses-order-by {
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  border-radius: var(--lp-border-radius, 5px);
+  padding: 8px 16px;
+  height: inherit;
+  font-size: inherit;
+  line-height: 1.1;
+  box-shadow: none;
+  padding-right: 30px;
+  background-image: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE4cHgiIGhlaWdodD0iMTBweCIgdmlld0JveD0iMCAwIDE4IDEwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgICAgICA8ZyBpZD0iVmVjdG9yLSgxKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMS4wMDAwMDAsIDEuMDAwMDAwKSIgc3Ryb2tlPSIjMzMzMzMzIiBzdHJva2Utd2lkdGg9IjIiPgogICAgICAgICAgICA8cG9seWxpbmUgaWQ9IlBhdGgiIHBvaW50cz0iMCAwIDggOCAxNiAwIj48L3BvbHlsaW5lPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+  background-size: 0.8em;
+  background-position: calc(100% - 0.5em) center;
+  background-repeat: no-repeat;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  line-height: 1.1;
+}
+.woocommerce-js .courses-order-by-wrapper .courses-order-by {
+  background-position-x: calc(100% - 10px);
+}
+.courses-order-by-wrapper .courses-order-by:focus {
+  border-color: var(--lp-primary-color);
+  outline: 0;
+}
+
 .wp-block-learnpress-instructor-social .instructor-social {
   display: flex;
   gap: 12px;
@@ -1699,4 +1640,9 @@ ul.wp-block-learn-press-courses.lp-columns-3 {
 
 .wp-block-learnpress-instructor-background img {
   width: 100%;
+}
+
+.wp-block-learnpress-instructor-avatar {
+  overflow: hidden;
+  aspect-ratio: 1;
 }

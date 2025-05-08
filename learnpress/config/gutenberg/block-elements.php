@@ -6,20 +6,20 @@
  * @version 1.0.0
  */
 
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\ButtonResetFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\ButtonSubmitFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseAuthorFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseCategoriesFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseLevelFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseOrderByBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CoursePriceFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseSearchBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseSearchFilterBlockType;
-use LearnPress\Gutenberg\Blocks\ArchiveCourseElements\CourseTagFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilter\CourseFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\ButtonResetFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\ButtonSubmitFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\CourseAuthorFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\CourseCategoriesFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\CourseLevelFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\CoursePriceFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\CourseSearchFilterBlockType;
+use LearnPress\Gutenberg\Blocks\CourseFilterElements\CourseTagFilterBlockType;
 use LearnPress\Gutenberg\Blocks\Breadcrumb\BreadcrumbBlockType;
 use LearnPress\Gutenberg\Blocks\Courses\ListCoursesBlockType;
 use LearnPress\Gutenberg\Blocks\Courses\CourseItemTemplateBlock;
+use LearnPress\Gutenberg\Blocks\Courses\CourseOrderByBlockType;
+use LearnPress\Gutenberg\Blocks\Courses\CourseSearchBlockType;
 use LearnPress\Gutenberg\Blocks\Legacy\SingleCourseBlockLegacy;
 use LearnPress\Gutenberg\Blocks\Legacy\ArchiveCourseBlockLegacy;
 use LearnPress\Gutenberg\Blocks\Legacy\CourseItemLegacyBlockType;

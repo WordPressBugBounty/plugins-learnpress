@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/apps/js/blocks/course-filter/course-author-filter/edit.js":
-/*!******************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/course-author-filter/edit.js ***!
-  \******************************************************************************/
+/***/ "./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/edit.js":
+/*!***************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/edit.js ***!
+  \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -48,10 +48,10 @@ const edit = props => {
 
 /***/ }),
 
-/***/ "./assets/src/apps/js/blocks/course-filter/course-author-filter/save.js":
-/*!******************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/course-author-filter/save.js ***!
-  \******************************************************************************/
+/***/ "./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/save.js":
+/*!***************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/save.js ***!
+  \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -102,13 +102,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./assets/src/apps/js/blocks/course-filter/course-author-filter/block.json":
-/*!*********************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/course-author-filter/block.json ***!
-  \*********************************************************************************/
+/***/ "./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/block.json":
+/*!******************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/block.json ***!
+  \******************************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-author-filter","title":"Author Filter","category":"learnpress-course-elements","description":"Renders template Author Filter PHP templates.","textdomain":"learnpress","keywords":["author filter archive course","learnpress"],"usesContext":[],"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"__experimentalDefaultControls":{"text":true}},"__experimentalBorder":{"color":true,"radius":false,"width":true,"__experimentalDefaultControls":{"width":false,"color":false}},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"padding":false,"margin":false}}},"ancestor":["learnpress/course-filter"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-author-filter","title":"Author Filter","category":"learnpress-course-elements","description":"Renders template Author Filter PHP templates.","textdomain":"learnpress","keywords":["filter","learnpress"],"ancestor":["learnpress/course-filter"],"usesContext":[],"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":false,"text":true,"__experimentalDefaultControls":{"text":true}},"__experimentalBorder":{"color":true,"radius":false,"width":true,"__experimentalDefaultControls":{"width":false,"color":false}},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"padding":false,"margin":false}}}}');
 
 /***/ })
 
@@ -181,15 +181,15 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-/*!*******************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/course-author-filter/index.js ***!
-  \*******************************************************************************/
+/*!****************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/index.js ***!
+  \****************************************************************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/course-filter/course-author-filter/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/course-filter/course-author-filter/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/course-filter/course-author-filter/block.json");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/course-filter-elements/course-author-filter/block.json");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
 

@@ -25,7 +25,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Edit = props => {
-  var _courseQuery$term_id, _courseQuery$tag_id;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
   const {
     attributes,
@@ -67,6 +66,16 @@ const Edit = props => {
     label: 'Average Ratings',
     value: 'rating'
   }];
+  const paginationTypes = [{
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Number', 'learnpress'),
+    value: 'number'
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Load more', 'learnpress'),
+    value: 'load-more'
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Infinite Scroll', 'learnpress'),
+    value: 'infinite'
+  }];
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Query Settings', 'learnpress')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
@@ -104,6 +113,18 @@ const Edit = props => {
         });
       }
     }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable AJAX', 'learnpress'),
+    checked: courseQuery.load_ajax,
+    onChange: load_ajax => {
+      setAttributes({
+        courseQuery: {
+          ...courseQuery,
+          load_ajax,
+          load_ajax_after: !load_ajax ? false : courseQuery.load_ajax_after
+        }
+      });
+    }
   }), !courseQuery.related && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Order by', 'learnpress'),
     value: courseQuery.order_by,
@@ -123,41 +144,24 @@ const Edit = props => {
       setAttributes({
         courseQuery: {
           ...courseQuery,
-          pagination
+          pagination,
+          pagination_type: !pagination ? 'number' : courseQuery.pagination_type
         }
       });
     }
-  })), !courseQuery.related && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToolsPanel, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filter', 'learnpress'),
-    resetAll: resetAllTaxonomy
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToolsPanelItem, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Taxonomy', 'learnpress'),
-    onSelect: () => resetAllTaxonomy(),
-    hasValue: () => !!courseQuery.term_id || !!courseQuery.tag_id,
-    onDeselect: () => resetAllTaxonomy()
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Category', 'learnpress'),
-    onChange: term_id => {
+  }), courseQuery.pagination && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pagination Type', 'learnpress'),
+    value: courseQuery.pagination_type,
+    options: paginationTypes,
+    onChange: pagination_type => {
       setAttributes({
         courseQuery: {
           ...courseQuery,
-          term_id
+          pagination_type
         }
       });
-    },
-    value: (_courseQuery$term_id = courseQuery.term_id) !== null && _courseQuery$term_id !== void 0 ? _courseQuery$term_id : ''
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tag', 'learnpress'),
-    onChange: tag_id => {
-      setAttributes({
-        courseQuery: {
-          ...courseQuery,
-          tag_id
-        }
-      });
-    },
-    value: (_courseQuery$tag_id = courseQuery.tag_id) !== null && _courseQuery$tag_id !== void 0 ? _courseQuery$tag_id : ''
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    }
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InnerBlocks, {
     template: QUERY_LOOP_TEMPLATE
@@ -249,7 +253,7 @@ module.exports = window["wp"]["i18n"];
   \*******************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/list-courses","title":"Course Listing","category":"learnpress-category","description":"Course Listing block","textdomain":"learnpress","keywords":["listing course","learnpress","query loop"],"usesContext":[],"attributes":{"courseQuery":{"type":"object","default":{"limit":3,"order_by":"post_date","related":false,"pagination":false,"tag_id":"","term_id":""}}},"providesContext":{"lpCourseQuery":"courseQuery"},"supports":{"html":false,"align":["wide","full"]}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/list-courses","title":"Course Listing","category":"learnpress-category","description":"Course Listing block","textdomain":"learnpress","keywords":["listing course","learnpress","query loop"],"usesContext":[],"attributes":{"courseQuery":{"type":"object","default":{"limit":10,"order_by":"post_date","related":false,"pagination":false,"pagination_type":"number","tag_id":"","term_id":"","load_ajax":false}}},"providesContext":{"lpCourseQuery":"courseQuery"},"supports":{"html":false,"align":["wide","full"]}}');
 
 /***/ })
 

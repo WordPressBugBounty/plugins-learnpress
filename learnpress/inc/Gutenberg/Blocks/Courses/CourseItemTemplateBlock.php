@@ -41,7 +41,7 @@ class CourseItemTemplateBlock extends AbstractBlockType {
 
 		try {
 			$layout             = $attributes['layout'] ?? 'list';
-			$wrapper_attributes = 'learn-press-courses wp-block-learn-press-courses';
+			$wrapper_attributes = 'learn-press-courses lp-list-courses-no-css wp-block-learn-press-courses';
 
 			if ( $layout == 'grid' ) {
 				$wrapper_attributes .= ' lp-columns-3';
@@ -49,6 +49,7 @@ class CourseItemTemplateBlock extends AbstractBlockType {
 
 			$courses         = $block->context['courses'] ?? [];
 			$html_pagination = $block->context['pagination'] ?? '';
+			$settings        = $block->context['settings'] ?? [];
 			if ( empty( $courses ) ) {
 				return $html;
 			}
@@ -56,8 +57,9 @@ class CourseItemTemplateBlock extends AbstractBlockType {
 			foreach ( $courses as $course ) {
 				$courseModel = CourseModel::find( $course->ID, true );
 
-				$filter_block_context = static function ( $context ) use ( $courseModel ) {
+				$filter_block_context = static function ( $context ) use ( $courseModel, $settings ) {
 					$context['courseModel'] = $courseModel;
+					$context['settings']    = $settings;
 					return $context;
 				};
 

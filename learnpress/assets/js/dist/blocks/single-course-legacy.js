@@ -50,6 +50,61 @@ const save = props => null;
 
 /***/ }),
 
+/***/ "./assets/src/apps/js/blocks/utilBlock.js":
+/*!************************************************!*\
+  !*** ./assets/src/apps/js/blocks/utilBlock.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   checkTemplatesCanLoadBlock: () => (/* binding */ checkTemplatesCanLoadBlock)
+/* harmony export */ });
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/**
+ * Check if the block can be loaded in the current template.
+ *
+ * @since 4.2.8.4
+ * @version 1.0.0
+ */
+
+
+let currentPostIdOld = null;
+const checkTemplatesCanLoadBlock = (templates, metadata, callBack) => {
+  (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.subscribe)(() => {
+    const metaDataNew = {
+      ...metadata
+    };
+    const store = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.select)('core/editor');
+    const currentPostId = store.getCurrentPostId();
+    if (currentPostId === null) {
+      return;
+    }
+    if (currentPostIdOld === currentPostId) {
+      return;
+    }
+    currentPostIdOld = currentPostId;
+    if ((0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.getBlockType)(metaDataNew.name)) {
+      (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.unregisterBlockType)(metaDataNew.name);
+      if (templates.includes(currentPostId)) {
+        metaDataNew.ancestor = null;
+        callBack(metaDataNew);
+      } else {
+        if (!metaDataNew.ancestor) {
+          metaDataNew.ancestor = [];
+        }
+        callBack(metaDataNew);
+      }
+    }
+  });
+};
+
+
+/***/ }),
+
 /***/ "react":
 /*!************************!*\
   !*** external "React" ***!
@@ -90,6 +145,16 @@ module.exports = window["wp"]["components"];
 
 /***/ }),
 
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -106,7 +171,7 @@ module.exports = window["wp"]["i18n"];
   \*******************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/single-course-legacy","title":"Single Course (Legacy)","category":"learnpress-legacy","description":"Renders template Single Course Legacy PHP templates.","textdomain":"learnpress","keywords":["single course legacy","learnpress"],"usesContext":[],"supports":{"align":true}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/single-course-legacy","title":"Single Course (Legacy)","category":"learnpress-legacy","description":"Renders template Single Course Legacy PHP templates.","textdomain":"learnpress","keywords":["legacy","learnpress"],"ancestor":[],"usesContext":[],"supports":{"align":true}}');
 
 /***/ })
 
@@ -186,8 +251,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/single-course-legacy/edit.js");
 /* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/single-course-legacy/save.js");
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/single-course-legacy/block.json");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utilBlock_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utilBlock.js */ "./assets/src/apps/js/blocks/utilBlock.js");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
 /**
  * Register block single course legacy.
  */
@@ -195,7 +261,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)('learnpress/single-course-legacy', {
+
+const templatesName = ['learnpress/learnpress//single-lp_course'];
+(0,_utilBlock_js__WEBPACK_IMPORTED_MODULE_3__.checkTemplatesCanLoadBlock)(templatesName, _block_json__WEBPACK_IMPORTED_MODULE_2__, metadataNew => {
+  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)(metadataNew.name, {
+    ...metadataNew,
+    edit: _edit__WEBPACK_IMPORTED_MODULE_0__["default"],
+    save: _save__WEBPACK_IMPORTED_MODULE_1__.save
+  });
+});
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
   ..._block_json__WEBPACK_IMPORTED_MODULE_2__,
   edit: _edit__WEBPACK_IMPORTED_MODULE_0__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_1__.save

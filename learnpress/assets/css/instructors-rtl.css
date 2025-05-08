@@ -82,9 +82,6 @@
 body {
   background: #fff;
 }
-body.learnpress-page {
-  overflow-x: hidden;
-}
 
 button {
   cursor: pointer;

@@ -233,9 +233,6 @@
 body {
   background: #fff;
 }
-body.learnpress-page {
-  overflow-x: hidden;
-}
 
 button {
   cursor: pointer;
@@ -4949,6 +4946,14 @@ body.confirm #popup_container.ready {
 .lp-archive-courses .lp-content-area .lp-main-content {
   flex: 1;
 }
+.lp-archive-courses .lp-content-area .lp-archive-courses-sidebar {
+  width: 25%;
+}
+@media (max-width: 768px) {
+  .lp-archive-courses .lp-content-area .lp-archive-courses-sidebar {
+    width: 100%;
+  }
+}
 .lp-archive-courses.loading ul.learn-press-courses {
   position: relative;
 }
@@ -5558,11 +5563,9 @@ body.confirm #popup_container.ready {
   }
 }
 @media (max-width: 767px) {
-  .lp-courses-bar .block-search-courses,
   .lp-courses-bar .search-courses {
     width: 100%;
   }
-  .lp-courses-bar .block-search-courses input,
   .lp-courses-bar .search-courses input {
     min-width: 240px;
     max-width: unset;
@@ -5884,7 +5887,7 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   order: 3;
   color: var(--lp-primary-color);
 }
-.lp-single-offline-course .lp-list-courses-related h3 {
+.lp-single-offline-course .lp-list-courses-related .section-title {
   margin-bottom: 40px;
 }
 
@@ -5917,6 +5920,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   padding-bottom: 24px;
 }
 @media (min-width: 769px) {
+  .lp-archive-courses .course-detail-info {
+    overflow-x: hidden;
+  }
   .lp-archive-courses .course-detail-info .course-title, .lp-archive-courses .course-detail-info .course-meta-secondary {
     padding-left: 300px;
   }
@@ -6093,7 +6099,6 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   content: "\f004";
 }
 .lp-archive-courses .course-summary-sidebar__inner > div {
-  overflow: hidden;
   padding: 20px;
   background: var(--lp-color-white, #fff);
 }
@@ -6796,6 +6801,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
     flex-wrap: wrap;
   }
 }
+.lp-instructor-info .lp-section-instructor {
+  flex: 1;
+}
 .lp-instructor-info .instructor-display-name {
   font-size: 1.4rem;
 }
@@ -6804,11 +6812,15 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 }
 .lp-instructor-info .lp-instructor-meta {
   margin-top: 16px;
+  display: flex;
+  column-gap: 20px;
+  row-gap: 8px;
 }
 .lp-instructor-info .instructor-description {
   margin-top: 16px;
 }
 .lp-instructor-info img {
+  max-width: 100%;
   border-radius: var(--lp-border-radius, 5px);
 }
 .lp-instructor-info .instructor-social {
@@ -6845,40 +6857,19 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 
 .instructor-item-meta {
   display: inline-flex;
-}
-
-.instructor-total-students,
-.instructor-total-courses {
-  display: inline-flex;
   border-right: 1px solid var(--lp-border-color, #E2E0DB);
-  margin-right: 12px;
-  padding-right: 12px;
+  padding-right: 20px;
 }
 
-.wrapper-instructor-total-courses .instructor-total-courses {
-  border-right: 0;
-  margin-right: 0;
+.lp-instructor-meta .instructor-item-meta:first-child {
+  border: none;
   padding-right: 0;
 }
 
-.wrapper-instructor-total-courses:has(.lp-icon-courses) .instructor-total-courses {
-  display: inline-flex;
-  border-right: 1px solid var(--lp-border-color, #E2E0DB);
-  margin-right: 12px;
-  padding-right: 12px;
-}
-
-.wrapper-instructor-total-students .instructor-total-students {
-  border-right: 0;
-  margin-right: 0;
-  padding-right: 0;
-}
-
-.wrapper-instructor-total-students:has(.lp-icon-students) .instructor-total-students {
-  display: inline-flex;
-  border-right: 1px solid var(--lp-border-color, #E2E0DB);
-  margin-right: 12px;
-  padding-right: 12px;
+.wrapper-instructor-total-students, .wrapper-instructor-total-courses {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 
 .learnpress-page .lp-button.secondary {
@@ -7899,6 +7890,7 @@ body.lp-sidebar-toggle__close #popup-header, body.lp-sidebar-toggle__close #popu
 .social-share-toggle .btn-clipboard {
   position: relative;
   padding: 12px 20px;
+  white-space: nowrap;
 }
 .social-share-toggle .btn-clipboard .tooltip {
   display: none;
@@ -7936,6 +7928,7 @@ body.lp-sidebar-toggle__close #popup-header, body.lp-sidebar-toggle__close #popu
 .social-share-toggle .clipboard-value {
   border: 1px solid var(--lp-border-color, #E2E0DB);
   padding: 12px 20px;
+  flex: 1;
 }
 @media (max-width: 600px) {
   .social-share-toggle .clipboard-value {

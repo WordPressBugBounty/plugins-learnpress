@@ -2,12 +2,14 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "learnpress/course-student",
-	"title": "Course Student",
+	"title": "Course Student Count",
 	"category": "learnpress-course-elements",
-	"description": "Renders template Student Course PHP templates.",
+	"description": "Show number students attempt course.",
 	"textdomain": "learnpress",
-	"keywords": ["student single course", "learnpress"],
-	"usesContext": ["lpCourseData"],
+	"keywords": ["count", "student", "learnpress"],
+	"icon": "admin-users",
+	"ancestor": [ "learnpress/single-course", "learnpress/course-item-template" ],
+	"usesContext": [ "lpCourseData" ],
 	"attributes": {
 		"showIcon": {
 			"type": "boolean",
@@ -19,7 +21,7 @@
 		}
 	},
 	"supports": {
-		"align": ["wide", "full"],
+		"align": [ "wide", "full" ],
 		"typography": {
 			"fontSize": true,
 			"lineHeight": false,

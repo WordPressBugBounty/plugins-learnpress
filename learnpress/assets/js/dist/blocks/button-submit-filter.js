@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/apps/js/blocks/course-filter/button-submit-filter/edit.js":
-/*!******************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/button-submit-filter/edit.js ***!
-  \******************************************************************************/
+/***/ "./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/edit.js":
+/*!***************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/edit.js ***!
+  \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -30,10 +30,10 @@ const edit = props => {
 
 /***/ }),
 
-/***/ "./assets/src/apps/js/blocks/course-filter/button-submit-filter/save.js":
-/*!******************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/button-submit-filter/save.js ***!
-  \******************************************************************************/
+/***/ "./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/save.js":
+/*!***************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/save.js ***!
+  \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -84,10 +84,10 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./assets/src/apps/js/blocks/course-filter/button-submit-filter/block.json":
-/*!*********************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/button-submit-filter/block.json ***!
-  \*********************************************************************************/
+/***/ "./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/block.json":
+/*!******************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/block.json ***!
+  \******************************************************************************************/
 /***/ ((module) => {
 
 module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/button-submit-filter","title":"Button Submit Filter","category":"learnpress-course-elements","description":"Renders template Button Submit Filter PHP templates.","textdomain":"learnpress","keywords":["category button submit filter course","learnpress"],"usesContext":[],"supports":{"multiple":false,"align":["wide","full"],"html":false,"typography":{"fontSize":true,"lineHeight":false,"fontWeight":true,"__experimentalFontFamily":false,"__experimentalTextDecoration":false,"__experimentalFontStyle":false,"__experimentalFontWeight":true,"__experimentalLetterSpacing":false,"__experimentalTextTransform":true,"__experimentalDefaultControls":{"fontSize":true}},"color":{"background":true,"text":true,"__experimentalDefaultControls":{"background":true,"text":true}},"__experimentalBorder":{"color":true,"radius":true,"width":true,"__experimentalDefaultControls":{"width":false,"color":false,"radius":false}},"spacing":{"padding":true,"margin":true,"__experimentalDefaultControls":{"padding":false,"margin":false}}},"ancestor":["learnpress/course-filter"]}');
@@ -163,15 +163,15 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-/*!*******************************************************************************!*\
-  !*** ./assets/src/apps/js/blocks/course-filter/button-submit-filter/index.js ***!
-  \*******************************************************************************/
+/*!****************************************************************************************!*\
+  !*** ./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/index.js ***!
+  \****************************************************************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/course-filter/button-submit-filter/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/course-filter/button-submit-filter/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/course-filter/button-submit-filter/block.json");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/block.json");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
 

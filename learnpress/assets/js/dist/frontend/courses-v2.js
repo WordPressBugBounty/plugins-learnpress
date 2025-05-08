@@ -474,6 +474,12 @@ window.lpCoursesList = (() => {
       (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.listenElementCreated)(node => {
         if (node.classList.contains('courses-load-infinite-no-css')) {
           (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.listenElementViewed)(node, callBackAfterSeeItem);
+        } else if (node.classList.contains('wp-block-learnpress-list-courses')) {
+          // For block Gutenberg
+          const elInfinite = node.querySelector('.courses-load-infinite-no-css');
+          if (elInfinite) {
+            (0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.listenElementViewed)(elInfinite, callBackAfterSeeItem);
+          }
         }
       });
 
