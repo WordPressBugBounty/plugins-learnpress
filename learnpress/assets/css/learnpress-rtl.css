@@ -113,6 +113,9 @@
 .lp-toast.toastify.error {
   background-color: #FEE5E5;
   color: #FF3B30;
+  padding: 12px 20px;
+  border: none;
+  margin: 0 auto;
 }
 
 @keyframes lp-rotating {
@@ -149,7 +152,6 @@
 }
 .lp-loading-change {
   position: absolute;
-  display: none;
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.38);
@@ -3015,6 +3017,7 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   font-weight: 600;
   text-align: center;
   line-height: 1.3;
+  white-space: nowrap;
 }
 .lp-course-curriculum .course-section .course-item {
   background-color: transparent;
@@ -7148,9 +7151,7 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   background: transparent;
   box-shadow: none;
   height: auto;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  font-size: 1rem;
 }
 #popup-sidebar .search-course input[name=s]::-webkit-input-placeholder {
   color: #999;
@@ -7166,21 +7167,6 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 }
 #popup-sidebar .search-course input[name=s]::placeholder {
   color: #999;
-}
-#popup-sidebar .search-course input[name=s]::-webkit-input-placeholder {
-  font-style: italic;
-}
-#popup-sidebar .search-course input[name=s]::-moz-placeholder {
-  font-style: italic;
-}
-#popup-sidebar .search-course input[name=s]:-ms-input-placeholder {
-  font-style: italic;
-}
-#popup-sidebar .search-course input[name=s]:-moz-placeholder {
-  font-style: italic;
-}
-#popup-sidebar .search-course input[name=s]::placeholder {
-  font-style: italic;
 }
 #popup-sidebar .search-course input[name=s]:focus {
   outline: 0;
@@ -7188,24 +7174,23 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 #popup-sidebar .search-course button {
   position: absolute;
   top: 0;
-  left: 10px;
+  left: 12px;
   height: 70px;
   padding: 0 16px;
   border: 0;
   background: transparent;
   line-height: 1px;
   box-shadow: none;
-  /*&::before {
-  	color: $text-color-accent;
-  	font-family: 'lp-icon';
-  	content: "\f002";
-  }*/
+  font-size: 1rem;
 }
 #popup-sidebar .search-course button:focus {
   outline: none;
 }
 #popup-sidebar .search-course button i {
   color: var(--lp-color-accent, #666);
+  width: 24px;
+  display: flex;
+  justify-content: center;
 }
 #popup-sidebar .search-course button.clear {
   display: none;

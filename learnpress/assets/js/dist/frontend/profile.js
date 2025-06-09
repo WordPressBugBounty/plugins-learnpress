@@ -758,7 +758,7 @@ const profileQuizTab = () => {
       if (!elLPTarget) {
         return;
       }
-      const elLoadingChange = elLPTarget.closest('.lp-load-ajax-element').querySelector('.lp-loading-change');
+      window.lpAJAXG.showHideLoading(elLPTarget, 1);
       const dataSendJson = elLPTarget?.dataset?.send || {};
       const dataSend = JSON.parse(dataSendJson);
       const elTabChoice = target?.dataset?.filter || 'all';
@@ -788,7 +788,7 @@ const profileQuizTab = () => {
           console.log(error);
         },
         completed: () => {
-          elLoadingChange.style.display = 'none';
+          window.lpAJAXG.showHideLoading(elLPTarget, 0);
         }
       };
       window.lpAJAXG.fetchAJAX(dataSend, callBack);
