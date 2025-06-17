@@ -264,7 +264,7 @@ __webpack_require__.r(__webpack_exports__);
  * Library run on Admin
  *
  * @since 4.2.6.9
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 
@@ -305,27 +305,26 @@ const AdminUtilsFunctions = {
       ...options
     };
     const items_selected = options.options;
-    if (options?.options?.length > 20) {
-      const chunkSize = 20;
-      const length = options.options.length;
-      let i = 0;
-      const chunkedOptions = {
-        ...options
-      };
-      chunkedOptions.options = items_selected.slice(i, chunkSize);
-      const tomSelect = new tom_select__WEBPACK_IMPORTED_MODULE_1__["default"](elTomSelect, chunkedOptions);
-      i += chunkSize;
-      const interval = setInterval(() => {
-        if (i > length - 1) {
-          clearInterval(interval);
-        }
-        const optionsSlice = items_selected.slice(i, i + chunkSize);
-        i += chunkSize;
-        tomSelect.addOptions(optionsSlice);
-        tomSelect.setValue(options.items);
-      }, 200);
-      return tomSelect;
-    }
+    /*if ( options?.options?.length > 20 ) {
+    	const chunkSize = 20;
+    	const length = options.options.length;
+    	let i = 0;
+    	const chunkedOptions = { ...options };
+    	chunkedOptions.options = items_selected.slice( i, chunkSize );
+    		const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
+    	i += chunkSize;
+    		const interval = setInterval( () => {
+    		if ( i > ( length - 1 ) ) {
+    			clearInterval( interval );
+    		}
+    			const optionsSlice = items_selected.slice( i, i + chunkSize );
+    		i += chunkSize;
+    		tomSelect.addOptions( optionsSlice );
+    		tomSelect.setValue( options.items );
+    	}, 200 );
+    		return tomSelect;
+    }*/
+
     return new tom_select__WEBPACK_IMPORTED_MODULE_1__["default"](elTomSelect, options);
   },
   callBackTomSelectSearchAPI(callbackTom, callBackHandleData) {

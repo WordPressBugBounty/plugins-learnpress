@@ -6924,6 +6924,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   right: 0;
   background: var(--lp-bg-color-lesson, #fff);
 }
+#popup-course .wp-block-learnpress-item-close .back-course {
+  padding: 24px;
+}
 #popup-course .back-course {
   padding-right: 24px;
   padding-left: 24px;
@@ -7536,6 +7539,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 }
 
 /***********/
+body.course-item-popup {
+  overflow-y: hidden;
+}
 @media (max-width: 1200px) {
   body.course-item-popup #learn-press-course-curriculum {
     width: 300px;

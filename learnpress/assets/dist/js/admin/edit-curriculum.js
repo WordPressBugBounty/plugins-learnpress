@@ -17,8 +17,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   cancelAddItemType: () => (/* binding */ cancelAddItemType),
 /* harmony export */   cancelUpdateTitle: () => (/* binding */ cancelUpdateTitle),
 /* harmony export */   changeTitle: () => (/* binding */ changeTitle),
+/* harmony export */   changeTitleAddNew: () => (/* binding */ changeTitleAddNew),
 /* harmony export */   chooseTabItemsType: () => (/* binding */ chooseTabItemsType),
 /* harmony export */   deleteItem: () => (/* binding */ deleteItem),
+/* harmony export */   focusTitleInput: () => (/* binding */ focusTitleInput),
 /* harmony export */   init: () => (/* binding */ init),
 /* harmony export */   removeItemSelected: () => (/* binding */ removeItemSelected),
 /* harmony export */   searchTitleItemToSelect: () => (/* binding */ searchTitleItemToSelect),
@@ -164,6 +166,7 @@ const addItemToSection = (e, target) => {
   lpUtils.lpShowHideEl(elItemNew, 1);
   lpUtils.lpSetLoadingEl(elItemNew, 1);
   elItemTitleInput.value = titleValue;
+  elItemTitleInput.dataset.old = titleValue;
   elItemClone.insertAdjacentElement('beforebegin', elItemNew);
   elAddItemType.remove();
 
@@ -225,6 +228,43 @@ const changeTitle = (e, target) => {
     elSectionItem.classList.remove('editing');
   } else {
     elSectionItem.classList.add('editing');
+  }
+};
+
+// Focus in item title input
+const focusTitleInput = (e, target, isFocus = true) => {
+  const elItemTitleInput = target.closest(`${className.elItemTitleInput}`);
+  if (!elItemTitleInput) {
+    return;
+  }
+  const elSectionItem = elItemTitleInput.closest(`${className.elSectionItem}`);
+  if (!elSectionItem) {
+    return;
+  }
+  if (isFocus) {
+    elSectionItem.classList.add('focus');
+  } else {
+    elSectionItem.classList.remove('focus');
+  }
+};
+const changeTitleAddNew = (e, target) => {
+  const elAddItemTypeTitleInput = target.closest(`${className.elAddItemTypeTitleInput}`);
+  if (!elAddItemTypeTitleInput) {
+    return;
+  }
+  const elAddItemType = elAddItemTypeTitleInput.closest(`${className.elAddItemType}`);
+  if (!elAddItemType) {
+    return;
+  }
+  const elBtnAddItem = elAddItemType.querySelector(`${className.elBtnAddItem}`);
+  if (!elBtnAddItem) {
+    return;
+  }
+  const titleValue = elAddItemTypeTitleInput.value.trim();
+  if (titleValue.length === 0) {
+    elBtnAddItem.classList.remove('active');
+  } else {
+    elBtnAddItem.classList.add('active');
   }
 };
 
@@ -870,8 +910,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   cancelSectionTitle: () => (/* binding */ cancelSectionTitle),
 /* harmony export */   changeDescription: () => (/* binding */ changeDescription),
 /* harmony export */   changeTitle: () => (/* binding */ changeTitle),
+/* harmony export */   changeTitleBeforeAdd: () => (/* binding */ changeTitleBeforeAdd),
 /* harmony export */   deleteSection: () => (/* binding */ deleteSection),
+/* harmony export */   focusTitleInput: () => (/* binding */ focusTitleInput),
+/* harmony export */   focusTitleNewInput: () => (/* binding */ focusTitleNewInput),
 /* harmony export */   init: () => (/* binding */ init),
+/* harmony export */   setFocusTitleInput: () => (/* binding */ setFocusTitleInput),
 /* harmony export */   sortAbleSection: () => (/* binding */ sortAbleSection),
 /* harmony export */   toggleSection: () => (/* binding */ toggleSection),
 /* harmony export */   updateSectionDescription: () => (/* binding */ updateSectionDescription),
@@ -884,8 +928,8 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Edit Section Script on Curriculum
  *
- * @version 1.0.0
  * @since 4.2.8.6
+ * @version 1.0.1
  */
 
 
@@ -896,6 +940,7 @@ const className = {
   elSectionClone: '.section.clone',
   elSectionTitleNewInput: '.lp-section-title-new-input',
   elSectionTitleInput: '.lp-section-title-input',
+  etBtnEditTitle: '.lp-btn-edit-section-title',
   elSectionDesInput: '.lp-section-description-input',
   elBtnAddSection: '.lp-btn-add-section',
   elBtnUpdateTitle: '.lp-btn-update-section-title',
@@ -925,6 +970,44 @@ const init = () => {
     lpUtils,
     updateCountItems
   } = _share_js__WEBPACK_IMPORTED_MODULE_0__);
+};
+
+// Typing in new section title input
+const changeTitleBeforeAdd = (e, target) => {
+  const elSectionTitleNewInput = target.closest(`${className.elSectionTitleNewInput}`);
+  if (!elSectionTitleNewInput) {
+    return;
+  }
+  const elAddNewSection = elSectionTitleNewInput.closest(`${className.elDivAddNewSection}`);
+  if (!elAddNewSection) {
+    return;
+  }
+  const elBtnAddSection = elAddNewSection.querySelector(`${className.elBtnAddSection}`);
+  const titleValue = elSectionTitleNewInput.value.trim();
+  if (titleValue.length === 0) {
+    elBtnAddSection.classList.remove('active');
+    delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.titleNew;
+  } else {
+    elBtnAddSection.classList.add('active');
+    _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.titleNew = 1;
+  }
+};
+
+// Focus on new section title input
+const focusTitleNewInput = (e, target, focusIn = true) => {
+  const elSectionTitleNewInput = target.closest(`${className.elSectionTitleNewInput}`);
+  if (!elSectionTitleNewInput) {
+    return;
+  }
+  const elAddNewSection = elSectionTitleNewInput.closest(`${className.elDivAddNewSection}`);
+  if (!elAddNewSection) {
+    return;
+  }
+  if (focusIn) {
+    elAddNewSection.classList.add('focus');
+  } else {
+    elAddNewSection.classList.remove('focus');
+  }
 };
 
 // Add new section
@@ -981,6 +1064,9 @@ const addSection = (e, target) => {
           section
         } = data;
         newSection.dataset.sectionId = section.section_id || '';
+        if (_share_js__WEBPACK_IMPORTED_MODULE_0__.sortAbleItem) {
+          _share_js__WEBPACK_IMPORTED_MODULE_0__.sortAbleItem();
+        }
       }
       showToast(message, status);
     },
@@ -994,6 +1080,7 @@ const addSection = (e, target) => {
       const elSectionDesInput = newSection.querySelector(`${className.elSectionDesInput}`);
       elSectionDesInput.focus();
       updateCountSections();
+      delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.titleNew;
     }
   };
   const dataSend = {
@@ -1063,6 +1150,38 @@ const deleteSection = (e, target) => {
   });
 };
 
+// Focus on new section title input
+const focusTitleInput = (e, target, focusIn = true) => {
+  const elSectionTitleInput = target.closest(`${className.elSectionTitleInput}`);
+  if (!elSectionTitleInput) {
+    return;
+  }
+  const elSection = elSectionTitleInput.closest(`${className.elSection}`);
+  if (!elSection) {
+    return;
+  }
+  if (focusIn) {
+    elSection.classList.add('focus');
+  } else {
+    elSection.classList.remove('focus');
+  }
+};
+
+// Set focus on section title input
+const setFocusTitleInput = (e, target) => {
+  const etBtnEditTitle = target.closest(`${className.etBtnEditTitle}`);
+  if (!etBtnEditTitle) {
+    return;
+  }
+  const elSection = etBtnEditTitle.closest(`${className.elSection}`);
+  if (!elSection) {
+    return;
+  }
+  const elSectionTitleInput = elSection.querySelector(`${className.elSectionTitleInput}`);
+  elSectionTitleInput.setSelectionRange(elSectionTitleInput.value.length, elSectionTitleInput.value.length);
+  elSectionTitleInput.focus();
+};
+
 // Typing in description input
 const changeTitle = (e, target) => {
   const elSectionTitleInput = target.closest(`${className.elSectionTitleInput}`);
@@ -1074,8 +1193,10 @@ const changeTitle = (e, target) => {
   const titleValueOld = elSectionTitleInput.dataset.old || '';
   if (titleValue === titleValueOld) {
     elSection.classList.remove('editing');
+    delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title;
   } else {
     elSection.classList.add('editing');
+    _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title = 1;
   }
 };
 
@@ -1131,6 +1252,7 @@ const updateSectionTitle = (e, target) => {
     completed: () => {
       lpUtils.lpSetLoadingEl(elSection, 0);
       elSection.classList.remove('editing');
+      delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title;
     }
   };
   const dataSend = {
@@ -1155,6 +1277,7 @@ const cancelSectionTitle = (e, target) => {
   const elSectionTitleInput = elSection.querySelector(`${className.elSectionTitleInput}`);
   elSectionTitleInput.value = elSectionTitleInput.dataset.old || ''; // Reset to old value
   elSection.classList.remove('editing'); // Remove editing class
+  delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title;
 };
 
 // Update section description to server
@@ -1368,9 +1491,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   courseId: () => (/* binding */ courseId),
 /* harmony export */   elCurriculumSections: () => (/* binding */ elCurriculumSections),
 /* harmony export */   elEditCurriculum: () => (/* binding */ elEditCurriculum),
+/* harmony export */   hasChange: () => (/* binding */ hasChange),
 /* harmony export */   lpUtils: () => (/* reexport module object */ _utils_js__WEBPACK_IMPORTED_MODULE_0__),
+/* harmony export */   setVariable: () => (/* binding */ setVariable),
 /* harmony export */   setVariables: () => (/* binding */ setVariables),
 /* harmony export */   showToast: () => (/* binding */ showToast),
+/* harmony export */   sortAbleItem: () => (/* binding */ sortAbleItem),
 /* harmony export */   updateCountItems: () => (/* binding */ updateCountItems)
 /* harmony export */ });
 /* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils.js */ "./assets/src/js/utils.js");
@@ -1381,7 +1507,7 @@ __webpack_require__.r(__webpack_exports__);
  * Share variables and functions for the edit curriculum page.
  *
  * @since 4.2.8.6
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 
@@ -1390,6 +1516,8 @@ let courseId;
 let elEditCurriculum;
 let elCurriculumSections;
 let updateCountItems;
+let sortAbleItem;
+let hasChange;
 const className = {
   idElEditCurriculum: '#lp-course-edit-curriculum',
   elCurriculumSections: '.curriculum-sections',
@@ -1423,8 +1551,18 @@ const setVariables = variables => {
     courseId,
     elEditCurriculum,
     elCurriculumSections,
-    updateCountItems
+    updateCountItems,
+    hasChange
   } = variables);
+};
+const setVariable = (variable, value) => {
+  if (variable && value !== undefined) {
+    switch (variable) {
+      case 'sortAbleItem':
+        sortAbleItem = value;
+        break;
+    }
+  }
 };
 
 
@@ -10764,7 +10902,7 @@ __webpack_require__.r(__webpack_exports__);
  * Edit Curriculum JS handler.
  *
  * @since 4.2.8.6
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 
@@ -10822,6 +10960,8 @@ document.addEventListener('click', e => {
   /*** Event of Section ***/
   // Click button add new section
   _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.addSection(e, target);
+  // Click icon edit to focus section title input
+  _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.setFocusTitleInput(e, target);
   // Click toggle section
   _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.toggleSection(e, target);
   // Click button to update section description
@@ -10888,14 +11028,38 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('keyup', e => {
   const target = e.target;
+  // Typing change section title
+  _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.changeTitleBeforeAdd(e, target);
   // Typing section title
   _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.changeTitle(e, target);
   // Typing section description
   _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.changeDescription(e, target);
   // Typing item title
   _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.changeTitle(e, target);
+  // Typing item title to add new item
+  _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.changeTitleAddNew(e, target);
   // Typing search title item to select
   _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.searchTitleItemToSelect(e, target);
+});
+// Event focus in
+document.addEventListener('focusin', e => {
+  _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.focusTitleNewInput(e, e.target);
+  _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.focusTitleInput(e, e.target);
+  _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.focusTitleInput(e, e.target);
+});
+// Event focus out
+document.addEventListener('focusout', e => {
+  _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.focusTitleNewInput(e, e.target, false);
+  _edit_curriculum_edit_section_js__WEBPACK_IMPORTED_MODULE_1__.focusTitleInput(e, e.target, false);
+  _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.focusTitleInput(e, e.target, false);
+});
+// Check if it has change when close tab or refresh page
+window.addEventListener('beforeunload', function (e) {
+  if (Object.keys(_edit_curriculum_share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange).length === 0) {
+    return;
+  }
+  e.preventDefault();
+  e.returnValue = '';
 });
 
 // Element root ready.
@@ -10908,7 +11072,8 @@ _edit_curriculum_share_js__WEBPACK_IMPORTED_MODULE_0__.lpUtils.lpOnElementReady(
     elEditCurriculum,
     elCurriculumSections,
     elLPTarget,
-    updateCountItems
+    updateCountItems,
+    hasChange: {}
   });
 
   // Set variables use for section edit
@@ -10918,6 +11083,8 @@ _edit_curriculum_share_js__WEBPACK_IMPORTED_MODULE_0__.lpUtils.lpOnElementReady(
   // Set variables use for edit section item
   _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.init();
   _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.sortAbleItem();
+  // Share sortAbleItem function, for when create new section, will call this function to sort items in section.
+  _edit_curriculum_share_js__WEBPACK_IMPORTED_MODULE_0__.setVariable('sortAbleItem', _edit_curriculum_edit_section_item_js__WEBPACK_IMPORTED_MODULE_2__.sortAbleItem);
 });
 })();
 

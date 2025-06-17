@@ -3,8 +3,13 @@
 /**
  * Abstract LP_Async_Request class.
  *
+ * This class is used to create asynchronous requests in LearnPress.
+ * It is recommended to use this class for tasks that can be processed in the background
+ * Note: don't call too many times on a progress, it can cause server hang.
+ * Should be considered when using
+ *
  * @since 4.1.6.9.4
- * @version 1.0.1
+ * @version 1.0.2
  */
 abstract class LP_Async_Request {
 	/**
@@ -116,8 +121,12 @@ abstract class LP_Async_Request {
 		$this->data['action'] = "lp_async_{$identifier}";
 		$this->data['_nonce'] = $this->create_async_nonce();
 
+		/**
+		 * Must set timeout to 0.01 to avoid blocking the request.
+		 * Don't change it, because it can make sever hang.
+		 */
 		$args = array(
-			'timeout'   => HOUR_IN_SECONDS,
+			'timeout'   => 0.01,
 			'blocking'  => false,
 			'body'      => $this->data,
 			'cookies'   => $_COOKIE,

@@ -400,7 +400,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const templatesName = ['learnpress/learnpress//single-lp_course'];
+const templatesName = ['learnpress/learnpress//single-lp_course', 'learnpress/learnpress//single-lp_course-offline'];
 
 /**
  * Check if the block can load in the template editor: single-lp_course.

@@ -2,7 +2,7 @@
  * Edit Curriculum JS handler.
  *
  * @since 4.2.8.6
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 import * as lpEditCurriculumShare from './edit-curriculum/share.js';
@@ -65,6 +65,8 @@ document.addEventListener( 'click', ( e ) => {
 	/*** Event of Section ***/
 	// Click button add new section
 	sectionEdit.addSection( e, target );
+	// Click icon edit to focus section title input
+	sectionEdit.setFocusTitleInput( e, target );
 	// Click toggle section
 	sectionEdit.toggleSection( e, target );
 	// Click button to update section description
@@ -131,14 +133,39 @@ document.addEventListener( 'keydown', ( e ) => {
 } );
 document.addEventListener( 'keyup', ( e ) => {
 	const target = e.target;
+	// Typing change section title
+	sectionEdit.changeTitleBeforeAdd( e, target );
 	// Typing section title
 	sectionEdit.changeTitle( e, target );
 	// Typing section description
 	sectionEdit.changeDescription( e, target );
 	// Typing item title
 	sectionItemEdit.changeTitle( e, target );
+	// Typing item title to add new item
+	sectionItemEdit.changeTitleAddNew( e, target );
 	// Typing search title item to select
 	sectionItemEdit.searchTitleItemToSelect( e, target );
+} );
+// Event focus in
+document.addEventListener( 'focusin', ( e ) => {
+	sectionEdit.focusTitleNewInput( e, e.target );
+	sectionEdit.focusTitleInput( e, e.target );
+	sectionItemEdit.focusTitleInput( e, e.target );
+} );
+// Event focus out
+document.addEventListener( 'focusout', ( e ) => {
+	sectionEdit.focusTitleNewInput( e, e.target, false );
+	sectionEdit.focusTitleInput( e, e.target, false );
+	sectionItemEdit.focusTitleInput( e, e.target, false );
+} );
+// Check if it has change when close tab or refresh page
+window.addEventListener( 'beforeunload', function( e ) {
+	if ( Object.keys( lpEditCurriculumShare.hasChange ).length === 0 ) {
+		return;
+	}
+
+	e.preventDefault();
+	e.returnValue = '';
 } );
 
 // Element root ready.
@@ -154,6 +181,7 @@ lpEditCurriculumShare.lpUtils.lpOnElementReady( `${ className.idElEditCurriculum
 			elCurriculumSections,
 			elLPTarget,
 			updateCountItems,
+			hasChange: {},
 		}
 	);
 
@@ -164,4 +192,6 @@ lpEditCurriculumShare.lpUtils.lpOnElementReady( `${ className.idElEditCurriculum
 	// Set variables use for edit section item
 	sectionItemEdit.init();
 	sectionItemEdit.sortAbleItem();
+	// Share sortAbleItem function, for when create new section, will call this function to sort items in section.
+	lpEditCurriculumShare.setVariable( 'sortAbleItem', sectionItemEdit.sortAbleItem );
 } );

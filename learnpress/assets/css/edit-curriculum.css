@@ -130,6 +130,13 @@
   box-shadow: none;
   padding: 0;
 }
+#lp-course-edit-curriculum textarea {
+  width: 100%;
+  border: 1px solid #C3C4C7;
+  padding: 10px;
+  resize: vertical;
+  min-height: 50px;
+}
 #lp-course-edit-curriculum button {
   color: #2271B1;
   border-color: #2271B1;
@@ -209,6 +216,9 @@
   opacity: 1;
   background: #fff;
 }
+#lp-course-edit-curriculum .section.focus {
+  border: 1px solid #2271B1 !important;
+}
 #lp-course-edit-curriculum .section.lp-collapse .section-collapse {
   display: none;
 }
@@ -230,6 +240,9 @@
 }
 #lp-course-edit-curriculum .section .drag:active {
   cursor: grabbing;
+}
+#lp-course-edit-curriculum .section .drag:hover {
+  color: #2271B1;
 }
 #lp-course-edit-curriculum .section.loading {
   pointer-events: none;
@@ -273,7 +286,17 @@
 #lp-course-edit-curriculum .section .lp-btn-delete-section:hover {
   opacity: 1;
 }
-#lp-course-edit-curriculum .section .section-head:hover .lp-btn-delete-section {
+#lp-course-edit-curriculum .section .lp-btn-edit-section-title {
+  cursor: pointer;
+  display: none;
+  opacity: 0.7;
+  font-size: 1rem;
+}
+#lp-course-edit-curriculum .section .lp-btn-edit-section-title:hover {
+  opacity: 1;
+  color: #2271B1;
+}
+#lp-course-edit-curriculum .section .section-head:hover .lp-btn-delete-section, #lp-course-edit-curriculum .section .section-head:hover .lp-btn-edit-section-title {
   display: inline-block;
 }
 #lp-course-edit-curriculum .section .section-collapse {
@@ -297,7 +320,7 @@
 #lp-course-edit-curriculum .section.editing .lp-btn-update-section-title, #lp-course-edit-curriculum .section.editing .lp-btn-cancel-update-section-title {
   display: inline-block;
 }
-#lp-course-edit-curriculum .section.editing .lp-btn-delete-section {
+#lp-course-edit-curriculum .section.editing .lp-btn-delete-section, #lp-course-edit-curriculum .section.editing .lp-btn-edit-section-title {
   display: none !important;
 }
 #lp-course-edit-curriculum .section.editing .section-items-counts, #lp-course-edit-curriculum .section.editing .section-toggle {
@@ -312,6 +335,13 @@
 }
 #lp-course-edit-curriculum .section .description-input:focus {
   color: #444;
+}
+#lp-course-edit-curriculum .section .lp-btn-cancel-update-section-title {
+  border: none;
+  background: transparent;
+}
+#lp-course-edit-curriculum .section .lp-btn-cancel-update-section-title:hover {
+  background: #f0f0f1;
 }
 #lp-course-edit-curriculum .add-new-section, #lp-course-edit-curriculum .lp-add-item-type {
   display: flex;
@@ -351,6 +381,10 @@
   border-top: none;
   background-color: #F4FCFF;
 }
+#lp-course-edit-curriculum .add-new-section.focus {
+  border-top: 1px solid;
+  border-color: #2271B1;
+}
 #lp-course-edit-curriculum .add-new-section input {
   font-size: 16px;
 }
@@ -359,7 +393,7 @@
   background: rgba(19, 94, 150, 0.5);
   color: #fff;
 }
-#lp-course-edit-curriculum .add-new-section .lp-btn-add-section:hover {
+#lp-course-edit-curriculum .add-new-section .lp-btn-add-section:hover, #lp-course-edit-curriculum .add-new-section .lp-btn-add-section.active {
   background: rgb(19, 94, 150);
 }
 #lp-course-edit-curriculum .lp-add-item-type {
@@ -370,6 +404,13 @@
   width: 100%;
   display: flex;
   gap: 5px;
+}
+#lp-course-edit-curriculum .lp-add-item-type .lp-btn-add-item.active {
+  background: rgb(19, 94, 150);
+  color: #fff;
+}
+#lp-course-edit-curriculum .lp-add-item-type .lp-btn-add-item-cancel {
+  border: none;
 }
 #lp-course-edit-curriculum .item-actions {
   display: flex;
@@ -421,6 +462,9 @@
 #lp-course-edit-curriculum .section-item {
   border: 1px solid #EEEEEE;
 }
+#lp-course-edit-curriculum .section-item.focus {
+  border-color: #2271B1 !important;
+}
 #lp-course-edit-curriculum .section-item.loading {
   pointer-events: none;
   opacity: 0.5 !important;
@@ -467,6 +511,9 @@
   border: none;
   font-size: 0.875rem;
 }
+#lp-course-edit-curriculum .section-item .lp-btn-cancel-update-item-title {
+  border: none;
+}
 #lp-course-edit-curriculum .lp-add-item-type .item-ico-type, #lp-course-edit-curriculum .section-item .item-ico-type {
   padding: 0;
   font-family: "lp-icon";
@@ -487,7 +534,7 @@
 }
 #lp-course-edit-curriculum .section-actions {
   display: flex;
-  gap: 5px;
+  gap: 10px;
   align-items: center;
 }
 #lp-course-edit-curriculum .section-actions button {
