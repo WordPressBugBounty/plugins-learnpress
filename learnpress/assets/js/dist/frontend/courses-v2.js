@@ -516,7 +516,7 @@ window.lpCoursesList = (() => {
       // End.
 
       // Show loading
-      window.lpAJAXG.showHideLoading(elLPTarget, 0);
+      window.lpAJAXG.showHideLoading(elLPTarget, 1);
       // End
 
       const callBack = {
@@ -534,7 +534,7 @@ window.lpCoursesList = (() => {
         },
         completed: () => {
           //console.log( 'completed' );
-          window.lpAJAXG.showHideLoading(elLPTarget, 1);
+          window.lpAJAXG.showHideLoading(elLPTarget, 0);
         }
       };
       window.lpAJAXG.fetchAJAX(dataSend, callBack);

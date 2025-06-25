@@ -625,7 +625,7 @@ body .wp-site-blocks {
   text-align: center;
 }
 .lp-single-instructor .ul-instructor-courses .course-content .wap-course-title {
-  font-size: calc(var(--lp-font-size-base, 1em) * 1.25);
+  font-size: calc(var(--lp-font-size-base, 1em) * 1.15);
 }
 .lp-single-instructor .ul-instructor-courses .course-content .course-excerpt, .lp-single-instructor .ul-instructor-courses .course-content .course-short-description, .lp-single-instructor .ul-instructor-courses .course-content .course-instructor-category {
   display: none;

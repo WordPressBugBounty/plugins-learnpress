@@ -26,6 +26,7 @@ use LP_Checkout;
 use LP_Course;
 use LP_Course_Item;
 use LP_Datetime;
+use LP_Debug;
 use LP_Global;
 use LP_Material_Files_DB;
 use LP_Settings;
@@ -909,14 +910,18 @@ class SingleCourseTemplate {
 	 * HTML meta faqs
 	 *
 	 * @param CourseModel $courseModel
+	 * @param array $data
 	 *
 	 * @return string
+	 * @since 4.2.7.2
+	 * @version 1.0.1
 	 */
-	public function html_faqs( CourseModel $courseModel ): string {
+	public function html_faqs( CourseModel $courseModel, array $data = [] ): string {
 		$html = '';
 
 		try {
-			$faqs = $courseModel->get_meta_value_by_key( CoursePostModel::META_KEY_FAQS, [] );
+			$show_heading = $data['show_heading'] ?? true;
+			$faqs         = $courseModel->get_meta_value_by_key( CoursePostModel::META_KEY_FAQS, [] );
 			if ( empty( $faqs ) ) {
 				return '';
 			}
@@ -954,7 +959,10 @@ class SingleCourseTemplate {
 				'learn-press/course/html-faqs',
 				[
 					'wrapper'     => '<div class="course-faqs course-tab-panel-faqs">',
-					'title'       => sprintf( '<h3 class="course-faqs__title">%s</h3>', __( 'FAQs', 'learnpress' ) ),
+					'title'       => $show_heading ? sprintf(
+						'<h3 class="course-faqs__title">%s</h3>',
+						__( 'FAQs', 'learnpress' )
+					) : '',
 					'content'     => $html,
 					'wrapper_end' => '</div>',
 				],
@@ -1259,6 +1267,32 @@ class SingleCourseTemplate {
 			$html = sprintf( '<span class="course-price-suffix">%s</span>', $price_suffix_str );
 		} catch ( Throwable $e ) {
 			error_log( __METHOD__ . ': ' . $e->getMessage() );
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Get html featured course.
+	 *
+	 * @param CourseModel $courseModel
+	 *
+	 * @return string
+	 * @since 4.2.8.8
+	 * @version 1.0.0
+	 */
+	public function html_featured( CourseModel $courseModel ): string {
+		$html = '';
+
+		try {
+			$is_featured = $courseModel->get_meta_value_by_key( CoursePostModel::META_KEY_FEATURED, 'no' );
+			if ( $is_featured !== 'yes' ) {
+				return $html;
+			}
+
+			$html = sprintf( '<span class="course-featured">%s</span>', __( 'Featured', 'learnpress' ) );
+		} catch ( Throwable $e ) {
+			LP_Debug::error_log( $e );
 		}
 
 		return $html;

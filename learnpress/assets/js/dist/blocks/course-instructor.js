@@ -46,7 +46,7 @@ const edit = props => {
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the instrucotr a link', 'learnpress'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the instructor a link', 'learnpress'),
     checked: props.attributes.isLink ? true : false,
     onChange: value => {
       props.setAttributes({

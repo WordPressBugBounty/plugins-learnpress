@@ -38,7 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Edit Section item Script on Curriculum
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @since 4.2.8.6
  */
 
@@ -316,6 +316,11 @@ const updateTitle = (e, target) => {
         message,
         status
       } = response;
+      if (status === 'success') {
+        elItemTitleInput.dataset.old = itemTitleValue; // Update value input
+      } else {
+        elItemTitleInput.value = titleOld;
+      }
       showToast(message, status);
     },
     error: error => {
@@ -324,7 +329,6 @@ const updateTitle = (e, target) => {
     completed: () => {
       lpUtils.lpSetLoadingEl(elSectionItem, 0);
       elSectionItem.classList.remove('editing'); // Remove editing class
-      elItemTitleInput.dataset.old = itemTitleValue; // Update value input
     }
   };
   const dataSend = {

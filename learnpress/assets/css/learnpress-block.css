@@ -1085,7 +1085,7 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
 }
 .lp-course-curriculum .course-section__title {
   font-weight: 600;
-  font-size: calc(var(--lp-font-size-base, 1em) * 1.25);
+  font-size: 1.1em;
   line-height: 1.3em;
 }
 .lp-course-curriculum .course-section__description {
