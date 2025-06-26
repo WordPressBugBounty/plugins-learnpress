@@ -61,7 +61,8 @@ if ( ! function_exists( 'learn_press_get_course_tabs' ) ) {
 		}
 
 		$userModel = UserModel::find( get_current_user_id(), true );
-
+		$course = learn_press_get_course();
+		$user   = learn_press_get_current_user();
 		$defaults               = [];
 		$defaults['overview']   = [
 			'title'    => esc_html__( 'Overview', 'learnpress' ),
@@ -95,14 +96,10 @@ if ( ! function_exists( 'learn_press_get_course_tabs' ) ) {
 		}
 
 		$can_show_tab_material = false;
-		$userCourseModel       = false;
-		if ( $userModel instanceof UserModel ) {
-			UserCourseModel::find( $userModel->get_id(), $courseModel->get_id(), true );
-		}
-		if ( $courseModel->has_no_enroll_requirement()
-			|| ( $userCourseModel && ( $userCourseModel->has_purchased() || $userCourseModel->has_enrolled_or_finished() ) )
-			|| $courseModel->check_user_is_author( $userModel )
-			|| user_can( $userModel->get_id(), UserModel::ROLE_ADMINISTRATOR ) ) {
+		if ( $course->is_no_required_enroll()
+			|| $user->has_enrolled_or_finished( $course->get_id() )
+			|| $user->has_purchased_course( $course->get_id() )
+			|| $user->is_instructor() || $user->is_admin() ) {
 			$can_show_tab_material = true;
 		}
 

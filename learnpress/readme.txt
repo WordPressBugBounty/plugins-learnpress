@@ -3,7 +3,7 @@ Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla
 Donate link:
 Tags: e-learning, education, course, lms, learning management system
 Tested up to: 6.8
-Stable tag: 4.2.8.7.1
+Stable tag: 4.2.8.7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,8 @@ https://www.transifex.com/projects/p/learnpress/
 13. Add-ons: Unlock endless possibilities with our add-ons from additional payment gateways to more managing course options. Tailor to your needs and easily scale as your site grow
 
 == Changelog ==
+= 4.2.8.7.2 (2025-06-26) =
+~ Fixed: error single course when use non-logged
 
 = 4.2.8.7.1 (2025-06-25) =
 ~ Fixed: get courses assign to co-instructor on the single instructor page.
