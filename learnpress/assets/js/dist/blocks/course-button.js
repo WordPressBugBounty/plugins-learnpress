@@ -35,6 +35,11 @@ const Edit = props => {
       width: '100%'
     }
   });
+  const mapAlignItems = {
+    top: 'flex-start',
+    center: 'center',
+    bottom: 'flex-end'
+  };
 
   // classOfDiv to fix align.
   let classOfDiv = blockProps.className;
@@ -82,7 +87,7 @@ const Edit = props => {
     style: {
       display: 'flex',
       textAlign: attributes.textAlign,
-      alignItems: attributes.alignItems,
+      alignItems: mapAlignItems[attributes.alignItems] || 'flex-start',
       justifyContent: attributes.justifyContent
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
