@@ -25,18 +25,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const edit = props => {
-  var _props$attributes$tit, _props$attributes$num;
+  var _props$attributes$num;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'learnpress')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Title', 'learnpress'),
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show title', 'learnpress'),
+    checked: props.attributes.title ? true : false,
     onChange: value => {
       props.setAttributes({
-        title: value !== null && value !== void 0 ? value : ''
+        title: value ? true : false
       });
-    },
-    value: (_props$attributes$tit = props.attributes.title) !== null && _props$attributes$tit !== void 0 ? _props$attributes$tit : 'Course Filter'
+    }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Level of category to display on Frontend', 'learnpress'),
     type: "number",
@@ -75,7 +75,7 @@ const edit = props => {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "filter"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, props.attributes.title)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, props.attributes.title ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Course Filter', 'learnpress') : '')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: ['learnpress/course-search-filter', 'learnpress/course-author-filter', 'learnpress/course-level-filter', 'learnpress/course-price-filter', 'learnpress/course-categories-filter', 'learnpress/course-tag-filter', 'learnpress/course-review-filter', 'learnpress/button-submit-filter', 'learnpress/button-reset-filter']
   }))));
 };

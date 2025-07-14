@@ -634,7 +634,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=9") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=118") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -8924,12 +8924,24 @@ ul.wp-block-learn-press-courses {
   max-width: 100%;
   padding: 0;
 }
-ul.wp-block-learn-press-courses.lp-columns-3 {
-  grid-gap: 1.25em;
-  display: -ms-grid;
+ul.wp-block-learn-press-courses[data-layout=grid] {
+  --columns: 3;
+  --gap: 1.25em;
+  --min-width: 200px;
+  grid-gap: var(--gap);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(max(200px, 33.33333% - 0.83333em), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(max(var(--min-width), 100% / var(--columns) - var(--gap) * (var(--columns) - 1) / var(--columns)), 1fr));
   margin-bottom: 2.25em;
+}
+@media (max-width: 768px) {
+  ul.wp-block-learn-press-courses .wp-block-learn-press-courses[data-layout=grid] {
+    --columns: min( var( --columns ), 2 );
+  }
+}
+@media (max-width: 480px) {
+  ul.wp-block-learn-press-courses .wp-block-learn-press-courses[data-layout=grid] {
+    --columns: 1;
+  }
 }
 
 .wp-block-learnpress-course-price .course-price .free,
@@ -9090,12 +9102,6 @@ ul.wp-block-learn-press-courses.lp-columns-3 {
   margin: 0;
   max-width: 100%;
   padding: 0;
-}
-.block-editor-block-list__block .learn-press-courses[data-layout=grid] {
-  grid-gap: 1.25em;
-  display: -ms-grid;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(max(200px, 33.33333% - 0.83333em), 1fr));
 }
 .block-editor-block-list__block a {
   text-decoration: none;

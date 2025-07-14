@@ -6940,7 +6940,7 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 #popup-course {
   display: flex;
   position: fixed;
-  z-index: 99999;
+  z-index: 9999;
   top: 0;
   left: 0;
   bottom: 0;

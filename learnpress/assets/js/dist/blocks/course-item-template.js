@@ -22,9 +22,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _js_api_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../../js/api.js */ "./assets/src/js/api.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _js_api_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../../js/api.js */ "./assets/src/js/api.js");
+
 
 
 
@@ -78,7 +81,7 @@ function PostTemplateBlockPreview({
   }));
 }
 const fetchLearnPressCourses = async (courseQuery, signal) => {
-  const url = _js_api_js__WEBPACK_IMPORTED_MODULE_6__["default"].apiCourses;
+  const url = _js_api_js__WEBPACK_IMPORTED_MODULE_7__["default"].apiCourses;
   let params = '?return_type=json';
   if (courseQuery) {
     params += `&${new URLSearchParams(courseQuery).toString()}`;
@@ -165,15 +168,15 @@ const Edit = ({
   if (loadingAPI) {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
       ...blockProps
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Courses Fetching…', 'learnpress')));
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Courses Fetching…', 'learnpress')));
   }
   if (listCourses.length === 0 && !loadingAPI) {
     const dataDummy = [{
       ID: 1,
-      post_title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Course One', 'learnpress')
+      post_title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Course One', 'learnpress')
     }, {
       ID: 2,
-      post_title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Course two', 'learnpress')
+      post_title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Course two', 'learnpress')
     }];
     setListCourses(dataDummy);
   }
@@ -182,7 +185,7 @@ const Edit = ({
       case 'load-more':
         return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
           className: "courses-btn-load-more"
-        }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Load More', 'learnpress'));
+        }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Load More', 'learnpress'));
       case 'infinite':
         return '';
       default:
@@ -205,9 +208,57 @@ const Edit = ({
         }, index + 1)))));
     }
   }
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Settings', 'learnpress')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Layout', 'learnpress'),
+    value: attributes.layout || 'gird',
+    onChange: value => {
+      setAttributes({
+        layout: value || 'gird'
+      });
+    },
+    isBlock: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControlOption, {
+    value: "list",
+    label: "Stack"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.__experimentalToggleGroupControlOption, {
+    value: "grid",
+    label: "Grid"
+  })), attributes.layout === 'grid' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.RangeControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Columns', 'learnpress'),
+    value: attributes.columns || 3,
+    onChange: value => {
+      setAttributes({
+        columns: value
+      });
+    },
+    min: 2,
+    max: 6,
+    step: 1,
+    marks: [{
+      value: 2,
+      label: '2'
+    }, {
+      value: 3,
+      label: '3'
+    }, {
+      value: 4,
+      label: '4'
+    }, {
+      value: 5,
+      label: '5'
+    }, {
+      value: 6,
+      label: '6'
+    }],
+    withInputField: true
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     className: "learn-press-courses wp-block-learn-press-courses",
-    "data-layout": attributes.layout ? attributes.layout : 'list'
+    "data-layout": attributes.layout ? attributes.layout : 'list',
+    style: {
+      '--columns': attributes.columns || 3
+    }
   }, blockContexts && blockContexts.map(blockContext => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockContextProvider, {
     key: blockContext.courseId,
     value: blockContext
@@ -332,6 +383,17 @@ module.exports = window["wp"]["blockEditor"];
 
 "use strict";
 module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["components"];
 
 /***/ }),
 
@@ -461,7 +523,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-item-template","title":"Course Item Template","category":"","description":"Course Item Template","textdomain":"learnpress","keywords":["course item","learnpress"],"usesContext":["lpCourseQuery"],"supports":{"align":true},"attributes":{"layout":{"type":"string","default":"list"}},"ancestor":["learnpress/list-courses"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-item-template","title":"Course Item Template","category":"","description":"Course Item Template","textdomain":"learnpress","keywords":["course item","learnpress"],"usesContext":["lpCourseQuery"],"supports":{"align":true},"attributes":{"layout":{"type":"string","default":"list"},"columns":{"type":"number","default":3}},"ancestor":["learnpress/list-courses"]}');
 
 /***/ })
 

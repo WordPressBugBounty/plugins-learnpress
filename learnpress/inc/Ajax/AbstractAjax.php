@@ -26,6 +26,14 @@ abstract class AbstractAjax {
 				LoadContentViaAjax::class,
 			];
 
+			// Check refer domain if ignore nonce.
+			if ( ! defined( 'LP_ALLOW_AJAX_NO_NONCE' ) || ! LP_ALLOW_AJAX_NO_NONCE ) {
+				$referer = wp_get_referer();
+				if ( $referer && strpos( $referer, home_url() ) !== 0 ) {
+					wp_die( 'Invalid request!', 400 );
+				}
+			}
+
 			if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
 				if ( ! in_array( get_class( $class ), $class_no_nonce ) ) {
 					wp_die( 'Invalid request!', 400 );

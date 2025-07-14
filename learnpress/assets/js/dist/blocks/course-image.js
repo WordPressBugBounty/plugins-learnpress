@@ -35,9 +35,135 @@ const edit = props => {
     lpCourseData
   } = context;
   const courseImage = lpCourseData?.image || '<div className="course-img"><img src="https://placehold.co/500x300?text=Course+Image"/></div>';
+  const sizeOption = [{
+    label: 'Thumbnail',
+    value: 'thumbnail'
+  }, {
+    label: 'Medium',
+    value: 'medium'
+  }, {
+    label: 'Large',
+    value: 'large'
+  }, {
+    label: 'Full',
+    value: 'full'
+  }, {
+    label: 'Custom',
+    value: 'custom'
+  }];
+  const getStyledCourseImage = () => {
+    if (lpCourseData?.image && attributes.size === 'custom' && attributes.customWidth === 500 && attributes.customHeight === 300) {
+      return lpCourseData?.image;
+    }
+    let width = 2560;
+    let height = 2560;
+    if (attributes.size === 'thumbnail') {
+      width = 150;
+      height = 150;
+    }
+    if (attributes.size === 'medium') {
+      width = 300;
+      height = 300;
+    }
+    if (attributes.size === 'large') {
+      width = 1024;
+      height = 724;
+    }
+    if (attributes.size === 'full') {
+      width = 2560;
+      height = 2560;
+    }
+    if (attributes.size === 'custom') {
+      if (attributes.customWidth && attributes.customWidth > 0) {
+        width = attributes.customWidth;
+      }
+      if (attributes.customHeight && attributes.customHeight > 0) {
+        height = attributes.customHeight;
+      }
+      if (attributes.customWidth == 0) {
+        width = 2560;
+      }
+      if (attributes.customHeight == 0) {
+        width = 2560;
+      }
+    }
+    return `<div class="course-img"><img src="https://placehold.co/${width}x${height}?text=Course+Image" alt="course thumbnail placeholder"</div>`;
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'learnpress')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Size', 'learnpress'),
+    value: props.attributes.size,
+    options: sizeOption,
+    onChange: value => {
+      if (value !== 'custom') {
+        setAttributes({
+          customWidth: 500,
+          customHeight: 300
+        });
+      }
+      setAttributes({
+        size: value
+      });
+    }
+  }), props.attributes.size === 'custom' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      display: 'flex',
+      gap: '12px'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.__experimentalInputControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Width', 'learnpress'),
+    type: "number",
+    min: 0,
+    style: {
+      flex: 1
+    },
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Auto', 'learnpress'),
+    suffix: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      style: {
+        marginRight: '8px'
+      }
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('px', 'learnpress')),
+    value: props.attributes.customWidth,
+    onChange: value => {
+      const numValue = parseInt(value, 10);
+      if (!isNaN(Number(numValue)) && numValue >= 0) {
+        setAttributes({
+          customWidth: Number(numValue)
+        });
+      } else {
+        setAttributes({
+          customWidth: 500
+        });
+      }
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.__experimentalInputControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Height', 'learnpress'),
+    type: "number",
+    min: 0,
+    style: {
+      flex: 1
+    },
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Auto', 'learnpress'),
+    suffix: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      style: {
+        marginRight: '8px'
+      }
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('px', 'learnpress')),
+    value: props.attributes.customHeight,
+    onChange: value => {
+      const numValue = parseInt(value, 10);
+      if (!isNaN(Number(numValue)) && numValue >= 0) {
+        setAttributes({
+          customHeight: Number(numValue)
+        });
+      } else {
+        setAttributes({
+          customHeight: 300
+        });
+      }
+    }
+  })) : '', (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Make the image a link', 'learnpress'),
     checked: props.attributes.isLink ? true : false,
     onChange: value => {
@@ -56,7 +182,7 @@ const edit = props => {
   }) : '')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps,
     dangerouslySetInnerHTML: {
-      __html: courseImage
+      __html: getStyledCourseImage() || courseImage
     }
   })));
 };
@@ -201,7 +327,7 @@ module.exports = window["wp"]["i18n"];
   \***************************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-image","title":"Course Image","category":"learnpress-course-elements","icon":"format-image","description":"Renders template Image Course PHP templates.","textdomain":"learnpress","keywords":["image single course","learnpress"],"ancestor":["learnpress/single-course","learnpress/course-item-template"],"usesContext":["lpCourseData"],"attributes":{"isLink":{"type":"boolean","default":true},"target":{"type":"boolean","default":false}},"supports":{"multiple":true,"html":false,"shadow":true,"__experimentalBorder":{"color":true,"radius":true,"width":true,"__experimentalDefaultControls":{"width":false,"color":false,"radius":false}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"learnpress/course-image","title":"Course Image","category":"learnpress-course-elements","icon":"format-image","description":"Renders template Image Course PHP templates.","textdomain":"learnpress","keywords":["image single course","learnpress"],"ancestor":["learnpress/single-course","learnpress/course-item-template"],"usesContext":["lpCourseData"],"attributes":{"isLink":{"type":"boolean","default":true},"target":{"type":"boolean","default":false},"size":{"type":"string","default":"custom"},"customWidth":{"type":"number","default":500},"customHeight":{"type":"number","default":300}},"supports":{"multiple":true,"html":false,"shadow":true,"__experimentalBorder":{"color":true,"radius":true,"width":true,"__experimentalDefaultControls":{"width":false,"color":false,"radius":false}}}}');
 
 /***/ })
 

@@ -1,9 +1,9 @@
 === LearnPress - WordPress LMS Plugin ===
 Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla, thongta, kendy73, leehld
 Donate link:
-Tags: e-learning, education, course, lms, learning management system
+Tags: elearning, education, course, lms, learning management system
 Tested up to: 6.8
-Stable tag: 4.2.8.7.3
+Stable tag: 4.2.8.7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -221,6 +221,16 @@ https://www.transifex.com/projects/p/learnpress/
 13. Add-ons: Unlock endless possibilities with our add-ons from additional payment gateways to more managing course options. Tailor to your needs and easily scale as your site grow
 
 == Changelog ==
+
+= 4.2.8.7.4 (2025-07-14) =
+~ Use package sweetalert2-neutral instead of sweetalert2.
+~ Fixed: max index post_name column of table learnpress_courses, error with old MYSQL version.
+~ Fix conflict with light box of elementor in single lesson
+~ Gutenberg: tweak list courses block.
+~ Gutenberg: tweak filter course block.
+~ Gutenberg: add course results block.
+~ Gutenberg: add option size for course image block.
+~ Handle cache for course image url.
 
 = 4.2.8.7.3 (2025-06-30) =
 ~ Tweak: tab material.
