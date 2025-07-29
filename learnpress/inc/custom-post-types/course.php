@@ -534,9 +534,14 @@ if ( ! class_exists( 'LP_Course_Post_Type' ) ) {
 					if ( $post_author != -1 ) { // -1 is for no change author
 						$courseModel->post_author = $post_author;
 					}
-				} elseif ( ! empty( $_REQUEST['post_author'] ) ) {
-					$courseModel->post_author = LP_Request::get_param( 'post_author', 0, 'int' );
-					// Save author to post table
+				} elseif ( ! empty( $_REQUEST['_post_author'] ) ) {
+					// Not use key 'post_author' on single edit course, it special key of WP, Gutenberg save will not submit this key.
+					$courseModel->post_author = LP_Request::get_param( '_post_author', 0, 'int' );
+					/**
+					 * Save author to post table
+					 * Not use PostModel::save() or CoursePostModel::save() here
+					 * because it calls wp_update_post(), has hook 'save_post', it will cause infinite loop
+					 */
 					$lp_db                     = LP_Database::getInstance();
 					$filter_update             = new LP_Post_Type_Filter();
 					$filter_update->collection = $lp_db->tb_posts;

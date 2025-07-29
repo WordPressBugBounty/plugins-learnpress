@@ -117,10 +117,20 @@
   color: #787c82;
 }
 .lp-edit-quiz-wrap input {
+  padding: 0;
+  margin: 0;
+}
+.lp-edit-quiz-wrap input[type=text] {
   width: 100%;
   border: none;
   font-size: 0.875rem;
   background: transparent;
+}
+.lp-edit-quiz-wrap .lp-icon-spinner {
+  animation: rotation 2s infinite linear;
+  font-size: 1.25rem;
+  color: #2271B1;
+  display: none;
 }
 .lp-edit-quiz-wrap .lp-icon-angle-down {
   display: none;
@@ -173,6 +183,16 @@
 .lp-edit-quiz-wrap .lp-edit-list-questions .lp-question-item.lp-collapse .question-edit-main {
   display: none;
 }
+.lp-edit-quiz-wrap .lp-edit-list-questions .lp-question-item.loading {
+  pointer-events: none;
+  opacity: 0.5 !important;
+}
+.lp-edit-quiz-wrap .lp-edit-list-questions .lp-question-item.loading .lp-icon-spinner {
+  display: inline-block;
+}
+.lp-edit-quiz-wrap .lp-edit-list-questions .lp-question-item .lp-question-type-label {
+  width: 20%;
+}
 .lp-edit-quiz-wrap .lp-edit-list-questions .lp-question-head {
   display: flex;
   margin: 0;
@@ -187,6 +207,20 @@
   padding: 12px;
   border-top: 1px solid #C3C4C7;
 }
+.lp-edit-quiz-wrap .lp-edit-list-questions .lp-question-choice-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px;
+  background: #eee;
+}
+.lp-edit-quiz-wrap .lp-edit-list-questions .lp-question-answer-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  margin: 0;
+}
 .lp-edit-quiz-wrap .add-new-question {
   display: flex;
   margin: 0;
@@ -197,6 +231,33 @@
   gap: 5px;
   border: 1px solid #C3C4C7;
   border-top: none;
+}
+.lp-edit-quiz-wrap .lp-answers-config {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.lp-edit-quiz-wrap .lp-question-fib-blank-option-item {
+  padding: 20px;
+  border: 1px solid #C3C4C7;
+}
+.lp-edit-quiz-wrap .lp-question-fib-blank-option-item .lp-question-fib-option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.lp-edit-quiz-wrap .lp-question-fib-blank-option-item .lp-question-fib-option-header input[type=text] {
+  width: 100%;
+}
+.lp-edit-quiz-wrap .lp-question-fib-blank-option-item .lp-question-fib-option-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lp-edit-quiz-wrap .lp-question-fib-blank-option-item .lp-question-fib-option-detail p {
+  margin: 0;
+  padding: 0;
 }
 
 .lp-select-items-popup {

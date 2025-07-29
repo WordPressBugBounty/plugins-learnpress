@@ -8252,7 +8252,6 @@ body.lp-sidebar-toggle__close #popup-header, body.lp-sidebar-toggle__close #popu
 }
 .lp-material-skeleton .course-material-table {
   width: 100%;
-  display: none;
 }
 .lp-material-skeleton .course-material-table th {
   text-align: center;
@@ -8268,13 +8267,11 @@ body.lp-sidebar-toggle__close #popup-header, body.lp-sidebar-toggle__close #popu
   font-weight: bold;
 }
 .lp-material-skeleton .lp-loadmore-material.lp-button {
-  display: none;
   margin-top: 20px;
   padding: 12px 24px;
 }
 
 #popup-content .lp-material-skeleton .lp-loadmore-material.lp-button {
-  display: none;
   margin-top: 20px;
   padding: 12px 24px;
 }
