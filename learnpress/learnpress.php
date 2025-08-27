@@ -4,7 +4,7 @@
  * Plugin URI: http://thimpress.com/learnpress
  * Description: LearnPress is a WordPress complete solution for creating a Learning Management System (LMS). It can help you to create courses, lessons and quizzes.
  * Author: ThimPress
- * Version: 4.2.8.7.5
+ * Version: 4.2.9
  * Author URI: http://thimpress.com
  * Requires at least: 6.0
  * Requires PHP: 7.0
@@ -14,6 +14,8 @@
  * @package LearnPress
  */
 
+use LearnPress\Ajax\EditQuestionAjax;
+use LearnPress\Ajax\EditQuizAjax;
 use LearnPress\Ajax\LessonAjax;
 use LearnPress\Ajax\LoadContentViaAjax;
 use LearnPress\Background\LPBackgroundTrigger;
@@ -25,11 +27,11 @@ use LearnPress\Ajax\EditCurriculumAjax;
 use LearnPress\Models\CourseModel;
 use LearnPress\Models\UserModel;
 use LearnPress\Shortcodes\Course\FilterCourseShortcode;
-
-//use LearnPress\Shortcodes\Course\ListCourseRecentShortcode;
 use LearnPress\Shortcodes\ListInstructorsShortcode;
 use LearnPress\Shortcodes\SingleInstructorShortcode;
 use LearnPress\Shortcodes\CourseMaterialShortcode;
+use LearnPress\TemplateHooks\Admin\AdminEditQizTemplate;
+use LearnPress\TemplateHooks\Admin\AdminEditQuestionTemplate;
 use LearnPress\TemplateHooks\Course\AdminEditCurriculumTemplate;
 use LearnPress\TemplateHooks\Course\FilterCourseTemplate;
 use LearnPress\TemplateHooks\Course\ListCoursesRelatedTemplate;
@@ -324,6 +326,8 @@ if ( ! class_exists( 'LearnPress' ) ) {
 
 			// Admin template hooks.
 			AdminEditCurriculumTemplate::instance();
+			AdminEditQizTemplate::instance();
+			AdminEditQuestionTemplate::instance();
 			CourseMaterialTemplate::instance();
 
 			// Models
@@ -575,6 +579,14 @@ if ( ! class_exists( 'LearnPress' ) ) {
 				// let third parties know that we're ready .
 				do_action( 'learn-press/ready' );
 
+				// For addon sorting choice old <= v4.0.1
+				if ( class_exists( 'LP_Addon_Sorting_Choice_Preload' ) ) {
+					if ( version_compare( LP_ADDON_SORTING_CHOICE_VER, '4.0.1', '<=' ) ) {
+						$lp_addon_sorting_choice = new LP_Addon_Sorting_Choice();
+						$lp_addon_sorting_choice->init();
+					}
+				}
+
 				/**
 				 * Init gateways, to load all payment gateways, catch callback.
 				 * Must be call after learn-press/ready to register hook of addon.
@@ -654,6 +666,8 @@ if ( ! class_exists( 'LearnPress' ) ) {
 					LoadContentViaAjax::catch_lp_ajax();
 					LessonAjax::catch_lp_ajax();
 					EditCurriculumAjax::catch_lp_ajax();
+					EditQuizAjax::catch_lp_ajax();
+					EditQuestionAjax::catch_lp_ajax();
 				},
 				11
 			);

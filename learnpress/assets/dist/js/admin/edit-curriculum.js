@@ -1588,7 +1588,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   lpGetCurrentURLNoParam: () => (/* binding */ lpGetCurrentURLNoParam),
 /* harmony export */   lpOnElementReady: () => (/* binding */ lpOnElementReady),
 /* harmony export */   lpSetLoadingEl: () => (/* binding */ lpSetLoadingEl),
-/* harmony export */   lpShowHideEl: () => (/* binding */ lpShowHideEl)
+/* harmony export */   lpShowHideEl: () => (/* binding */ lpShowHideEl),
+/* harmony export */   toggleCollapse: () => (/* binding */ toggleCollapse)
 /* harmony export */ });
 /**
  * Utils functions
@@ -1601,7 +1602,10 @@ __webpack_require__.r(__webpack_exports__);
  */
 const lpClassName = {
   hidden: 'lp-hidden',
-  loading: 'loading'
+  loading: 'loading',
+  elCollapse: 'lp-collapse',
+  elSectionToggle: '.lp-section-toggle',
+  elTriggerToggle: '.lp-trigger-toggle'
 };
 const lpFetchAPI = (url, data = {}, functions = {}) => {
   if ('function' === typeof functions.before) {
@@ -1756,6 +1760,37 @@ const lpSetLoadingEl = (el, status) => {
     el.classList.remove(lpClassName.loading);
   } else {
     el.classList.add(lpClassName.loading);
+  }
+};
+
+// Toggle collapse section
+const toggleCollapse = (e, target, elTriggerClassName = '', elsExclude = [], callback) => {
+  if (!elTriggerClassName) {
+    elTriggerClassName = lpClassName.elTriggerToggle;
+  }
+
+  // Exclude elements, which should not trigger the collapse toggle
+  if (elsExclude && elsExclude.length > 0) {
+    for (const elExclude of elsExclude) {
+      if (target.closest(elExclude)) {
+        return;
+      }
+    }
+  }
+  const elTrigger = target.closest(elTriggerClassName);
+  if (!elTrigger) {
+    return;
+  }
+
+  //console.log( 'elTrigger', elTrigger );
+
+  const elSectionToggle = elTrigger.closest(`${lpClassName.elSectionToggle}`);
+  if (!elSectionToggle) {
+    return;
+  }
+  elSectionToggle.classList.toggle(`${lpClassName.elCollapse}`);
+  if ('function' === typeof callback) {
+    callback(elSectionToggle);
   }
 };
 
@@ -10874,19 +10909,10 @@ const toggleSectionAll = (e, target) => {
   }
   const elSections = _edit_curriculum_share_js__WEBPACK_IMPORTED_MODULE_0__.elEditCurriculum.querySelectorAll(`${className.elSection}:not(.clone)`);
   elToggleAllSections.classList.toggle(`${className.elCollapse}`);
-  if (elToggleAllSections.classList.contains(`${className.elCollapse}`)) {
-    elSections.forEach(el => {
-      if (!el.classList.contains(`${className.elCollapse}`)) {
-        el.classList.add(`${className.elCollapse}`);
-      }
-    });
-  } else {
-    elSections.forEach(el => {
-      if (el.classList.contains(`${className.elCollapse}`)) {
-        el.classList.remove(`${className.elCollapse}`);
-      }
-    });
-  }
+  elSections.forEach(el => {
+    const shouldCollapse = elToggleAllSections.classList.contains(`${className.elCollapse}`);
+    el.classList.toggle(`${className.elCollapse}`, shouldCollapse);
+  });
 };
 
 // Update count items in each section and all sections

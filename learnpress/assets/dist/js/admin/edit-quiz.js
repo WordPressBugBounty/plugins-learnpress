@@ -1,159 +1,292 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/admin/edit-curriculum/edit-section.js":
-/*!*************************************************************!*\
-  !*** ./assets/src/js/admin/edit-curriculum/edit-section.js ***!
-  \*************************************************************/
+/***/ "./assets/src/js/admin/edit-question.js":
+/*!**********************************************!*\
+  !*** ./assets/src/js/admin/edit-question.js ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   addSection: () => (/* binding */ addSection),
-/* harmony export */   cancelSectionDescription: () => (/* binding */ cancelSectionDescription),
-/* harmony export */   cancelSectionTitle: () => (/* binding */ cancelSectionTitle),
-/* harmony export */   changeDescription: () => (/* binding */ changeDescription),
-/* harmony export */   changeTitle: () => (/* binding */ changeTitle),
-/* harmony export */   changeTitleBeforeAdd: () => (/* binding */ changeTitleBeforeAdd),
-/* harmony export */   deleteSection: () => (/* binding */ deleteSection),
-/* harmony export */   focusTitleInput: () => (/* binding */ focusTitleInput),
-/* harmony export */   focusTitleNewInput: () => (/* binding */ focusTitleNewInput),
-/* harmony export */   init: () => (/* binding */ init),
-/* harmony export */   setFocusTitleInput: () => (/* binding */ setFocusTitleInput),
-/* harmony export */   sortAbleSection: () => (/* binding */ sortAbleSection),
-/* harmony export */   toggleSection: () => (/* binding */ toggleSection),
-/* harmony export */   updateSectionDescription: () => (/* binding */ updateSectionDescription),
-/* harmony export */   updateSectionTitle: () => (/* binding */ updateSectionTitle)
+/* harmony export */   events: () => (/* binding */ events),
+/* harmony export */   initTinyMCE: () => (/* binding */ initTinyMCE),
+/* harmony export */   showToast: () => (/* binding */ showToast),
+/* harmony export */   sortAbleQuestionAnswer: () => (/* binding */ sortAbleQuestionAnswer)
 /* harmony export */ });
-/* harmony import */ var _share_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./share.js */ "./assets/src/js/admin/edit-curriculum/share.js");
-/* harmony import */ var sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2-neutral */ "./node_modules/sweetalert2-neutral/dist/sweetalert2.esm.all.js");
-/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var toastify_js_src_toastify_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toastify-js/src/toastify.css */ "./node_modules/toastify-js/src/toastify.css");
+/* harmony import */ var sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2-neutral */ "./node_modules/sweetalert2-neutral/dist/sweetalert2.esm.all.js");
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
 /**
- * Edit Section Script on Curriculum
+ * Edit question JS handler.
  *
- * @since 4.2.8.6
- * @version 1.0.2
+ * @since 4.2.9
+ * @version 1.0.0
  */
 
 
 
+
+
+
 const className = {
-  ..._share_js__WEBPACK_IMPORTED_MODULE_0__.className,
-  elDivAddNewSection: '.add-new-section',
-  elSectionClone: '.section.clone',
-  elSectionTitleNewInput: '.lp-section-title-new-input',
-  elSectionTitleInput: '.lp-section-title-input',
-  etBtnEditTitle: '.lp-btn-edit-section-title',
-  elSectionDesInput: '.lp-section-description-input',
-  elBtnAddSection: '.lp-btn-add-section',
-  elBtnUpdateTitle: '.lp-btn-update-section-title',
-  elBtnUpdateDes: '.lp-btn-update-section-description',
-  elBtnCancelUpdateTitle: '.lp-btn-cancel-update-section-title',
-  elBtnCancelUpdateDes: '.lp-btn-cancel-update-section-description',
-  elBtnDeleteSection: '.lp-btn-delete-section',
-  elSectionDesc: '.section-description',
-  elSectionToggle: '.section-toggle',
-  elCountSections: '.count-sections'
+  elEditQuestionWrap: '.lp-edit-question-wrap',
+  elQuestionEditMain: '.lp-question-edit-main',
+  elQuestionToggleAll: '.lp-question-toggle-all',
+  elEditListQuestions: '.lp-edit-list-questions',
+  elQuestionToggle: '.lp-question-toggle',
+  elBtnShowPopupItemsToSelect: '.lp-btn-show-popup-items-to-select',
+  elPopupItemsToSelectClone: '.lp-popup-items-to-select.clone',
+  elBtnAddQuestion: '.lp-btn-add-question',
+  elBtnRemoveQuestion: '.lp-btn-remove-question',
+  elBtnUpdateQuestionTitle: '.lp-btn-update-question-title',
+  elBtnUpdateQuestionDes: '.lp-btn-update-question-des',
+  elBtnUpdateQuestionHint: '.lp-btn-update-question-hint',
+  elBtnUpdateQuestionExplain: '.lp-btn-update-question-explanation',
+  elQuestionTitleNewInput: '.lp-question-title-new-input',
+  elQuestionTitleInput: '.lp-question-title-input',
+  elQuestionTypeLabel: '.lp-question-type-label',
+  elQuestionTypeNew: '.lp-question-type-new',
+  elAddNewQuestion: 'add-new-question',
+  elQuestionClone: '.lp-question-item.clone',
+  elAnswersConfig: '.lp-answers-config',
+  elBtnAddAnswer: '.lp-btn-add-question-answer',
+  elQuestionAnswerItemAddNew: '.lp-question-answer-item-add-new',
+  elQuestionAnswerTitleNewInput: '.lp-question-answer-title-new-input',
+  elQuestionAnswerTitleInput: '.lp-question-answer-title-input',
+  elBtnDeleteAnswer: '.lp-btn-delete-question-answer',
+  elQuestionByType: '.lp-question-by-type',
+  elInputAnswerSetTrue: '.lp-input-answer-set-true',
+  elQuestionAnswerItem: '.lp-question-answer-item',
+  elBtnUpdateQuestionAnswer: '.lp-btn-update-question-answer',
+  elBtnFibInsertBlank: '.lp-btn-fib-insert-blank',
+  elBtnFibDeleteAllBlanks: '.lp-btn-fib-delete-all-blanks',
+  elBtnFibSaveContent: '.lp-btn-fib-save-content',
+  elBtnFibClearAllContent: '.lp-btn-fib-clear-all-content',
+  elFibOptionTitleInput: '.lp-question-fib-option-title-input',
+  elFibBlankOptions: '.lp-question-fib-blank-options',
+  elFibBlankOptionItem: '.lp-question-fib-blank-option-item',
+  elFibBlankOptionItemClone: '.lp-question-fib-blank-option-item.clone',
+  elFibBlankOptionIndex: '.lp-question-fib-option-index',
+  elBtnFibOptionDelete: '.lp-btn-fib-option-delete',
+  elFibOptionMatchCaseWrap: '.lp-question-fib-option-match-case-wrap',
+  elFibOptionMatchCaseInput: '.lp-question-fib-option-match-case-input',
+  elQuestionFibOptionDetail: '.lp-question-fib-option-detail',
+  elFibOptionComparisonInput: '.lp-question-fib-option-comparison-input',
+  elAutoSaveFib: '.lp-auto-save-fib',
+  LPTarget: '.lp-target',
+  elCollapse: 'lp-collapse',
+  elSectionToggle: '.lp-section-toggle',
+  elTriggerToggle: '.lp-trigger-toggle',
+  elAutoSaveQuestion: '.lp-auto-save-question',
+  elAutoSaveAnswer: '.lp-auto-save-question-answer',
+  elQuestionFibInput: 'lp-question-fib-input',
+  elBtnQuestionCreateType: '.lp-btn-question-create-type'
 };
-let {
-  courseId,
-  elEditCurriculum,
-  elCurriculumSections,
-  showToast,
-  lpUtils,
-  updateCountItems
-} = _share_js__WEBPACK_IMPORTED_MODULE_0__;
-const idUrlHandle = 'edit-course-curriculum';
-const init = () => {
-  ({
-    courseId,
-    elEditCurriculum,
-    elCurriculumSections,
-    showToast,
-    lpUtils,
-    updateCountItems
-  } = _share_js__WEBPACK_IMPORTED_MODULE_0__);
+const idUrlHandle = 'edit-question';
+let lpSettings = {};
+if ('undefined' !== typeof lpDataAdmin) {
+  lpSettings = lpDataAdmin;
+} else if ('undefined' !== typeof lpData) {
+  lpSettings = lpData;
+}
+let fibSelection;
+
+// Get section by id
+const initTinyMCE = () => {
+  const elTextareas = document.querySelectorAll('.lp-editor-tinymce');
+  elTextareas.forEach(elTextarea => {
+    // const elParent = elTextarea.closest( '.lp-question-item' );
+    const idTextarea = elTextarea.id;
+    reInitTinymce(idTextarea);
+  });
 };
 
-// Typing in new section title input
-const changeTitleBeforeAdd = (e, target) => {
-  const elSectionTitleNewInput = target.closest(`${className.elSectionTitleNewInput}`);
-  if (!elSectionTitleNewInput) {
-    return;
-  }
-  const elAddNewSection = elSectionTitleNewInput.closest(`${className.elDivAddNewSection}`);
-  if (!elAddNewSection) {
-    return;
-  }
-  const elBtnAddSection = elAddNewSection.querySelector(`${className.elBtnAddSection}`);
-  const titleValue = elSectionTitleNewInput.value.trim();
-  if (titleValue.length === 0) {
-    elBtnAddSection.classList.remove('active');
-    delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.titleNew;
-  } else {
-    elBtnAddSection.classList.add('active');
-    _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.titleNew = 1;
+// Re-initialize TinyMCE editor
+const reInitTinymce = id => {
+  window.tinymce.execCommand('mceRemoveEditor', true, id);
+  window.tinymce.execCommand('mceAddEditor', true, id);
+  eventEditorTinymce(id);
+
+  // Active tab visual
+  const wrapEditor = document.querySelector(`#wp-${id}-wrap`);
+  if (wrapEditor) {
+    wrapEditor.classList.add('tmce-active');
+    wrapEditor.classList.remove('html-active');
   }
 };
 
-// Focus on new section title input
-const focusTitleNewInput = (e, target, focusIn = true) => {
-  const elSectionTitleNewInput = target.closest(`${className.elSectionTitleNewInput}`);
-  if (!elSectionTitleNewInput) {
-    return;
-  }
-  const elAddNewSection = elSectionTitleNewInput.closest(`${className.elDivAddNewSection}`);
-  if (!elAddNewSection) {
-    return;
-  }
-  if (focusIn) {
-    elAddNewSection.classList.add('focus');
-  } else {
-    elAddNewSection.classList.remove('focus');
-  }
-};
+// Events for TinyMCE editor
+const eventEditorTinymce = id => {
+  const editor = window.tinymce.get(id);
+  const elTextarea = document.getElementById(id);
+  const elQuestionEditMain = elTextarea.closest(`${className.elQuestionEditMain}`);
+  const questionId = elQuestionEditMain.dataset.questionId;
+  editor.settings.force_p_newlines = false;
+  editor.settings.forced_root_block = '';
+  editor.settings.force_br_newlines = true;
+  // Events focus in TinyMCE editor
+  editor.on('change', e => {
+    //console.log( 'Editor changed:', e.target.id );
+    // Auto save if it has class lp-auto-save
+    elTextarea.value = editor.getContent();
+    autoUpdateQuestion(e, elTextarea);
+  });
+  editor.on('keyup', e => {
+    //console.log( 'Editor keyup:', e.target.id );
+    // Auto save if it has class lp-auto-save
+    elTextarea.value = editor.getContent();
+    autoUpdateQuestion(e, elTextarea);
+  });
+  editor.on('blur', e => {
+    //console.log( 'Editor blurred:', e.target.id );
+  });
+  editor.on('focusin', e => {});
+  editor.on('init', () => {
+    // Add style
+    editor.dom.addStyle(`
+			body {
+				line-height: 2.2;
+			}
+			.${className.elQuestionFibInput} {
+				border: 1px dashed rebeccapurple;
+				padding: 5px;
+			}
+		`);
+  });
+  editor.on('setcontent', e => {
+    const uniquid = randomString();
+    const elementg = editor.dom.select(`.${className.elQuestionFibInput}[data-id="${uniquid}"]`);
+    if (elementg[0]) {
+      elementg[0].focus();
+    }
+    editor.dom.bind(elementg[0], 'input', function (e) {
+      //console.log( 'Input changed:', e.target.value );
+    });
+  });
+  editor.on('selectionchange', e => {
+    fibSelection = editor.selection;
 
-// Add new section
-const addSection = (e, target) => {
-  let canHandle = false;
-  if (target.closest(`${className.elBtnAddSection}`)) {
-    canHandle = true;
-  } else if (target.closest(`${className.elSectionTitleNewInput}`) && e.key === 'Enter') {
-    canHandle = true;
-  }
-  if (!canHandle) {
+    // Check selection is blank, check empty blank content
+    if (fibSelection.getNode().classList.contains(`${className.elQuestionFibInput}`)) {
+      const blankId = fibSelection.getNode().dataset.id;
+      const textBlank = fibSelection.getNode().textContent.trim();
+      if (textBlank.length === 0) {
+        const editorId = editor.id;
+        const questionId = editorId.replace(`${className.elQuestionFibInput}-`, '');
+        const elQuestionEditMain = document.querySelector(`${className.elQuestionEditMain}[data-question-id="${questionId}"]`);
+        const elQuestionBlankOptions = elQuestionEditMain.querySelector(`${className.elFibBlankOptions}`);
+        const elFibBlankOptionItem = elQuestionBlankOptions.querySelector(`${className.elFibBlankOptionItem}[data-id="${blankId}"]`);
+        if (elFibBlankOptionItem) {
+          _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItem, 0);
+        }
+      } else {
+        const elTextarea = document.getElementById(id);
+        const elAnswersConfig = elTextarea.closest(`${className.elAnswersConfig}`);
+        const elFibBlankOptionItem = elAnswersConfig.querySelector(`${className.elFibBlankOptionItem}[data-id="${blankId}"]`);
+        if (elFibBlankOptionItem) {
+          const elFibOptionTitleInput = elFibBlankOptionItem.querySelector(`${className.elFibOptionTitleInput}`);
+          if (elFibOptionTitleInput) {
+            elFibOptionTitleInput.value = textBlank;
+          }
+        }
+      }
+    }
+  });
+  editor.on('Undo', function (e) {
+    const contentUndo = editor.getContent();
+    const selection = editor.selection;
+    const nodeUndo = selection.getNode();
+    if (nodeUndo.classList.contains(`${className.elQuestionFibInput}`)) {
+      const blankId = nodeUndo.dataset.id;
+      const elFibBlankOptionItem = document.querySelector(`${className.elFibBlankOptionItem}[data-id="${blankId}"]`);
+      if (elFibBlankOptionItem) {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItem, 1);
+      }
+    }
+  });
+  editor.on('Redo', function (e) {});
+};
+let timeoutAutoUpdateQuestion;
+const autoUpdateQuestion = (e, target, key, value) => {
+  const elAutoSave = target.closest(`${className.elAutoSaveQuestion}`);
+  if (!elAutoSave) {
     return;
   }
-  const elAddNewSection = target.closest(`${className.elDivAddNewSection}`);
-  if (!elAddNewSection) {
+  const elQuestionEditMain = elAutoSave.closest(`${className.elQuestionEditMain}`);
+  const questionId = elQuestionEditMain.dataset.questionId;
+  clearTimeout(timeoutAutoUpdateQuestion);
+  timeoutAutoUpdateQuestion = setTimeout(() => {
+    // Call ajax to update question description
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        if (status === 'success') {
+          showToast(message, status);
+        } else {
+          throw `Error: ${message}`;
+        }
+      },
+      error: error => {
+        showToast(error, 'error');
+      },
+      completed: () => {}
+    };
+    const dataSend = {
+      action: 'update_question',
+      question_id: questionId,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    if (undefined === key) {
+      key = elAutoSave.dataset.keyAutoSave;
+      if (!key) {
+        if (!elAutoSave.classList.contains('lp-editor-tinymce')) {
+          return;
+        }
+        const textAreaId = elAutoSave.id;
+        key = textAreaId.replace(/lp-/g, '').replace(`-${questionId}`, '').replace(/-/g, '_');
+        if (!key) {
+          return;
+        }
+      }
+      value = elAutoSave.value;
+    }
+    dataSend[key] = value;
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }, 700);
+};
+// Create question type
+const createQuestionType = (e, target) => {
+  const elBtnQuestionCreateType = target.closest(`${className.elBtnQuestionCreateType}`);
+  if (!elBtnQuestionCreateType) {
     return;
   }
-  e.preventDefault();
-  const elSectionTitleNewInput = elAddNewSection.querySelector(`${className.elSectionTitleNewInput}`);
-  const titleValue = elSectionTitleNewInput.value.trim();
-  const message = elSectionTitleNewInput.dataset.messEmptyTitle;
-  if (titleValue.length === 0) {
+  const elQuestionEditMain = elBtnQuestionCreateType.closest(`${className.elQuestionEditMain}`);
+  if (!elQuestionEditMain) {
+    return;
+  }
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const elQuestionTypeNew = elQuestionEditMain.querySelector(`${className.elQuestionTypeNew}`);
+  if (!elQuestionTypeNew) {
+    return;
+  }
+  const questionType = elQuestionTypeNew.value.trim();
+  if (!questionType) {
+    const message = elQuestionTypeNew.dataset.messEmptyType;
     showToast(message, 'error');
     return;
   }
 
-  // Clear input after add
-  elSectionTitleNewInput.value = '';
-  elSectionTitleNewInput.blur();
-
-  // Add and set data for new section
-  const elSectionClone = elCurriculumSections.querySelector(`${className.elSectionClone}`);
-  const newSection = elSectionClone.cloneNode(true);
-  newSection.classList.remove('clone');
-  lpUtils.lpShowHideEl(newSection, 1);
-  lpUtils.lpSetLoadingEl(newSection, 1);
-  const elSectionTitleInput = newSection.querySelector(`${className.elSectionTitleInput}`);
-  elSectionTitleInput.value = titleValue;
-  elCurriculumSections.insertAdjacentElement('beforeend', newSection);
-  // End
-
-  // Call ajax to add new section
+  // Call ajax to create new question type
   const callBack = {
     success: response => {
       const {
@@ -161,36 +294,95 @@ const addSection = (e, target) => {
         status,
         data
       } = response;
-      if (status === 'error') {
-        newSection.remove();
-      } else if (status === 'success') {
+      if (status === 'success') {
         const {
-          section
+          html_option_answers
         } = data;
-        newSection.dataset.sectionId = section.section_id || '';
-        if (_share_js__WEBPACK_IMPORTED_MODULE_0__.sortAbleItem) {
-          _share_js__WEBPACK_IMPORTED_MODULE_0__.sortAbleItem();
-        }
+        const elAnswersConfig = elQuestionEditMain.querySelector(`${className.elAnswersConfig}`);
+        elAnswersConfig.outerHTML = html_option_answers;
+        initTinyMCE();
+        sortAbleQuestionAnswer(elQuestionEditMain);
+        showToast(message, status);
+      } else {
+        throw `Error: ${message}`;
+      }
+    },
+    error: error => {
+      showToast(error, 'error');
+    },
+    completed: () => {}
+  };
+  const dataSend = {
+    action: 'update_question',
+    question_id: questionId,
+    question_type: questionType,
+    args: {
+      id_url: idUrlHandle
+    }
+  };
+  window.lpAJAXG.fetchAJAX(dataSend, callBack);
+};
+const addQuestionAnswer = (e, target) => {
+  const elBtnAddAnswer = target.closest(`${className.elBtnAddAnswer}`);
+  if (!elBtnAddAnswer) {
+    return;
+  }
+  const elQuestionAnswerItemAddNew = elBtnAddAnswer.closest(`${className.elQuestionAnswerItemAddNew}`);
+  const elQuestionAnswerTitleNewInput = elQuestionAnswerItemAddNew.querySelector(`${className.elQuestionAnswerTitleNewInput}`);
+  if (!elQuestionAnswerTitleNewInput.value.trim()) {
+    const message = elQuestionAnswerTitleNewInput.dataset.messEmptyTitle;
+    showToast(message, 'error');
+    return;
+  }
+  const elQuestionEditMain = elBtnAddAnswer.closest(`${className.elQuestionEditMain}`);
+  const elQuestionAnswerClone = elQuestionEditMain.querySelector(`${className.elQuestionAnswerItem}.clone`);
+  const elQuestionAnswerNew = elQuestionAnswerClone.cloneNode(true);
+  const elQuestionAnswerTitleInputNew = elQuestionAnswerNew.querySelector(`${className.elQuestionAnswerTitleInput}`);
+  elQuestionAnswerNew.classList.remove('clone');
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elQuestionAnswerNew, 1);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerNew, 1);
+  elQuestionAnswerClone.insertAdjacentElement('beforebegin', elQuestionAnswerNew);
+  const answerTitle = elQuestionAnswerTitleNewInput.value.trim();
+  elQuestionAnswerTitleInputNew.value = answerTitle;
+  elQuestionAnswerTitleNewInput.value = '';
+  const questionId = elQuestionEditMain.dataset.questionId;
+
+  // Call ajax to add new question answer
+  const callBack = {
+    success: response => {
+      const {
+        message,
+        status,
+        data
+      } = response;
+      if (status === 'success') {
+        const {
+          question_answer
+        } = data;
+        elQuestionAnswerNew.dataset.answerId = question_answer.question_answer_id;
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerNew, 0);
+
+        // Set data lp-answers-config
+        const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+        dataAnswers.push(question_answer);
+        setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+      } else {
+        throw `Error: ${message}`;
       }
       showToast(message, status);
     },
     error: error => {
-      newSection.remove();
+      elQuestionAnswerNew.remove();
       showToast(error, 'error');
     },
     completed: () => {
-      lpUtils.lpSetLoadingEl(newSection, 0);
-      newSection.classList.remove(`${className.elCollapse}`);
-      const elSectionDesInput = newSection.querySelector(`${className.elSectionDesInput}`);
-      elSectionDesInput.focus();
-      updateCountSections();
-      delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.titleNew;
+      checkCanAddAnswer(null, elQuestionAnswerTitleNewInput);
     }
   };
   const dataSend = {
-    action: 'add_section',
-    course_id: courseId,
-    section_name: titleValue,
+    action: 'add_question_answer',
+    question_id: questionId,
+    answer_title: answerTitle,
     args: {
       id_url: idUrlHandle
     }
@@ -198,15 +390,175 @@ const addSection = (e, target) => {
   window.lpAJAXG.fetchAJAX(dataSend, callBack);
 };
 
-// Delete section
-const deleteSection = (e, target) => {
-  const elBtnDeleteSection = target.closest(`${className.elBtnDeleteSection}`);
-  if (!elBtnDeleteSection) {
+// Check to enable or disable add new question button
+const checkCanAddAnswer = (e, target) => {
+  const elTrigger = target.closest(className.elQuestionAnswerTitleNewInput);
+  if (!elTrigger) {
     return;
   }
-  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_1__["default"].fire({
-    title: elBtnDeleteSection.dataset.title,
-    text: elBtnDeleteSection.dataset.content,
+  const elQuestionAnswerItemAddNew = elTrigger.closest(`${className.elQuestionAnswerItemAddNew}`);
+  if (!elQuestionAnswerItemAddNew) {
+    return;
+  }
+  const elBtnAddAnswer = elQuestionAnswerItemAddNew.querySelector(`${className.elBtnAddAnswer}`);
+  if (!elBtnAddAnswer) {
+    return;
+  }
+  const titleValue = elTrigger.value.trim();
+  if (titleValue) {
+    elBtnAddAnswer.classList.add('active');
+  } else {
+    elBtnAddAnswer.classList.remove('active');
+  }
+};
+
+// Auto update question answer
+let timeoutAutoUpdateAnswer;
+const autoUpdateAnswer = (e, target) => {
+  const elAutoSaveAnswer = target.closest(`${className.elAutoSaveAnswer}`);
+  if (!elAutoSaveAnswer) {
+    return;
+  }
+  const elQuestionAnswerItem = elAutoSaveAnswer.closest(`${className.elQuestionAnswerItem}`);
+  clearTimeout(timeoutAutoUpdateAnswer);
+  timeoutAutoUpdateAnswer = setTimeout(() => {
+    const elQuestionEditMain = elAutoSaveAnswer.closest(`${className.elQuestionEditMain}`);
+    const questionId = elQuestionEditMain.dataset.questionId;
+    const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+    const elAnswersConfig = elQuestionEditMain.querySelector(`${className.elAnswersConfig}`);
+
+    // For both radio and checkbox.
+    const dataAnswersOld = structuredClone(dataAnswers);
+
+    // Get position of answers
+    const elQuestionAnswerItems = elAnswersConfig.querySelectorAll(`${className.elQuestionAnswerItem}:not(.clone)`);
+    const answersPosition = {};
+    elQuestionAnswerItems.forEach((elQuestionAnswerItem, index) => {
+      answersPosition[elQuestionAnswerItem.dataset.answerId] = index + 1; // Start from 1
+    });
+
+    //console.log( 'answersPosition', answersPosition );
+
+    dataAnswers.map((answer, k) => {
+      const elQuestionAnswerItem = elQuestionEditMain.querySelector(`${className.elQuestionAnswerItem}[data-answer-id="${answer.question_answer_id}"]`);
+      const elInputAnswerSetTrue = elQuestionAnswerItem.querySelector(`${className.elInputAnswerSetTrue}`);
+      const elInputAnswerTitle = elQuestionAnswerItem.querySelector(`${className.elQuestionAnswerTitleInput}`);
+
+      // Set title
+      if (elInputAnswerTitle) {
+        answer.title = elInputAnswerTitle.value.trim();
+      }
+
+      // Set true answer
+      if (elInputAnswerSetTrue) {
+        if (elInputAnswerSetTrue.checked) {
+          answer.is_true = 'yes';
+        } else {
+          answer.is_true = '';
+        }
+      }
+
+      // Set position
+      if (answersPosition[answer.question_answer_id]) {
+        answer.order = answersPosition[answer.question_answer_id];
+      }
+      return answer;
+    });
+
+    //console.log( dataAnswers );
+
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 1);
+
+    // Call ajax to update answers config
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status
+        } = response;
+        if (status === 'success') {} else {
+          throw `Error: ${message}`;
+        }
+        showToast(message, status);
+      },
+      error: error => {
+        // rollback changes to old data
+        dataAnswersOld.forEach(answer => {
+          const elAnswerItem = elQuestionEditMain.querySelector(`${className.elQuestionAnswerItem}[data-answer-id="${answer.question_answer_id}"]`);
+          const inputAnswerSetTrue = elAnswerItem.querySelector(`${className.elInputAnswerSetTrue}`);
+          if (answer.is_true === 'yes') {
+            inputAnswerSetTrue.checked = true;
+          }
+          return answer;
+        });
+        showToast(error, 'error');
+      },
+      completed: () => {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 0);
+      }
+    };
+    const dataSend = {
+      action: 'update_question_answers_config',
+      question_id: questionId,
+      answers: dataAnswers,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  }, 700);
+};
+
+// Sortable answers's question
+const sortAbleQuestionAnswer = elQuestionEditMain => {
+  let isUpdateSectionPosition = 0;
+  let timeout;
+  const elQuestionAnswers = elQuestionEditMain.querySelectorAll(`${className.elAnswersConfig}`);
+  elQuestionAnswers.forEach(elAnswersConfig => {
+    new sortablejs__WEBPACK_IMPORTED_MODULE_4__["default"](elAnswersConfig, {
+      handle: '.drag',
+      animation: 150,
+      onEnd: evt => {
+        const elQuestionAnswerItem = evt.item;
+        if (!isUpdateSectionPosition) {
+          // No change in section position, do nothing
+          return;
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          const elAutoSaveAnswer = elQuestionAnswerItem.querySelector(`${className.elAutoSaveAnswer}`);
+          autoUpdateAnswer(null, elAutoSaveAnswer);
+        }, 1000);
+      },
+      onMove: evt => {
+        clearTimeout(timeout);
+      },
+      onUpdate: evt => {
+        isUpdateSectionPosition = 1;
+      }
+    });
+  });
+};
+
+// Delete question answer
+const deleteQuestionAnswer = (e, target) => {
+  const elBtnDeleteAnswer = target.closest(`${className.elBtnDeleteAnswer}`);
+  if (!elBtnDeleteAnswer) {
+    return;
+  }
+  const elQuestionAnswerItem = elBtnDeleteAnswer.closest(`${className.elQuestionAnswerItem}`);
+  if (!elQuestionAnswerItem) {
+    return;
+  }
+  const elQuestionEditMain = elBtnDeleteAnswer.closest(`${className.elQuestionEditMain}`);
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const questionAnswerId = elQuestionAnswerItem.dataset.answerId;
+  if (!questionId || !questionAnswerId) {
+    return;
+  }
+  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_3__["default"].fire({
+    title: elBtnDeleteAnswer.dataset.title || 'Are you sure?',
+    text: elBtnDeleteAnswer.dataset.content || 'Do you want to delete this answer?',
     icon: 'warning',
     showCloseButton: true,
     showCancelButton: true,
@@ -215,36 +567,37 @@ const deleteSection = (e, target) => {
     reverseButtons: true
   }).then(result => {
     if (result.isConfirmed) {
-      const elSection = elBtnDeleteSection.closest('.section');
-      const sectionId = elSection.dataset.sectionId;
-      lpUtils.lpSetLoadingEl(elSection, 1);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 1);
 
-      // Call ajax to delete section
+      // Call ajax to delete item from section
       const callBack = {
         success: response => {
           const {
             message,
             status
           } = response;
-          const {
-            content
-          } = response.data;
           showToast(message, status);
+          if (status === 'success') {
+            const elQuestionAnswerId = parseInt(elQuestionAnswerItem.dataset.answerId);
+            elQuestionAnswerItem.remove();
+            const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+            if (dataAnswers) {
+              const updatedAnswers = dataAnswers.filter(answer => parseInt(answer.question_answer_id) !== elQuestionAnswerId);
+              setDataAnswersConfig(elQuestionEditMain, updatedAnswers);
+            }
+          }
         },
         error: error => {
           showToast(error, 'error');
         },
         completed: () => {
-          lpUtils.lpSetLoadingEl(elSection, 0);
-          elSection.remove();
-          updateCountItems(elSection);
-          updateCountSections();
+          _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionAnswerItem, 0);
         }
       };
       const dataSend = {
-        action: 'delete_section',
-        course_id: courseId,
-        section_id: sectionId,
+        action: 'delete_question_answer',
+        question_id: questionId,
+        question_answer_id: questionAnswerId,
         args: {
           id_url: idUrlHandle
         }
@@ -254,419 +607,819 @@ const deleteSection = (e, target) => {
   });
 };
 
-// Focus on new section title input
-const focusTitleInput = (e, target, focusIn = true) => {
-  const elSectionTitleInput = target.closest(`${className.elSectionTitleInput}`);
-  if (!elSectionTitleInput) {
+// Get data answers config
+const getDataAnswersConfig = elQuestionEditMain => {
+  const elAnswersConfig = elQuestionEditMain.querySelector(`${className.elAnswersConfig}`);
+  if (!elAnswersConfig) {
+    return null;
+  }
+  let dataAnswers = elAnswersConfig.dataset.answers || '[]';
+  try {
+    dataAnswers = JSON.parse(dataAnswers);
+  } catch (e) {
+    dataAnswers = [];
+  }
+  if (!dataAnswers.meta_data) {
+    dataAnswers.meta_data = {};
+  }
+  return dataAnswers;
+};
+
+// Set data answers config
+const setDataAnswersConfig = (elQuestionEditMain, dataAnswers) => {
+  const elAnswersConfig = elQuestionEditMain.querySelector(`${className.elAnswersConfig}`);
+  if (!elAnswersConfig) {
     return;
   }
-  const elSection = elSectionTitleInput.closest(`${className.elSection}`);
-  if (!elSection) {
+  if (!dataAnswers || typeof dataAnswers !== 'object') {
+    dataAnswers = {};
+  }
+  elAnswersConfig.dataset.answers = JSON.stringify(dataAnswers);
+};
+
+/***** Fill in the blank question type *****/
+// For FIB question type
+const fibInsertBlank = (e, target) => {
+  const elBtnFibInsertBlank = target.closest(`${className.elBtnFibInsertBlank}`);
+  if (!elBtnFibInsertBlank) {
     return;
   }
-  if (focusIn) {
-    elSection.classList.add('focus');
+  const textPlaceholder = elBtnFibInsertBlank.dataset.defaultText;
+  const elQuestionEditMain = elBtnFibInsertBlank.closest(`${className.elQuestionEditMain}`);
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const messErrInserted = elBtnFibInsertBlank.dataset.messInserted;
+  const messErrRequireSelectText = elBtnFibInsertBlank.dataset.messRequireSelectText;
+  const idEditor = `${className.elQuestionFibInput}-${questionId}`;
+  const uniquid = randomString();
+  let selectedText;
+  if (fibSelection) {
+    const elNode = fibSelection.getNode();
+    if (!elNode) {
+      showToast('Event insert blank has error, please try again', 'error');
+      return;
+    }
+    const findParent = elNode.closest(`body[data-id="${idEditor}"]`);
+    if (!findParent) {
+      showToast(messErrRequireSelectText, 'error');
+      return;
+    }
+    if (elNode.classList.contains(`${className.elQuestionFibInput}`)) {
+      showToast(messErrInserted, 'error');
+      return;
+    }
+    selectedText = fibSelection.getContent();
+    if (selectedText.length === 0) {
+      selectedText = textPlaceholder;
+    }
+    const elInputNew = `<span class="${className.elQuestionFibInput}" data-id="${uniquid}">${selectedText}</span>`;
+    fibSelection.setContent(elInputNew);
   } else {
-    elSection.classList.remove('focus');
+    showToast(messErrRequireSelectText, 'error');
+    return;
   }
+  const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+  dataAnswers.meta_data = dataAnswers.meta_data || {};
+  // Convert array to object
+  if (Object.keys(dataAnswers.meta_data).length === 0) {
+    dataAnswers.meta_data = {};
+  }
+  dataAnswers.meta_data[uniquid] = {
+    id: uniquid,
+    match_case: 0,
+    comparison: 'equal',
+    fill: selectedText,
+    index: 1,
+    open: false
+  };
+  setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+
+  // Clone blank options
+  const elFibBlankOptions = elQuestionEditMain.querySelector(`${className.elFibBlankOptions}`);
+  const elFibBlankOptionItemClone = elQuestionEditMain.querySelector(`${className.elFibBlankOptionItemClone}`);
+  const elFibBlankOptionItemNew = elFibBlankOptionItemClone.cloneNode(true);
+  const countOptions = elFibBlankOptions.querySelectorAll(`${className.elFibBlankOptionItem}:not(.clone)`).length;
+  const elFibBlankOptionIndex = elFibBlankOptionItemNew.querySelector(`${className.elFibBlankOptionIndex}`);
+  const elFibOptionTitleInput = elFibBlankOptionItemNew.querySelector(`${className.elFibOptionTitleInput}`);
+  const elFibOptionMatchCaseInput = elFibBlankOptionItemNew.querySelector(`${className.elFibOptionMatchCaseInput}`);
+  const elFibOptionComparisonInput = elFibBlankOptionItemNew.querySelectorAll(`${className.elFibOptionComparisonInput}`);
+  elFibBlankOptionItemNew.dataset.id = uniquid;
+  elFibOptionTitleInput.name = `${className.elFibOptionTitleInput}-${uniquid}`;
+  elFibOptionTitleInput.value = decodeHtml(selectedText);
+  elFibBlankOptionIndex.textContent = countOptions + 1 + '.';
+  elFibOptionMatchCaseInput.name = `${className.elFibOptionMatchCaseInput}-${uniquid}`.replace(/\./g, '');
+  elFibOptionComparisonInput.forEach(elInput => {
+    elInput.name = `${className.elFibOptionComparisonInput}-${uniquid}`.replace(/\./g, '');
+    if (elInput.value === 'equal') {
+      elInput.checked = true;
+    }
+  });
+  elFibBlankOptionItemClone.insertAdjacentElement('beforebegin', elFibBlankOptionItemNew);
+  elFibBlankOptionItemNew.classList.remove('clone');
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItemNew, 1);
+  // End clone blank options
+
+  const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${className.elBtnFibSaveContent}`);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibInsertBlank, 1);
+  fibSaveContent(null, elBtnFibSaveContent, () => {
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibInsertBlank, 0);
+  });
 };
-
-// Set focus on section title input
-const setFocusTitleInput = (e, target) => {
-  const etBtnEditTitle = target.closest(`${className.etBtnEditTitle}`);
-  if (!etBtnEditTitle) {
+// Delete all blanks
+const fibDeleteAllBlanks = (e, target) => {
+  const elBtnFibDeleteAllBlanks = target.closest(`${className.elBtnFibDeleteAllBlanks}`);
+  if (!elBtnFibDeleteAllBlanks) {
     return;
   }
-  const elSection = etBtnEditTitle.closest(`${className.elSection}`);
-  if (!elSection) {
+  const elQuestionEditMain = elBtnFibDeleteAllBlanks.closest(`${className.elQuestionEditMain}`);
+  if (!elQuestionEditMain) {
     return;
   }
-  const elSectionTitleInput = elSection.querySelector(`${className.elSectionTitleInput}`);
-  elSectionTitleInput.setSelectionRange(elSectionTitleInput.value.length, elSectionTitleInput.value.length);
-  elSectionTitleInput.focus();
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_3__["default"].fire({
+    title: elBtnFibDeleteAllBlanks.dataset.title,
+    text: elBtnFibDeleteAllBlanks.dataset.content,
+    icon: 'warning',
+    showCloseButton: true,
+    showCancelButton: true,
+    cancelButtonText: lpSettings.i18n.cancel,
+    confirmButtonText: lpSettings.i18n.yes,
+    reverseButtons: true
+  }).then(result => {
+    if (result.isConfirmed) {
+      const editor = window.tinymce.get(`${className.elQuestionFibInput}-${questionId}`);
+      const elBlanks = editor.dom.select(`.${className.elQuestionFibInput}`);
+      elBlanks.forEach(elBlank => {
+        editor.dom.remove(elBlank, true);
+      });
+      dataAnswers.meta_data = {};
+      setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+      const elFibBlankOptions = elQuestionEditMain.querySelector(`${className.elFibBlankOptions}`);
+      const elFibBlankOptionItems = elFibBlankOptions.querySelectorAll(`${className.elFibBlankOptionItem}:not(.clone)`);
+      elFibBlankOptionItems.forEach(elFibBlankOptionItem => {
+        elFibBlankOptionItem.remove();
+      });
+      const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${className.elBtnFibSaveContent}`);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibDeleteAllBlanks, 1);
+      fibSaveContent(null, elBtnFibSaveContent, () => {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibDeleteAllBlanks, 0);
+      });
+    }
+  });
 };
-
-// Typing in description input
-const changeTitle = (e, target) => {
-  const elSectionTitleInput = target.closest(`${className.elSectionTitleInput}`);
-  if (!elSectionTitleInput) {
+// Clear content FIB question
+const fibClearContent = (e, target) => {
+  const elBtnFibClearAllContent = target.closest(`${className.elBtnFibClearAllContent}`);
+  if (!elBtnFibClearAllContent) {
     return;
   }
-  const elSection = elSectionTitleInput.closest(`${className.elSection}`);
-  const titleValue = elSectionTitleInput.value.trim();
-  const titleValueOld = elSectionTitleInput.dataset.old || '';
-  if (titleValue === titleValueOld) {
-    elSection.classList.remove('editing');
-    delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title;
-  } else {
-    elSection.classList.add('editing');
-    _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title = 1;
+  const elQuestionEditMain = elBtnFibClearAllContent.closest(`${className.elQuestionEditMain}`);
+  if (!elQuestionEditMain) {
+    return;
   }
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_3__["default"].fire({
+    title: elBtnFibClearAllContent.dataset.title,
+    text: elBtnFibClearAllContent.dataset.content,
+    icon: 'warning',
+    showCloseButton: true,
+    showCancelButton: true,
+    cancelButtonText: lpSettings.i18n.cancel,
+    confirmButtonText: lpSettings.i18n.yes,
+    reverseButtons: true
+  }).then(result => {
+    if (result.isConfirmed) {
+      const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
+      editor.setContent('');
+      dataAnswers.meta_data = {};
+      setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+      const elFibBlankOptions = elQuestionEditMain.querySelector(`${className.elFibBlankOptions}`);
+      const elFibBlankOptionItems = elFibBlankOptions.querySelectorAll(`${className.elFibBlankOptionItem}:not(.clone)`);
+      elFibBlankOptionItems.forEach(elFibBlankOptionItem => {
+        elFibBlankOptionItem.remove();
+      });
+      const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${className.elBtnFibSaveContent}`);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibClearAllContent, 1);
+      fibSaveContent(null, elBtnFibSaveContent, () => {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibClearAllContent, 0);
+      });
+    }
+  });
 };
-
-// Update section title to server
-const updateSectionTitle = (e, target) => {
-  let canHandle = false;
-  if (target.closest(`${className.elBtnUpdateTitle}`)) {
-    canHandle = true;
-  } else if (target.closest(`${className.elSectionTitleInput}`) && e.key === 'Enter') {
-    canHandle = true;
-  }
-  if (!canHandle) {
+// Remove blank
+const fibDeleteBlank = (e, target) => {
+  const elBtnFibOptionDelete = target.closest(`${className.elBtnFibOptionDelete}`);
+  if (!elBtnFibOptionDelete) {
     return;
   }
-  e.preventDefault();
-  const elSection = target.closest(`${className.elSection}`);
-  if (!elSection) {
+  const elQuestionEditMain = elBtnFibOptionDelete.closest(`${className.elQuestionEditMain}`);
+  if (!elQuestionEditMain) {
     return;
   }
-  const elSectionTitleInput = elSection.querySelector(`${className.elSectionTitleInput}`);
-  if (!elSectionTitleInput) {
-    return;
-  }
-  const sectionId = elSection.dataset.sectionId;
-  const titleValue = elSectionTitleInput.value.trim();
-  const titleValueOld = elSectionTitleInput.dataset.old || '';
-  const message = elSectionTitleInput.dataset.messEmptyTitle;
-  if (titleValue.length === 0) {
-    showToast(message, 'error');
-    return;
-  }
-  if (titleValue === titleValueOld) {
-    return;
-  }
-  elSectionTitleInput.blur();
-  lpUtils.lpSetLoadingEl(elSection, 1);
-
-  // Call ajax to update section title
-  const callBack = {
-    success: response => {
-      const {
-        message,
-        status
-      } = response;
-      showToast(message, status);
-      if (status === 'success') {
-        elSectionTitleInput.dataset.old = titleValue;
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const elAnswersConfig = elQuestionEditMain.querySelector(`${className.elAnswersConfig}`);
+  const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+  const elFibBlankOptionItem = elBtnFibOptionDelete.closest(`${className.elFibBlankOptionItem}`);
+  const blankId = elFibBlankOptionItem.dataset.id;
+  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_3__["default"].fire({
+    title: elBtnFibOptionDelete.dataset.title,
+    text: elBtnFibOptionDelete.dataset.content,
+    icon: 'warning',
+    showCloseButton: true,
+    showCancelButton: true,
+    cancelButtonText: lpSettings.i18n.cancel,
+    confirmButtonText: lpSettings.i18n.yes,
+    reverseButtons: true
+  }).then(result => {
+    if (result.isConfirmed) {
+      // Find span with id on editor and remove it
+      const editor = window.tinymce.get(`${className.elQuestionFibInput}-${questionId}`);
+      const elBlank = editor.dom.select(`.${className.elQuestionFibInput}[data-id="${blankId}"]`);
+      if (elBlank[0]) {
+        // Remove tag html but keep content
+        editor.dom.remove(elBlank[0], true);
       }
-    },
-    error: error => {
-      showToast(error, 'error');
-    },
-    completed: () => {
-      lpUtils.lpSetLoadingEl(elSection, 0);
-      elSection.classList.remove('editing');
-      delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title;
+      elFibBlankOptionItem.remove();
+      dataAnswers.meta_data = dataAnswers.meta_data || {};
+      if (dataAnswers.meta_data[blankId]) {
+        delete dataAnswers.meta_data[blankId];
+      }
+      setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+      const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${className.elBtnFibSaveContent}`);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elFibBlankOptionItem, 1);
+      fibSaveContent(null, elBtnFibSaveContent, () => {});
     }
-  };
-  const dataSend = {
-    action: 'update_section',
-    course_id: courseId,
-    section_id: sectionId,
-    section_name: titleValue,
-    args: {
-      id_url: idUrlHandle
-    }
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  });
 };
-
-// Cancel updating section description
-const cancelSectionTitle = (e, target) => {
-  const elBtnCancelUpdateTitle = target.closest(`${className.elBtnCancelUpdateTitle}`);
-  if (!elBtnCancelUpdateTitle) {
+// Change title of blank option
+let timeoutAutoUpdateFib;
+const fibOptionTitleInputChange = (e, target) => {
+  const elFibOptionTitleInput = target.closest(`${className.elFibOptionTitleInput}`);
+  if (!elFibOptionTitleInput) {
     return;
   }
-  const elSection = elBtnCancelUpdateTitle.closest(`${className.elSection}`);
-  const elSectionTitleInput = elSection.querySelector(`${className.elSectionTitleInput}`);
-  elSectionTitleInput.value = elSectionTitleInput.dataset.old || ''; // Reset to old value
-  elSection.classList.remove('editing'); // Remove editing class
-  delete _share_js__WEBPACK_IMPORTED_MODULE_0__.hasChange.title;
+  const elQuestionFibOptionItem = elFibOptionTitleInput.closest(`${className.elFibBlankOptionItem}`);
+  if (!elQuestionFibOptionItem) {
+    return;
+  }
+  const elQuestionEditMain = elFibOptionTitleInput.closest(`${className.elQuestionEditMain}`);
+  if (!elQuestionEditMain) {
+    return;
+  }
+  const value = elFibOptionTitleInput.value.trim();
+  const blankId = elQuestionFibOptionItem.dataset.id;
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
+  const elBlank = editor.dom.select(`.lp-question-fib-input[data-id="${blankId}"]`);
+  if (elBlank[0]) {
+    // Update content of blank
+    elBlank[0].textContent = value;
+  }
+  clearTimeout(timeoutAutoUpdateFib);
+  timeoutAutoUpdateFib = setTimeout(() => {
+    // Call ajax to update question description
+    const elBtnFibSaveContent = elQuestionEditMain.querySelector(`${className.elBtnFibSaveContent}`);
+    fibSaveContent(null, elBtnFibSaveContent);
+  }, 700);
 };
+// Save content FIB question
+const fibSaveContent = (e, target, callBackCompleted) => {
+  const elBtnFibSaveContent = target.closest(`${className.elBtnFibSaveContent}`);
+  if (!elBtnFibSaveContent) {
+    return;
+  }
+  const elQuestionEditMain = elBtnFibSaveContent.closest(`${className.elQuestionEditMain}`);
+  const questionId = elQuestionEditMain.dataset.questionId;
+  const dataAnswers = getDataAnswersConfig(elQuestionEditMain);
+  if (!dataAnswers) {
+    return;
+  }
+  const editor = window.tinymce.get(`${className.elQuestionFibInput}-${questionId}`);
+  dataAnswers.title = editor.getContent();
+  const elFibBlankOptionItems = elQuestionEditMain.querySelectorAll(`${className.elFibBlankOptionItem}:not(.clone)`);
+  if (elFibBlankOptionItems) {
+    elFibBlankOptionItems.forEach(elFibBlankOptionItem => {
+      const blankId = elFibBlankOptionItem.dataset.id;
+      const elFibOptionMatchCaseInput = elFibBlankOptionItem.querySelector(`${className.elFibOptionMatchCaseInput}`);
+      const elFibOptionComparisonInput = elFibBlankOptionItem.querySelector(`${className.elFibOptionComparisonInput}:checked`);
+      dataAnswers.meta_data[blankId].match_case = elFibOptionMatchCaseInput.checked ? 1 : 0;
+      dataAnswers.meta_data[blankId].comparison = elFibOptionComparisonInput.value;
+    });
+  }
 
-// Update section description to server
-const updateSectionDescription = (e, target) => {
-  let canHandle = false;
-  if (target.closest(`${className.elBtnUpdateDes}`)) {
-    canHandle = true;
-  } else if (target.closest(`${className.elSectionDesInput}`) && e.key === 'Enter') {
-    canHandle = true;
-  }
-  if (!canHandle) {
-    return;
-  }
-  e.preventDefault();
-  const elSectionDesc = target.closest(`${className.elSectionDesc}`);
-  if (!elSectionDesc) {
-    return;
-  }
-  const elSectionDesInput = elSectionDesc.querySelector(`${className.elSectionDesInput}`);
-  if (!elSectionDesInput) {
-    return;
-  }
-  const elSection = elSectionDesInput.closest(`${className.elSection}`);
-  const sectionId = elSection.dataset.sectionId;
-  const descValue = elSectionDesInput.value.trim();
-  const descValueOld = elSectionDesInput.dataset.old || '';
-  if (descValue === descValueOld) {
-    return;
-  }
-  lpUtils.lpSetLoadingEl(elSection, 1);
+  //console.log( 'dataAnswers', dataAnswers );
 
-  // Call ajax to update section description
+  if (!callBackCompleted) {
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibSaveContent, 1);
+  }
+
+  // Call ajax to update answers config
   const callBack = {
     success: response => {
       const {
         message,
         status
       } = response;
+      if (status === 'success') {
+        setDataAnswersConfig(elQuestionEditMain, dataAnswers);
+      } else {
+        throw `Error: ${message}`;
+      }
       showToast(message, status);
     },
     error: error => {
       showToast(error, 'error');
     },
     completed: () => {
-      lpUtils.lpSetLoadingEl(elSection, 0);
-      const elSectionDesc = elSectionDesInput.closest(`${className.elSectionDesc}`);
-      elSectionDesc.classList.remove('editing');
-      elSectionDesInput.dataset.old = descValue; // Update old value
+      if (callBackCompleted && typeof callBackCompleted === 'function') {
+        callBackCompleted();
+      } else {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elBtnFibSaveContent, 0);
+      }
     }
   };
+
+  //console.log( 'dataAnswers', dataAnswers );
+
   const dataSend = {
-    action: 'update_section',
-    course_id: courseId,
-    section_id: sectionId,
-    section_description: descValue,
+    action: 'update_question_answers_config',
+    question_id: questionId,
+    answers: dataAnswers,
     args: {
       id_url: idUrlHandle
     }
   };
   window.lpAJAXG.fetchAJAX(dataSend, callBack);
 };
-
-// Cancel updating section description
-const cancelSectionDescription = (e, target) => {
-  const elBtnCancelUpdateDes = target.closest(`${className.elBtnCancelUpdateDes}`);
-  if (!elBtnCancelUpdateDes) {
+// Show/hide match case option
+const fibShowHideMatchCaseOption = (e, target) => {
+  const elFibOptionMatchCaseInput = target.closest(`${className.elFibOptionMatchCaseInput}`);
+  if (!elFibOptionMatchCaseInput) {
     return;
   }
-  const elSectionDesc = elBtnCancelUpdateDes.closest(`${className.elSectionDesc}`);
-  const elSectionDesInput = elSectionDesc.querySelector(`${className.elSectionDesInput}`);
-  elSectionDesInput.value = elSectionDesInput.dataset.old || ''; // Reset to old value
-  elSectionDesc.classList.remove('editing'); // Remove editing class
-};
-
-// Typing in description input
-const changeDescription = (e, target) => {
-  const elSectionDesInput = target.closest(`${className.elSectionDesInput}`);
-  if (!elSectionDesInput) {
+  const elQuestionFibOptionDetail = elFibOptionMatchCaseInput.closest(`${className.elQuestionFibOptionDetail}`);
+  const elFibOptionMatchCaseWrap = elQuestionFibOptionDetail.querySelector(`${className.elFibOptionMatchCaseWrap}`);
+  if (!elQuestionFibOptionDetail || !elFibOptionMatchCaseWrap) {
     return;
   }
-  const elSectionDesc = elSectionDesInput.closest(`${className.elSectionDesc}`);
-  const descValue = elSectionDesInput.value.trim();
-  const descValueOld = elSectionDesInput.dataset.old || '';
-  if (descValue === descValueOld) {
-    elSectionDesc.classList.remove('editing');
+  if (elFibOptionMatchCaseInput.checked) {
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibOptionMatchCaseWrap, 1);
   } else {
-    elSectionDesc.classList.add('editing');
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibOptionMatchCaseWrap, 0);
   }
 };
+/***** End Fill in the blank question type *****/
 
-// Toggle section
-const toggleSection = (e, target) => {
-  const elSectionToggle = target.closest(`${className.elSectionToggle}`);
+/**
+ * Toggle section
+ *
+ * @param e
+ * @param target
+ * @param el_trigger  is class name or id name, to find of element to trigger toggle
+ * @param els_exclude
+ */
+const toggleSection = (e, target, el_trigger = '', els_exclude = []) => {
+  if (!el_trigger) {
+    el_trigger = className.elTriggerToggle;
+  }
+  if (els_exclude && els_exclude.length > 0) {
+    for (const elExclude of els_exclude) {
+      if (target.closest(elExclude)) {
+        return;
+      }
+    }
+  }
+  const elTinymceHeader = target.closest(el_trigger);
+  if (!elTinymceHeader) {
+    return;
+  }
+  const elSectionToggle = elTinymceHeader.closest(`${className.elSectionToggle}`);
   if (!elSectionToggle) {
     return;
   }
-  const elSection = elSectionToggle.closest(`${className.elSection}`);
-  const elCurriculumSections = elSection.closest(`${className.elCurriculumSections}`);
-  if (!elCurriculumSections) {
-    return;
+  elSectionToggle.classList.toggle(`${className.elCollapse}`);
+};
+
+// Generate a random string of specified length, for set unique id
+const randomString = (length = 10) => {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-
-  // Toggle section
-  elSection.classList.toggle(`${className.elCollapse}`);
-
-  // Check all sections collapsed
-  checkAllSectionsCollapsed();
+  return result;
 };
-
-// Check if all sections are collapsed
-const checkAllSectionsCollapsed = () => {
-  const elSections = elEditCurriculum.querySelectorAll(`${className.elSection}:not(.clone)`);
-  const elToggleAllSections = elEditCurriculum.querySelector(`${className.elToggleAllSections}`);
-  let isAllExpand = true;
-  elSections.forEach(el => {
-    if (el.classList.contains(`${className.elCollapse}`)) {
-      isAllExpand = false;
-      return false; // Break the loop
-    }
-  });
-  if (isAllExpand) {
-    elToggleAllSections.classList.remove(`${className.elCollapse}`);
-  } else {
-    elToggleAllSections.classList.add(`${className.elCollapse}`);
-  }
+// Decode HTML entities
+const decodeHtml = html => {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = html;
+  return txt.value;
 };
-
-// Sortable sections, drag and drop to change section position
-const sortAbleSection = () => {
-  let isUpdateSectionPosition = 0;
-  let timeout;
-  new sortablejs__WEBPACK_IMPORTED_MODULE_2__["default"](elCurriculumSections, {
-    handle: '.drag',
-    animation: 150,
-    onEnd: evt => {
-      const target = evt.item;
-      if (!isUpdateSectionPosition) {
-        // No change in section position, do nothing
-        return;
-      }
-      const elSection = target.closest(`${className.elSection}`);
-      const elSections = elCurriculumSections.querySelectorAll(`${className.elSection}`);
-      const sectionIds = [];
-      elSections.forEach((elSection, index) => {
-        const sectionId = elSection.dataset.sectionId;
-        sectionIds.push(sectionId);
-      });
-
-      // Call ajax to update section position
-      const callBack = {
-        success: response => {
-          const {
-            message,
-            status
-          } = response;
-          showToast(message, status);
-        },
-        error: error => {
-          showToast(error, 'error');
-        },
-        completed: () => {
-          lpUtils.lpSetLoadingEl(elSection, 0);
-          isUpdateSectionPosition = 0;
-        }
-      };
-      const dataSend = {
-        action: 'update_section_position',
-        course_id: courseId,
-        new_position: sectionIds,
-        args: {
-          id_url: idUrlHandle
-        }
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        lpUtils.lpSetLoadingEl(elSection, 1);
-        window.lpAJAXG.fetchAJAX(dataSend, callBack);
-      }, 1000);
-    },
-    onMove: evt => {
-      clearTimeout(timeout);
-    },
-    onUpdate: evt => {
-      isUpdateSectionPosition = 1;
-    }
-  });
-};
-
-// Update count sections, when add or delete section
-const updateCountSections = () => {
-  const elCountSections = elEditCurriculum.querySelector(`${className.elCountSections}`);
-  const elSections = elCurriculumSections.querySelectorAll(`${className.elSection}:not(.clone)`);
-  const sectionsCount = elSections.length;
-  elCountSections.dataset.count = sectionsCount;
-  elCountSections.querySelector('.count').textContent = sectionsCount;
-};
-
-
-/***/ }),
-
-/***/ "./assets/src/js/admin/edit-curriculum/share.js":
-/*!******************************************************!*\
-  !*** ./assets/src/js/admin/edit-curriculum/share.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   className: () => (/* binding */ className),
-/* harmony export */   courseId: () => (/* binding */ courseId),
-/* harmony export */   elCurriculumSections: () => (/* binding */ elCurriculumSections),
-/* harmony export */   elEditCurriculum: () => (/* binding */ elEditCurriculum),
-/* harmony export */   hasChange: () => (/* binding */ hasChange),
-/* harmony export */   lpUtils: () => (/* reexport module object */ _utils_js__WEBPACK_IMPORTED_MODULE_0__),
-/* harmony export */   setVariable: () => (/* binding */ setVariable),
-/* harmony export */   setVariables: () => (/* binding */ setVariables),
-/* harmony export */   showToast: () => (/* binding */ showToast),
-/* harmony export */   sortAbleItem: () => (/* binding */ sortAbleItem),
-/* harmony export */   updateCountItems: () => (/* binding */ updateCountItems)
-/* harmony export */ });
-/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils.js */ "./assets/src/js/utils.js");
-/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
-/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var toastify_js_src_toastify_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toastify-js/src/toastify.css */ "./node_modules/toastify-js/src/toastify.css");
-/**
- * Share variables and functions for the edit curriculum page.
- *
- * @since 4.2.8.6
- * @version 1.0.1
- */
-
-
-
-let courseId;
-let elEditCurriculum;
-let elCurriculumSections;
-let updateCountItems;
-let sortAbleItem;
-let hasChange;
-const className = {
-  idElEditCurriculum: '#lp-course-edit-curriculum',
-  elCurriculumSections: '.curriculum-sections',
-  elSection: '.section',
-  elToggleAllSections: '.course-toggle-all-sections',
-  elSectionItem: '.section-item',
-  LPTarget: '.lp-target',
-  elCollapse: 'lp-collapse'
-};
+// Show toast notification
 const argsToastify = {
   text: '',
-  gravity: lpDataAdmin.toast.gravity,
+  gravity: lpSettings.toast.gravity,
   // `top` or `bottom`
-  position: lpDataAdmin.toast.position,
+  position: lpSettings.toast.position,
   // `left`, `center` or `right`
-  className: `${lpDataAdmin.toast.classPrefix}`,
-  close: lpDataAdmin.toast.close == 1,
-  stopOnFocus: lpDataAdmin.toast.stopOnFocus == 1,
-  duration: lpDataAdmin.toast.duration
+  className: `${lpSettings.toast.classPrefix}`,
+  close: lpSettings.toast.close == 1,
+  stopOnFocus: lpSettings.toast.stopOnFocus == 1,
+  duration: lpSettings.toast.duration
 };
 const showToast = (message, status = 'success') => {
   const toastify = new (toastify_js__WEBPACK_IMPORTED_MODULE_1___default())({
     ...argsToastify,
     text: message,
-    className: `${lpDataAdmin.toast.classPrefix} ${status}`
+    className: `${lpSettings.toast.classPrefix} ${status}`
   });
   toastify.showToast();
 };
-const setVariables = variables => {
-  ({
-    courseId,
-    elEditCurriculum,
-    elCurriculumSections,
-    updateCountItems,
-    hasChange
-  } = variables);
+const events = () => {
+  // Event click
+  document.addEventListener('click', e => {
+    const target = e.target;
+    deleteQuestionAnswer(e, target);
+    addQuestionAnswer(e, target);
+    createQuestionType(e, target);
+    fibInsertBlank(e, target);
+    fibDeleteAllBlanks(e, target);
+    fibClearContent(e, target);
+    fibDeleteBlank(e, target);
+    fibSaveContent(e, target);
+    fibShowHideMatchCaseOption(e, target);
+    if (target.closest(`${className.elFibOptionMatchCaseInput}`) || target.closest(`${className.elFibOptionComparisonInput}`)) {
+      const elQuestionEditMain = target.closest(`${className.elQuestionEditMain}`);
+      const elSaveButton = elQuestionEditMain.querySelector(`${className.elBtnFibSaveContent}`);
+      fibSaveContent(e, elSaveButton);
+    }
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.toggleCollapse(e, target);
+  });
+  // Event change
+  document.addEventListener('change', e => {
+    const target = e.target;
+    autoUpdateQuestion(e, target);
+    autoUpdateAnswer(e, target);
+  });
+  // Event keyup
+  document.addEventListener('keyup', e => {
+    const target = e.target;
+    autoUpdateAnswer(e, target);
+    fibOptionTitleInputChange(e, target);
+    checkCanAddAnswer(e, target);
+  });
+  // Event keydown
+  document.addEventListener('keydown', e => {
+    const target = e.target;
+    // Event enter
+    if (e.key === 'Enter') {
+      if (target.closest(`${className.elQuestionAnswerTitleNewInput}`)) {
+        const elQuestionAnswerItemAddNew = target.closest(`${className.elQuestionAnswerItemAddNew}`);
+        const elBtnAddAnswer = elQuestionAnswerItemAddNew.querySelector(`${className.elBtnAddAnswer}`);
+        addQuestionAnswer(e, elBtnAddAnswer);
+        e.preventDefault();
+      } else if (target.closest(`${className.elQuestionAnswerTitleInput}`) || target.closest('.lp-question-point-input') || target.closest(`${className.elFibOptionTitleInput}`)) {
+        e.preventDefault();
+      }
+    }
+  });
 };
-const setVariable = (variable, value) => {
-  if (variable && value !== undefined) {
-    switch (variable) {
-      case 'sortAbleItem':
-        sortAbleItem = value;
-        break;
+
+// Element root ready.
+_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(`${className.elEditQuestionWrap}`, elEditQuestionWrap => {
+  const findClass = className.elQuestionEditMain.replace('.', '');
+  if (!elEditQuestionWrap.classList.contains(findClass)) {
+    return;
+  }
+  events();
+  initTinyMCE();
+  sortAbleQuestionAnswer(elEditQuestionWrap);
+});
+
+
+/***/ }),
+
+/***/ "./assets/src/js/lpPopupSelectItemToAdd.js":
+/*!*************************************************!*\
+  !*** ./assets/src/js/lpPopupSelectItemToAdd.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   addItemsSelectedToSection: () => (/* binding */ addItemsSelectedToSection),
+/* harmony export */   backToSelectItems: () => (/* binding */ backToSelectItems),
+/* harmony export */   chooseTabItemsType: () => (/* binding */ chooseTabItemsType),
+/* harmony export */   removeItemSelected: () => (/* binding */ removeItemSelected),
+/* harmony export */   searchTitleItemToSelect: () => (/* binding */ searchTitleItemToSelect),
+/* harmony export */   selectItemsFromList: () => (/* binding */ selectItemsFromList),
+/* harmony export */   showItemsSelected: () => (/* binding */ showItemsSelected),
+/* harmony export */   showPopupItemsToSelect: () => (/* binding */ showPopupItemsToSelect),
+/* harmony export */   showToast: () => (/* binding */ showToast),
+/* harmony export */   watchItemsSelectedDataChange: () => (/* binding */ watchItemsSelectedDataChange)
+/* harmony export */ });
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
+/* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2-neutral */ "./node_modules/sweetalert2-neutral/dist/sweetalert2.esm.all.js");
+/**
+ *  LearnPress Popup Select Item
+ *
+ *  Handles load(search) item from API, show in popup and select item.
+ */
+
+
+
+
+let lpSettings = {};
+if ('undefined' !== typeof lpDataAdmin) {
+  lpSettings = lpDataAdmin;
+} else if ('undefined' !== typeof lpData) {
+  lpSettings = lpData;
+}
+const className = {
+  elBtnShowPopupItemsToSelect: '.lp-btn-show-popup-items-to-select',
+  elBtnAddItemsSelected: '.lp-btn-add-items-selected',
+  elBtnCountItemsSelected: '.lp-btn-count-items-selected',
+  elHeaderCountItemSelected: '.header-count-items-selected',
+  elSelectItem: '.lp-select-item',
+  elListItems: '.list-items',
+  elSearchTitleItem: '.lp-search-title-item',
+  elBtnBackListItems: '.lp-btn-back-to-select-items',
+  elListItemsWrap: '.list-items-wrap',
+  elListItemsSelected: '.list-items-selected',
+  elItemSelectedClone: '.li-item-selected.clone',
+  elItemSelected: '.li-item-selected',
+  LPTarget: '.lp-target'
+};
+const argsToastify = {
+  text: '',
+  gravity: lpSettings.toast.gravity,
+  // `top` or `bottom`
+  position: lpSettings.toast.position,
+  // `left`, `center` or `right`
+  className: `${lpSettings.toast.classPrefix}`,
+  close: lpSettings.toast.close == 1,
+  stopOnFocus: lpSettings.toast.stopOnFocus == 1,
+  duration: lpSettings.toast.duration
+};
+
+// Show popup items to select
+const showPopupItemsToSelect = (e, target, elPopupSelectItems, callBack) => {
+  const elBtnShowPopupItemsToSelect = target.closest(`${className.elBtnShowPopupItemsToSelect}`);
+  if (!elBtnShowPopupItemsToSelect) {
+    return;
+  }
+  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_2__["default"].fire({
+    html: elPopupSelectItems,
+    showConfirmButton: false,
+    showCloseButton: true,
+    width: '60%',
+    customClass: {
+      popup: 'lp-select-items-popup',
+      htmlContainer: 'lp-select-items-html-container',
+      container: 'lp-select-items-container'
+    },
+    willOpen: () => {
+      if (callBack && typeof callBack.willOpen === 'function') {
+        callBack.willOpen(itemsSelectedData || []);
+      }
+    }
+  }).then(result => {
+    if (result.isDismissed) {}
+  });
+};
+
+// Choose tab items type
+const chooseTabItemsType = (e, target, callBack) => {
+  const elTabType = target.closest('.tab');
+  if (!elTabType) {
+    return;
+  }
+  e.preventDefault();
+  const elTabs = elTabType.closest('.tabs');
+  if (!elTabs) {
+    return;
+  }
+  const elSelectItemsToAdd = elTabs.closest(`${className.elPopupItemsToSelect}`);
+  const elInputSearch = elSelectItemsToAdd.querySelector(`${className.elSearchTitleItem}`);
+  const itemType = elTabType.dataset.type;
+  const elTabLis = elTabs.querySelectorAll('.tab');
+  elTabLis.forEach(elTabLi => {
+    if (elTabLi.classList.contains('active')) {
+      elTabLi.classList.remove('active');
+    }
+  });
+  elTabType.classList.add('active');
+  // Reset search input
+  elInputSearch.value = '';
+  if (typeof callBack === 'function') {
+    callBack(itemType);
+  }
+};
+let itemsSelectedData = [];
+// Choice items to add list items selected before adding to section
+const selectItemsFromList = (e, target, elPopupSelectItems, callBack) => {
+  const elItemAttend = target.closest(`${className.elSelectItem}`);
+  if (!elItemAttend) {
+    return;
+  }
+  const elInput = elItemAttend.querySelector('input[type="checkbox"]');
+  if (target.tagName !== 'INPUT') {
+    elInput.click();
+    return;
+  }
+  const elUl = elItemAttend.closest(`${className.elListItems}`);
+  if (!elUl) {
+    return;
+  }
+  const itemSelected = {
+    ...elInput.dataset
+  };
+  //console.log( 'itemSelected', itemSelected );
+
+  if (elInput.checked) {
+    const exists = itemsSelectedData.some(item => item.id === itemSelected.id);
+    if (!exists) {
+      itemsSelectedData.push(itemSelected);
+    }
+  } else {
+    const index = itemsSelectedData.findIndex(item => item.id === itemSelected.id);
+    if (index !== -1) {
+      itemsSelectedData.splice(index, 1);
     }
   }
+  if (typeof callBack === 'function') {
+    callBack(itemsSelectedData);
+  }
+  watchItemsSelectedDataChange(elPopupSelectItems);
+};
+
+// Search title item
+let timeSearchTitleItem;
+const searchTitleItemToSelect = (e, target, elPopupItemsToSelect) => {
+  const elInputSearch = target.closest('.lp-search-title-item');
+  if (!elInputSearch) {
+    return;
+  }
+  const elLPTarget = elPopupItemsToSelect.querySelector(`${className.LPTarget}`);
+  clearTimeout(timeSearchTitleItem);
+  timeSearchTitleItem = setTimeout(() => {
+    const dataSet = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+    dataSet.args.search_title = elInputSearch.value.trim();
+    dataSet.args.item_selecting = itemsSelectedData;
+    dataSet.args.paged = 1;
+    window.lpAJAXG.setDataSetCurrent(elLPTarget, dataSet);
+
+    // Show loading
+    window.lpAJAXG.showHideLoading(elLPTarget, 1);
+    window.lpAJAXG.fetchAJAX(dataSet, {
+      success: response => {
+        const {
+          data
+        } = response;
+        elLPTarget.innerHTML = data.content || '';
+      },
+      error: error => {
+        showToast(error, 'error');
+      },
+      completed: () => {
+        window.lpAJAXG.showHideLoading(elLPTarget, 0);
+      }
+    });
+  }, 800);
+};
+
+// Show list of items, to choose items to add to section
+const showItemsSelected = (e, target, elPopupItemsToSelect) => {
+  const elBtnCountItemsSelected = target.closest(`${className.elBtnCountItemsSelected}`);
+  if (!elBtnCountItemsSelected) {
+    return;
+  }
+  const elBtnBack = elPopupItemsToSelect.querySelector(`${className.elBtnBackListItems}`);
+  const elTabs = elPopupItemsToSelect.querySelector('.tabs');
+  const elListItemsWrap = elPopupItemsToSelect.querySelector(`${className.elListItemsWrap}`);
+  const elHeaderItemsSelected = elPopupItemsToSelect.querySelector(`${className.elHeaderCountItemSelected}`);
+  const elListItemsSelected = elPopupItemsToSelect.querySelector(`${className.elListItemsSelected}`);
+  const elItemClone = elListItemsSelected.querySelector(`${className.elItemSelectedClone}`);
+  elHeaderItemsSelected.innerHTML = elBtnCountItemsSelected.innerHTML;
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsWrap, 0);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnCountItemsSelected, 0);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elTabs, 0);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnBack, 1);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elHeaderItemsSelected, 1);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsSelected, 1);
+  elListItemsSelected.querySelectorAll(`${className.elItemSelected}:not(.clone)`).forEach(elItem => {
+    elItem.remove();
+  });
+  itemsSelectedData.forEach(item => {
+    const elItemSelected = elItemClone.cloneNode(true);
+    elItemSelected.classList.remove('clone');
+    Object.entries(item).forEach(([key, value]) => {
+      elItemSelected.dataset[key] = value;
+    });
+    const elTitleDisplay = elItemSelected.querySelector('.title-display');
+    elTitleDisplay.innerHTML = item.title;
+    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elItemSelected, 1);
+    elItemClone.insertAdjacentElement('beforebegin', elItemSelected);
+  });
+};
+
+// Back to list of items
+const backToSelectItems = (e, target, elPopupSelectItems) => {
+  const elBtnBack = target.closest(`${className.elBtnBackListItems}`);
+  if (!elBtnBack) {
+    return;
+  }
+  const elBtnCountItemsSelected = elPopupSelectItems.querySelector(`${className.elBtnCountItemsSelected}`);
+  const elTabs = elPopupSelectItems.querySelector('.tabs');
+  const elListItemsWrap = elPopupSelectItems.querySelector(`${className.elListItemsWrap}`);
+  const elHeaderCountItemSelected = elPopupSelectItems.querySelector(`${className.elHeaderCountItemSelected}`);
+  const elListItemsSelected = elPopupSelectItems.querySelector(`${className.elListItemsSelected}`);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnCountItemsSelected, 1);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsWrap, 1);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elTabs, 1);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elBtnBack, 0);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elHeaderCountItemSelected, 0);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elListItemsSelected, 0);
+};
+
+// Remove item selected from list items selected
+const removeItemSelected = (e, target, elPopupSelectItems) => {
+  const elRemoveItemSelected = target.closest(`${className.elItemSelected}`);
+  if (!elRemoveItemSelected) {
+    return;
+  }
+  const itemRemove = elRemoveItemSelected.dataset;
+  const index = itemsSelectedData.findIndex(item => item.id === itemRemove.id);
+  if (index !== -1) {
+    itemsSelectedData.splice(index, 1);
+  }
+  elRemoveItemSelected.remove();
+  watchItemsSelectedDataChange(elPopupSelectItems);
+};
+
+// Watch items selected when data change
+const watchItemsSelectedDataChange = elPopupSelectItems => {
+  // Update count items selected, disable/enable buttons
+  const elBtnAddItemsSelected = elPopupSelectItems.querySelector(`${className.elBtnAddItemsSelected}`);
+  const elBtnCountItemsSelected = elPopupSelectItems.querySelector(`${className.elBtnCountItemsSelected}`);
+  const elSpanCount = elBtnCountItemsSelected.querySelector('span');
+  const elHeaderCount = elPopupSelectItems.querySelector(`${className.elHeaderCountItemSelected}`);
+  const elTarget = elPopupSelectItems.querySelector(`${className.LPTarget}`);
+  if (itemsSelectedData.length !== 0) {
+    elBtnCountItemsSelected.disabled = false;
+    elBtnAddItemsSelected.disabled = false;
+    elBtnAddItemsSelected.classList.add('active');
+    elSpanCount.textContent = `(${itemsSelectedData.length})`;
+    elHeaderCount.innerHTML = elBtnCountItemsSelected.innerHTML;
+  } else {
+    elBtnCountItemsSelected.disabled = true;
+    elBtnAddItemsSelected.disabled = true;
+    elBtnAddItemsSelected.classList.remove('active');
+    elSpanCount.textContent = '';
+    elHeaderCount.textContent = '';
+  }
+
+  // Update list input checked, when items removed, or change tab type
+  const elListItems = elPopupSelectItems.querySelector(`${className.elListItems}`);
+  const elInputs = elListItems.querySelectorAll('input[type="checkbox"]');
+  elInputs.forEach(elInputItem => {
+    const itemSelected = elInputItem.dataset;
+    const exists = itemsSelectedData.some(item => item.id === itemSelected.id);
+    elInputItem.checked = exists;
+  });
+
+  // Set item selecting data to dataset for query.
+  const dataSet = window.lpAJAXG.getDataSetCurrent(elTarget);
+  dataSet.args.item_selecting = itemsSelectedData;
+  window.lpAJAXG.setDataSetCurrent(elTarget, dataSet);
+};
+
+// Add items selected to section
+const addItemsSelectedToSection = (e, target, elPopupItemsToSelect, callBack) => {
+  const elBtnAddItems = target.closest(`${className.elBtnAddItemsSelected}`);
+  if (!elBtnAddItems) {
+    return;
+  }
+  if (!elPopupItemsToSelect) {
+    return;
+  }
+  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_2__["default"].close();
+  if (typeof callBack === 'function') {
+    callBack(itemsSelectedData);
+    itemsSelectedData = [];
+  }
+};
+const showToast = (message, status = 'success') => {
+  const toastify = new (toastify_js__WEBPACK_IMPORTED_MODULE_1___default())({
+    ...argsToastify,
+    text: message,
+    className: `${lpSettings.toast.classPrefix} ${status}`
+  });
+  toastify.showToast();
 };
 
 
@@ -690,7 +1443,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   lpGetCurrentURLNoParam: () => (/* binding */ lpGetCurrentURLNoParam),
 /* harmony export */   lpOnElementReady: () => (/* binding */ lpOnElementReady),
 /* harmony export */   lpSetLoadingEl: () => (/* binding */ lpSetLoadingEl),
-/* harmony export */   lpShowHideEl: () => (/* binding */ lpShowHideEl)
+/* harmony export */   lpShowHideEl: () => (/* binding */ lpShowHideEl),
+/* harmony export */   toggleCollapse: () => (/* binding */ toggleCollapse)
 /* harmony export */ });
 /**
  * Utils functions
@@ -703,7 +1457,10 @@ __webpack_require__.r(__webpack_exports__);
  */
 const lpClassName = {
   hidden: 'lp-hidden',
-  loading: 'loading'
+  loading: 'loading',
+  elCollapse: 'lp-collapse',
+  elSectionToggle: '.lp-section-toggle',
+  elTriggerToggle: '.lp-trigger-toggle'
 };
 const lpFetchAPI = (url, data = {}, functions = {}) => {
   if ('function' === typeof functions.before) {
@@ -858,6 +1615,37 @@ const lpSetLoadingEl = (el, status) => {
     el.classList.remove(lpClassName.loading);
   } else {
     el.classList.add(lpClassName.loading);
+  }
+};
+
+// Toggle collapse section
+const toggleCollapse = (e, target, elTriggerClassName = '', elsExclude = [], callback) => {
+  if (!elTriggerClassName) {
+    elTriggerClassName = lpClassName.elTriggerToggle;
+  }
+
+  // Exclude elements, which should not trigger the collapse toggle
+  if (elsExclude && elsExclude.length > 0) {
+    for (const elExclude of elsExclude) {
+      if (target.closest(elExclude)) {
+        return;
+      }
+    }
+  }
+  const elTrigger = target.closest(elTriggerClassName);
+  if (!elTrigger) {
+    return;
+  }
+
+  //console.log( 'elTrigger', elTrigger );
+
+  const elSectionToggle = elTrigger.closest(`${lpClassName.elSectionToggle}`);
+  if (!elSectionToggle) {
+    return;
+  }
+  elSectionToggle.classList.toggle(`${lpClassName.elCollapse}`);
+  if ('function' === typeof callback) {
+    callback(elSectionToggle);
   }
 };
 
@@ -9957,7 +10745,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
 /* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var toastify_js_src_toastify_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! toastify-js/src/toastify.css */ "./node_modules/toastify-js/src/toastify.css");
-/* harmony import */ var _edit_curriculum_edit_section__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./edit-curriculum/edit-section */ "./assets/src/js/admin/edit-curriculum/edit-section.js");
+/* harmony import */ var _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lpPopupSelectItemToAdd.js */ "./assets/src/js/lpPopupSelectItemToAdd.js");
+/* harmony import */ var _edit_question_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./edit-question.js */ "./assets/src/js/admin/edit-question.js");
 /**
  * Edit Curriculum JS handler.
  *
@@ -9970,39 +10759,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let elEditQuizWrap;
 let elEditListQuestions;
 const className = {
   elEditQuizWrap: '.lp-edit-quiz-wrap',
+  elQuestionEditMain: '.lp-question-edit-main',
   elQuestionToggleAll: '.lp-question-toggle-all',
   elEditListQuestions: '.lp-edit-list-questions',
   elQuestionItem: '.lp-question-item',
   elQuestionToggle: '.lp-question-toggle',
-  elBtnShowPopupItemsToSelect: '.lp-btn-show-popup-items-to-select',
   elPopupItemsToSelectClone: '.lp-popup-items-to-select.clone',
   elBtnAddQuestion: '.lp-btn-add-question',
   elBtnRemoveQuestion: '.lp-btn-remove-question',
   elBtnUpdateQuestionTitle: '.lp-btn-update-question-title',
+  elBtnCancelUpdateQuestionTitle: '.lp-btn-cancel-update-question-title',
   elQuestionTitleNewInput: '.lp-question-title-new-input',
   elQuestionTitleInput: '.lp-question-title-input',
   elQuestionTypeLabel: '.lp-question-type-label',
   elQuestionTypeNew: '.lp-question-type-new',
   elAddNewQuestion: 'add-new-question',
   elQuestionClone: '.lp-question-item.clone',
-  elAnswersConfig: '.lp-answers-config',
-  elQuestionByType: '.lp-question-by-type',
-  elInputAnswerSetTrue: '.lp-input-answer-set-true',
-  elQuestionAnswerItem: '.lp-question-answer-item',
-  elBtnFibInsertBlank: '.lp-btn-fib-insert-blank',
-  elBtnFibDeleteAllBlanks: '.lp-btn-fib-delete-all-blanks',
-  elBtnFibSaveContent: '.lp-btn-fib-save-content',
-  elBtnFibClearAllContent: '.lp-btn-fib-clear-all-content',
-  elFibInput: '.lp-question-fib-input',
-  elFibBlankOptions: '.lp-question-fib-blank-options',
-  elFibBlankOptionItem: '.lp-question-fib-blank-option-item',
-  elFibBlankOptionItemClone: '.lp-question-fib-blank-option-item.clone',
-  elFibBlankOptionIndex: '.lp-question-fib-option-index',
-  elBtnFibOptionDelete: '.lp-btn-fib-option-delete',
   LPTarget: '.lp-target',
   elCollapse: 'lp-collapse'
 };
@@ -10042,21 +10819,6 @@ const toggleQuestionAll = (e, target) => {
   });
 };
 
-// Toggle section
-const toggleQuestion = (e, target) => {
-  const elSectionToggle = target.closest(`${className.elQuestionToggle}`);
-  if (!elSectionToggle) {
-    return;
-  }
-  const elQuestionItem = elSectionToggle.closest(`${className.elQuestionItem}`);
-
-  // Toggle section
-  elQuestionItem.classList.toggle(`${className.elCollapse}`);
-
-  // Check all sections collapsed
-  checkAllQuestionsCollapsed();
-};
-
 // Check if all sections are collapsed
 const checkAllQuestionsCollapsed = () => {
   const elQuestionItems = elEditQuizWrap.querySelectorAll(`${className.elQuestionItem}:not(.clone)`);
@@ -10075,161 +10837,14 @@ const checkAllQuestionsCollapsed = () => {
   }
 };
 let elPopupSelectItems;
-const itemsSelectedData = [];
-// Show popup items to select
-const showPopupItemsToSelect = (e, target) => {
-  const elBtnShowPopupItemsToSelect = target.closest(`${className.elBtnShowPopupItemsToSelect}`);
-  if (!elBtnShowPopupItemsToSelect) {
-    return;
-  }
-  const elPopupItemsToSelectClone = elEditQuizWrap.querySelector(`${className.elPopupItemsToSelectClone}`);
-  elPopupSelectItems = elPopupItemsToSelectClone.cloneNode(true);
-  elPopupSelectItems.classList.remove('clone');
-  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elPopupSelectItems, 1);
-  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_1__["default"].fire({
-    html: elPopupSelectItems,
-    showConfirmButton: false,
-    showCloseButton: true,
-    width: '60%',
-    customClass: {
-      popup: 'lp-select-items-popup',
-      htmlContainer: 'lp-select-items-html-container',
-      container: 'lp-select-items-container'
-    },
-    willOpen: () => {
-      // Trigger tab lesson to be active and call AJAX load items
-      const elLPTarget = elPopupSelectItems.querySelector(`${className.LPTarget}`);
-      const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
-      dataSend.args.paged = 1;
-      dataSend.args.item_selecting = itemsSelectedData || [];
-      window.lpAJAXG.setDataSetCurrent(elLPTarget, dataSend);
-
-      // Show loading
-      window.lpAJAXG.showHideLoading(elLPTarget, 1);
-      // End
-
-      window.lpAJAXG.fetchAJAX(dataSend, {
-        success: response => {
-          const {
-            data
-          } = response;
-          elLPTarget.innerHTML = data.content || '';
-        },
-        error: error => {
-          showToast(error, 'error');
-        },
-        completed: () => {
-          window.lpAJAXG.showHideLoading(elLPTarget, 0);
-          // Show button add if there are items selected
-          //watchItemsSelectedDataChange();
-        }
-      });
-    }
-  }).then(result => {
-    //if ( result.isDismissed ) {}
-  });
-};
 
 // Update count items in each section and all sections
 const updateCountItems = elSection => {
-  const elEditCurriculum = lpEditCurriculumShare.elEditCurriculum;
-  const elCountItemsAll = elEditCurriculum.querySelector('.total-items');
-  const elItemsAll = elEditCurriculum.querySelectorAll(`${className.elSectionItem}:not(.clone)`);
+  const elCountItemsAll = elEditQuizWrap.querySelector('.total-items');
+  const elItemsAll = elEditQuizWrap.querySelectorAll(`${className.elQuestionItem}:not(.clone)`);
   const itemsAllCount = elItemsAll.length;
   elCountItemsAll.dataset.count = itemsAllCount;
   elCountItemsAll.querySelector('.count').textContent = itemsAllCount;
-
-  // Count items in section
-  const elSectionItemsCount = elSection.querySelector('.section-items-counts');
-  const elItems = elSection.querySelectorAll(`${className.elSectionItem}:not(.clone)`);
-  const itemsCount = elItems.length;
-  elSectionItemsCount.dataset.count = itemsCount;
-  elSectionItemsCount.querySelector('.count').textContent = itemsCount;
-  // End count items in section
-};
-
-// Get section by id
-const initTinyMCE = () => {
-  const elTextareas = elEditListQuestions.querySelectorAll('.lp-editor-tinymce');
-  elTextareas.forEach(elTextarea => {
-    // const elParent = elTextarea.closest( '.lp-question-item' );
-    const idTextarea = elTextarea.id;
-    reInitTinymce(idTextarea);
-  });
-};
-
-// Re-initialize TinyMCE editor
-const reInitTinymce = id => {
-  window.tinymce.execCommand('mceRemoveEditor', true, id);
-  window.tinymce.execCommand('mceAddEditor', true, id);
-  eventEditorTinymceChange(id);
-};
-let uniquid;
-let fibTextSelection;
-let fibSelection;
-// Events for TinyMCE editor
-const eventEditorTinymceChange = (id, callBack) => {
-  const editor = window.tinymce.get(id);
-  editor.settings.force_p_newlines = false;
-  editor.settings.forced_root_block = '';
-  editor.settings.force_br_newlines = true;
-  editor.settings.content_style = '' + 'body{ line-height: 2.2;}  ' + '.lp-question-fib-input{border: 1px dashed rebeccapurple;padding: 5px; } ';
-  // Event change content in TinyMCE editor
-  editor.on('change', e => {
-    console.log('Content changed:');
-  });
-  editor.on('blur', e => {
-    console.log('Content blur:');
-  });
-  // Event focus in TinyMCE editor
-  editor.on('focusin', e => {
-    console.log('Content focusin:');
-  });
-  editor.on('init', () => {
-    console.log('Content init:');
-  });
-  editor.on('setcontent', e => {
-    const elementg = editor.dom.select(`.lp-question-fib-input[data-id=${uniquid}]`);
-    if (elementg[0]) {
-      elementg[0].focus();
-    }
-    editor.dom.bind(elementg[0], 'input', function (e) {
-      console.log('Input changed:', e.target.value);
-    });
-  });
-  editor.on('selectionchange', e => {
-    fibSelection = editor.selection;
-
-    // Check selection is blank, check empty blank content
-    if (fibSelection.getNode().classList.contains('lp-question-fib-input')) {
-      const blankId = fibSelection.getNode().dataset.id;
-      const textBlank = fibSelection.getNode().textContent.trim();
-      if (textBlank.length === 0) {
-        const editorId = editor.id;
-        const questionId = editorId.replace('lp-question-fib-input-', '');
-        const elQuestionItem = document.querySelector(`${className.elQuestionItem}[data-question-id="${questionId}"]`);
-        const elQuestionBlankOptions = elQuestionItem.querySelector(`${className.elFibBlankOptions}`);
-        const elFibBlankOptionItem = elQuestionBlankOptions.querySelector(`${className.elFibBlankOptionItem}[data-id="${blankId}"]`);
-        if (elFibBlankOptionItem) {
-          _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItem, 0);
-        }
-      }
-    }
-  });
-  editor.on('Undo', function (e) {
-    const contentUndo = editor.getContent();
-    const selection = editor.selection;
-    const nodeUndo = selection.getNode();
-    const classNameFind = className.elFibInput.replace('.', '');
-    if (nodeUndo.classList.contains(`${classNameFind}`)) {
-      const blankId = nodeUndo.dataset.id;
-      const elFibBlankOptionItem = document.querySelector(`${className.elFibBlankOptionItem}[data-id="${blankId}"]`);
-      if (elFibBlankOptionItem) {
-        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItem, 1);
-      }
-    }
-  });
-  editor.on('Redo', function (e) {});
 };
 const addQuestion = (e, target) => {
   let canHandle = false;
@@ -10247,16 +10862,22 @@ const addQuestion = (e, target) => {
     return;
   }
   const elQuestionTitleNewInput = elAddNewQuestion.querySelector(`${className.elQuestionTitleNewInput}`);
-  const questionType = elAddNewQuestion.querySelector(`${className.elQuestionTypeNew}`).value;
   const questionTitle = elQuestionTitleNewInput.value.trim();
   if (!questionTitle) {
-    showToast('Please enter a question title.', 'error');
+    showToast(elQuestionTitleNewInput.dataset.messEmptyTitle, 'error');
+    return;
+  }
+  const elQuestionType = elAddNewQuestion.querySelector(`${className.elQuestionTypeNew}`);
+  const questionType = elQuestionType.value;
+  if (!questionType) {
+    showToast(elQuestionType.dataset.messEmptyType, 'error');
     return;
   }
   const elQuestionClone = elEditListQuestions.querySelector(`${className.elQuestionItem}.clone`);
   const newQuestionItem = elQuestionClone.cloneNode(true);
   const elQuestionTitleInput = newQuestionItem.querySelector(`${className.elQuestionTitleInput}`);
   elQuestionTitleInput.value = questionTitle;
+  elQuestionTitleNewInput.value = '';
   newQuestionItem.classList.remove('clone');
   _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(newQuestionItem, 1);
   elQuestionClone.insertAdjacentElement('beforebegin', newQuestionItem);
@@ -10272,21 +10893,20 @@ const addQuestion = (e, target) => {
       } = response;
       const {
         question,
-        quizQuestions,
-        html_question_answers,
-        question_type_label
+        html_edit_question
       } = data;
       if (status === 'error') {
-        newQuestionItem.remove();
+        throw `Error: ${message}`;
       } else if (status === 'success') {
         newQuestionItem.dataset.questionId = question.ID;
-        const elQuestionByType = newQuestionItem.querySelector(`${className.elQuestionByType}`);
-        elQuestionByType.innerHTML = html_question_answers || '';
-        const elQuestionTypeLabel = newQuestionItem.querySelector(`${className.elQuestionTypeLabel}`);
-        if (elQuestionTypeLabel) {
-          elQuestionTypeLabel.textContent = question_type_label;
-        }
-        initTinyMCE();
+        newQuestionItem.dataset.questionType = question.meta_data._lp_type;
+        newQuestionItem.outerHTML = html_edit_question;
+        const elQuestionItemCreated = elEditListQuestions.querySelector(`${className.elQuestionItem}[data-question-id="${question.ID}"]`);
+        elQuestionItemCreated.classList.remove(className.elCollapse);
+        updateCountItems();
+        _edit_question_js__WEBPACK_IMPORTED_MODULE_6__.initTinyMCE();
+        const elQuestionEditMain = elQuestionItemCreated.querySelector(`${className.elQuestionEditMain}`);
+        _edit_question_js__WEBPACK_IMPORTED_MODULE_6__.sortAbleQuestionAnswer(elQuestionEditMain);
       }
       showToast(message, status);
     },
@@ -10296,11 +10916,11 @@ const addQuestion = (e, target) => {
     },
     completed: () => {
       _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(newQuestionItem, 0);
-      newQuestionItem.classList.remove(`${className.elCollapse}`);
+      checkCanAddQuestion(e, elQuestionTitleNewInput);
     }
   };
   const dataSend = {
-    action: 'add_question_to_quiz',
+    action: 'create_question_add_to_quiz',
     quiz_id: quizID,
     question_title: questionTitle,
     question_type: questionType,
@@ -10310,6 +10930,33 @@ const addQuestion = (e, target) => {
   };
   window.lpAJAXG.fetchAJAX(dataSend, callBack);
 };
+
+// Check to enable or disable add new question button
+const checkCanAddQuestion = (e, target) => {
+  const elTrigger = target.closest(className.elQuestionTitleNewInput) || target.closest(className.elQuestionTypeNew);
+  if (!elTrigger) {
+    return;
+  }
+  const elAddNewQuestion = elTrigger.closest(`.${className.elAddNewQuestion}`);
+  if (!elAddNewQuestion) {
+    return;
+  }
+  const elBtnAddQuestion = elAddNewQuestion.querySelector(`${className.elBtnAddQuestion}`);
+  if (!elBtnAddQuestion) {
+    return;
+  }
+  const elQuestionTitleInput = elAddNewQuestion.querySelector(`${className.elQuestionTitleNewInput}`);
+  const elQuestionTypeNew = elAddNewQuestion.querySelector(`${className.elQuestionTypeNew}`);
+  const questionTitle = elQuestionTitleInput.value.trim();
+  const questionType = elQuestionTypeNew.value;
+  if (questionTitle && questionType) {
+    elBtnAddQuestion.classList.add('active');
+  } else {
+    elBtnAddQuestion.classList.remove('active');
+  }
+};
+
+// Remove question
 const removeQuestion = (e, target) => {
   const elBtnRemoveQuestion = target.closest(`${className.elBtnRemoveQuestion}`);
   if (!elBtnRemoveQuestion) {
@@ -10343,6 +10990,7 @@ const removeQuestion = (e, target) => {
           showToast(message, status);
           if (status === 'success') {
             elQuestionItem.remove();
+            updateCountItems();
           }
         },
         error: error => {
@@ -10435,379 +11083,208 @@ const updateQuestionTitle = (e, target) => {
   window.lpAJAXG.fetchAJAX(dataSend, callBack);
 };
 
-// For answers config
-const updateAnswersConfig = (e, target) => {
-  const elInputAnswerSetTrue = target.closest(`${className.elInputAnswerSetTrue}`);
-  if (!elInputAnswerSetTrue) {
+// Typing in description input
+const changeTitleQuestion = (e, target) => {
+  const elQuestionTitleInput = target.closest(`${className.elQuestionTitleInput}`);
+  if (!elQuestionTitleInput) {
     return;
   }
-  const elQuestionAnswerItem = elInputAnswerSetTrue.closest(`${className.elQuestionAnswerItem}`);
-  if (!elQuestionAnswerItem) {
-    return;
-  }
-  const elQuestionItem = elInputAnswerSetTrue.closest(`${className.elQuestionItem}`);
-  if (!elQuestionItem) {
-    return;
-  }
-  const questionId = elQuestionItem.dataset.questionId;
-  const elAnswersConfig = elQuestionItem.querySelector(`${className.elAnswersConfig}`);
-  if (!elAnswersConfig) {
-    return;
-  }
-  const dataAnswers = JSON.parse(elAnswersConfig.dataset.answers || '[]');
-  if (!dataAnswers) {
-    return;
-  }
-  const answerId = elQuestionAnswerItem.dataset.answerId;
-  //console.log('Answer ID:', answerId);
-
-  // For both radio and checkbox.
-  const dataAnswersOld = structuredClone(dataAnswers);
-  dataAnswers.map(answer => {
-    const elQuestionAnswerItem = elQuestionItem.querySelector(`${className.elQuestionAnswerItem}[data-answer-id="${answer.question_answer_id}"]`);
-    const elInputAnswerSetTrue = elQuestionAnswerItem.querySelector(`${className.elInputAnswerSetTrue}`);
-    if (elInputAnswerSetTrue.checked) {
-      answer.is_true = 'yes';
-    } else {
-      answer.is_true = '';
-    }
-    return answer;
-  });
-
-  //console.log( dataAnswers );
-
-  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 1);
-
-  // Call ajax to update answers config
-  const callBack = {
-    success: response => {
-      const {
-        message,
-        status
-      } = response;
-      if (status === 'success') {} else {
-        throw `Error: ${message}`;
-      }
-      showToast(message, status);
-    },
-    error: error => {
-      // rollback changes to old data
-      dataAnswersOld.forEach(answer => {
-        const elAnswerItem = elQuestionItem.querySelector(`${className.elQuestionAnswerItem}[data-answer-id="${answer.question_answer_id}"]`);
-        const inputAnswerSetTrue = elAnswerItem.querySelector(`${className.elInputAnswerSetTrue}`);
-        if (answer.is_true === 'yes') {
-          inputAnswerSetTrue.checked = true;
-        }
-        return answer;
-      });
-      showToast(error, 'error');
-    },
-    completed: () => {
-      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 0);
-    }
-  };
-  const dataSend = {
-    quiz_id: quizID,
-    action: 'update_question_answers_config',
-    question_id: questionId,
-    answers: dataAnswers,
-    args: {
-      id_url: idUrlHandle
-    }
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
-};
-// End for answers config
-
-// For FIB question type
-const fibInsertBlank = (e, target) => {
-  const elBtnFibInsertBlank = target.closest(`${className.elBtnFibInsertBlank}`);
-  if (!elBtnFibInsertBlank) {
-    return;
-  }
-  const elQuestionItem = elBtnFibInsertBlank.closest(`${className.elQuestionItem}`);
-  if (!elQuestionItem) {
-    return;
-  }
-  const questionId = elQuestionItem.dataset.questionId;
-  uniquid = randomString();
-  const idEditor = `lp-question-fib-input-${questionId}`;
-  const editor = window.tinymce.get(idEditor);
-  const elAnswersConfig = elQuestionItem.querySelector(`${className.elAnswersConfig}`);
-  const dataAnswers = JSON.parse(elAnswersConfig.dataset.answers || '[]');
-  if (!dataAnswers) {
-    return;
-  }
-  let selectedText;
-  if (fibSelection) {
-    const elNode = fibSelection.getNode();
-    if (elNode.classList.contains('lp-question-fib-input')) {
-      showToast('this text inserted to blank', 'error');
-      return;
-    }
-    selectedText = fibSelection.getContent();
-    if (selectedText.length === 0) {
-      selectedText = elBtnFibInsertBlank.dataset.defaultText;
-    }
-    const elInputNew = `<span class="lp-question-fib-input" data-id="${uniquid}">${selectedText}</span>&nbsp;`;
-    fibSelection.setContent(elInputNew);
+  const elQuestionItem = elQuestionTitleInput.closest(`${className.elQuestionItem}`);
+  const titleValue = elQuestionTitleInput.value.trim();
+  const titleValueOld = elQuestionTitleInput.dataset.old || '';
+  if (titleValue === titleValueOld) {
+    elQuestionItem.classList.remove('editing');
   } else {
-    const elInputNew = `<span class="lp-question-fib-input" data-id="${uniquid}">Enter answer correct on here</span>&nbsp;`;
-    editor.selection.select(editor.getBody(), true);
-    editor.selection.collapse(false);
-    editor.insertContent(elInputNew);
+    elQuestionItem.classList.add('editing');
   }
-  dataAnswers.meta_data = dataAnswers.meta_data || {};
-  dataAnswers.meta_data[uniquid] = {
-    id: uniquid,
-    comparison: '',
-    fill: selectedText,
-    index: 1,
-    match_case: 0,
-    open: false
-  };
-  elAnswersConfig.dataset.answers = JSON.stringify(dataAnswers);
-
-  // Clone blank options
-  const elFibBlankOptions = elQuestionItem.querySelector(`${className.elFibBlankOptions}`);
-  const elFibBlankOptionItemClone = elQuestionItem.querySelector(`${className.elFibBlankOptionItemClone}`);
-  const elFibBlankOptionItemNew = elFibBlankOptionItemClone.cloneNode(true);
-  const countOptions = elFibBlankOptions.querySelectorAll(`${className.elFibBlankOptionItem}:not(.clone)`).length;
-  const elFibBlankOptionIndex = elFibBlankOptionItemNew.querySelector(`${className.elFibBlankOptionIndex}`);
-  const elFibBlankOptionInput = elFibBlankOptionItemNew.querySelector(`${className.elFibBlankOptionItem} input`);
-  elFibBlankOptionInput.value = decodeHtml(selectedText);
-  elFibBlankOptionItemNew.dataset.id = uniquid;
-  elFibBlankOptionIndex.textContent = countOptions + 1 + '.';
-  elFibBlankOptionItemNew.classList.remove('clone');
-  elFibBlankOptions.insertAdjacentElement('beforeend', elFibBlankOptionItemNew);
-  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elFibBlankOptionItemNew, 1);
-  // End clone blank options
 };
 
-// Change blank option
-const fibChangeBlankOption = (e, target) => {
-  const elFibBlankOptionItem = target.closest(`${className.elFibBlankOptionItem}`);
-  if (!elFibBlankOptionItem) {
+// Cancel updating section description
+const cancelChangeTitleQuestion = (e, target) => {
+  const elBtnCancelUpdateQuestionTitle = target.closest(`${className.elBtnCancelUpdateQuestionTitle}`);
+  if (!elBtnCancelUpdateQuestionTitle) {
     return;
   }
-  const elQuestionItem = elFibBlankOptionItem.closest(`${className.elQuestionItem}`);
-  if (!elQuestionItem) {
-    return;
-  }
-  const questionId = elQuestionItem.dataset.questionId;
-  const blankId = elFibBlankOptionItem.dataset.id;
-  const elAnswersConfig = elQuestionItem.querySelector(`${className.elAnswersConfig}`);
-  const dataAnswers = JSON.parse(elAnswersConfig.dataset.answers || '[]');
-  const elFibBlankOptionItemInputs = elFibBlankOptionItem.querySelectorAll('input');
-  elFibBlankOptionItemInputs.forEach(elInput => {
-    const key = elInput.dataset.key;
-    if (elInput.checked) {
-      dataAnswers.meta_data[blankId][key] = elInput.value;
-    } else if (key === 'match_case') {
-      dataAnswers.meta_data[blankId][key] = 0;
-    }
-  });
-
-  // Save changes to answers config
-  elAnswersConfig.dataset.answers = JSON.stringify(dataAnswers);
+  const elQuestionItem = elBtnCancelUpdateQuestionTitle.closest(`${className.elQuestionItem}`);
+  const elQuestionTitleInput = elQuestionItem.querySelector(`${className.elQuestionTitleInput}`);
+  elQuestionTitleInput.value = elQuestionTitleInput.dataset.old || ''; // Reset to old value
+  elQuestionItem.classList.remove('editing'); // Remove editing class
 };
 
-// Remove blank
-const fibDeleteBlank = (e, target) => {
-  const elBtnFibOptionDelete = target.closest(`${className.elBtnFibOptionDelete}`);
-  if (!elBtnFibOptionDelete) {
-    return;
-  }
-  const elQuestionItem = elBtnFibOptionDelete.closest(`${className.elQuestionItem}`);
-  if (!elQuestionItem) {
-    return;
-  }
-  const questionId = elQuestionItem.dataset.questionId;
-  const elAnswersConfig = elQuestionItem.querySelector(`${className.elAnswersConfig}`);
-  const dataAnswers = JSON.parse(elAnswersConfig.dataset.answers || '[]');
-  const blankItem = elBtnFibOptionDelete.closest(`${className.elFibBlankOptionItem}`);
-  const blankId = blankItem.dataset.id;
-  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_1__["default"].fire({
-    title: elBtnFibOptionDelete.dataset.title,
-    text: elBtnFibOptionDelete.dataset.content,
-    icon: 'warning',
-    showCloseButton: true,
-    showCancelButton: true,
-    cancelButtonText: lpDataAdmin.i18n.cancel,
-    confirmButtonText: lpDataAdmin.i18n.yes,
-    reverseButtons: true
-  }).then(result => {
-    if (result.isConfirmed) {
-      // Find span with id on editor and remove it
-      const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
-      const elBlank = editor.dom.select(`.lp-question-fib-input[data-id="${blankId}"]`);
-      if (elBlank[0]) {
-        // Remove tag html but keep content
-        editor.dom.remove(elBlank[0], true);
+// Sortable questions
+const sortAbleQuestion = () => {
+  let isUpdateSectionPosition = 0;
+  let timeout;
+  new sortablejs__WEBPACK_IMPORTED_MODULE_2__["default"](elEditListQuestions, {
+    handle: '.drag',
+    animation: 150,
+    onEnd: evt => {
+      const elQuestionItem = evt.item;
+      if (!isUpdateSectionPosition) {
+        // No change in section position, do nothing
+        return;
       }
-      blankItem.remove();
-      dataAnswers.meta_data = dataAnswers.meta_data || {};
-      if (dataAnswers.meta_data[blankId]) {
-        delete dataAnswers.meta_data[blankId];
-      }
-      elAnswersConfig.dataset.answers = JSON.stringify(dataAnswers);
-    }
-  });
-};
-
-// Delete all blanks
-const FibDeleteAllBlanks = (e, target) => {
-  const elBtnFibDeleteAllBlanks = target.closest(`${className.elBtnFibDeleteAllBlanks}`);
-  if (!elBtnFibDeleteAllBlanks) {
-    return;
-  }
-  const elQuestionItem = elBtnFibDeleteAllBlanks.closest(`${className.elQuestionItem}`);
-  if (!elQuestionItem) {
-    return;
-  }
-  const questionId = elQuestionItem.dataset.questionId;
-  const elAnswersConfig = elQuestionItem.querySelector(`${className.elAnswersConfig}`);
-  const dataAnswers = JSON.parse(elAnswersConfig.dataset.answers || '[]');
-  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_1__["default"].fire({
-    title: elBtnFibDeleteAllBlanks.dataset.title,
-    text: elBtnFibDeleteAllBlanks.dataset.content,
-    icon: 'warning',
-    showCloseButton: true,
-    showCancelButton: true,
-    cancelButtonText: lpDataAdmin.i18n.cancel,
-    confirmButtonText: lpDataAdmin.i18n.yes,
-    reverseButtons: true
-  }).then(result => {
-    if (result.isConfirmed) {
-      const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
-      const elBlanks = editor.dom.select(`.lp-question-fib-input`);
-      elBlanks.forEach(elBlank => {
-        editor.dom.remove(elBlank, true);
-      });
-      dataAnswers.meta_data = {};
-      elAnswersConfig.dataset.answers = JSON.stringify(dataAnswers);
-      const elFibBlankOptions = elQuestionItem.querySelector(`${className.elFibBlankOptions}`);
-      elFibBlankOptions.innerHTML = '';
-    }
-  });
-};
-
-// Clear content FIB question
-const FibClearContent = (e, target) => {
-  const elBtnFibClearAllContent = target.closest(`${className.elBtnFibClearAllContent}`);
-  if (!elBtnFibClearAllContent) {
-    return;
-  }
-  const elQuestionItem = elBtnFibClearAllContent.closest(`${className.elQuestionItem}`);
-  if (!elQuestionItem) {
-    return;
-  }
-  const questionId = elQuestionItem.dataset.questionId;
-  const elAnswersConfig = elQuestionItem.querySelector(`${className.elAnswersConfig}`);
-  const dataAnswers = JSON.parse(elAnswersConfig.dataset.answers || '[]');
-  sweetalert2_neutral__WEBPACK_IMPORTED_MODULE_1__["default"].fire({
-    title: elBtnFibClearAllContent.dataset.title,
-    text: elBtnFibClearAllContent.dataset.content,
-    icon: 'warning',
-    showCloseButton: true,
-    showCancelButton: true,
-    cancelButtonText: lpDataAdmin.i18n.cancel,
-    confirmButtonText: lpDataAdmin.i18n.yes,
-    reverseButtons: true
-  }).then(result => {
-    if (result.isConfirmed) {
-      const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
-      editor.setContent('');
-      dataAnswers.meta_data = {};
-      elAnswersConfig.dataset.answers = JSON.stringify(dataAnswers);
-      const elFibBlankOptions = elQuestionItem.querySelector(`${className.elFibBlankOptions}`);
-      elFibBlankOptions.innerHTML = '';
-    }
-  });
-};
-
-// Save content FIB question
-const fibSaveContent = (e, target) => {
-  const elBtnFibSaveContent = target.closest(`${className.elBtnFibSaveContent}`);
-  if (!elBtnFibSaveContent) {
-    return;
-  }
-  const elQuestionItem = elBtnFibSaveContent.closest(`${className.elQuestionItem}`);
-  if (!elQuestionItem) {
-    return;
-  }
-  const questionId = elQuestionItem.dataset.questionId;
-  const elAnswersConfig = elQuestionItem.querySelector(`${className.elAnswersConfig}`);
-  const dataAnswers = JSON.parse(elAnswersConfig.dataset.answers || '[]');
-  if (!dataAnswers) {
-    return;
-  }
-  const editor = window.tinymce.get(`lp-question-fib-input-${questionId}`);
-  dataAnswers.title = editor.getContent();
-  _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 1);
-
-  // Call ajax to update answers config
-  const callBack = {
-    success: response => {
-      const {
-        message,
-        status
-      } = response;
-      if (status === 'success') {} else {
-        throw `Error: ${message}`;
-      }
-      showToast(message, status);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 1);
+        const questionIds = [];
+        const elQuestionItems = elEditListQuestions.querySelectorAll(`${className.elQuestionItem}:not(.clone)`);
+        elQuestionItems.forEach(elItem => {
+          const questionId = elItem.dataset.questionId;
+          if (questionId) {
+            questionIds.push(questionId);
+          }
+        });
+        const callBack = {
+          success: response => {
+            const {
+              message,
+              status
+            } = response;
+            if (status === 'success') {
+              showToast(message, status);
+              _edit_question_js__WEBPACK_IMPORTED_MODULE_6__.initTinyMCE();
+            } else {
+              throw `Error: ${message}`;
+            }
+          },
+          error: error => {
+            showToast(error, 'error');
+          },
+          completed: () => {
+            _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 0);
+            isUpdateSectionPosition = 0; // Reset position update flag
+          }
+        };
+        const dataSend = {
+          quiz_id: quizID,
+          action: 'update_questions_position',
+          question_ids: questionIds,
+          args: {
+            id_url: idUrlHandle
+          }
+        };
+        window.lpAJAXG.fetchAJAX(dataSend, callBack);
+      }, 1000);
     },
-    error: error => {
-      showToast(error, 'error');
+    onMove: evt => {
+      clearTimeout(timeout);
     },
-    completed: () => {
-      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItem, 0);
+    onUpdate: evt => {
+      isUpdateSectionPosition = 1;
     }
-  };
-  const dataSend = {
-    quiz_id: quizID,
-    action: 'update_question_answers_config',
-    question_id: questionId,
-    answers: dataAnswers,
-    args: {
-      id_url: idUrlHandle
-    }
-  };
-  window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  });
 };
-const randomString = (length = 10) => {
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
-};
-function decodeHtml(html) {
-  const txt = document.createElement('textarea');
-  txt.innerHTML = html;
-  return txt.value;
-}
-
-// End FIB question type
 
 // Events
 document.addEventListener('click', e => {
   const target = e.target;
   toggleQuestionAll(e, target);
-  toggleQuestion(e, target);
-  showPopupItemsToSelect(e, target);
+  _utils_js__WEBPACK_IMPORTED_MODULE_0__.toggleCollapse(e, target, className.elQuestionToggle, [], checkAllQuestionsCollapsed);
   addQuestion(e, target);
   removeQuestion(e, target);
   updateQuestionTitle(e, target);
-  updateAnswersConfig(e, target);
-  fibInsertBlank(e, target);
-  fibSaveContent(e, target);
-  fibChangeBlankOption(e, target);
-  fibDeleteBlank(e, target);
-  FibDeleteAllBlanks(e, target);
-  FibClearContent(e, target);
+  cancelChangeTitleQuestion(e, target);
+
+  // Events for Popup Select Items to add
+  const callBackPopupSelectItems = {
+    willOpen: itemsSelectedData => {
+      // Trigger tab lesson to be active and call AJAX load items
+      const elLPTarget = elPopupSelectItems.querySelector(`${className.LPTarget}`);
+      const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
+      dataSend.args.paged = 1;
+      dataSend.args.item_selecting = itemsSelectedData || [];
+      window.lpAJAXG.setDataSetCurrent(elLPTarget, dataSend);
+
+      // Show loading
+      window.lpAJAXG.showHideLoading(elLPTarget, 1);
+      // End
+
+      window.lpAJAXG.fetchAJAX(dataSend, {
+        success: response => {
+          const {
+            data
+          } = response;
+          elLPTarget.innerHTML = data.content || '';
+        },
+        error: error => {
+          showToast(error, 'error');
+        },
+        completed: () => {
+          window.lpAJAXG.showHideLoading(elLPTarget, 0);
+          // Show button add if there are items selected
+          _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.watchItemsSelectedDataChange(elPopupSelectItems);
+        }
+      });
+    }
+  };
+  _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.showPopupItemsToSelect(e, target, elPopupSelectItems, callBackPopupSelectItems);
+  _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.selectItemsFromList(e, target, elPopupSelectItems);
+  _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.addItemsSelectedToSection(e, target, elPopupSelectItems, itemsSelected => {
+    //console.log( 'Items selected to add:', itemsSelected );
+    const questionIds = [];
+    itemsSelected.forEach(item => {
+      const elQuestionItemClone = elEditQuizWrap.querySelector(`${className.elQuestionItem}.clone`);
+      if (!elQuestionItemClone) {
+        return;
+      }
+      questionIds.push(item.id);
+      const elQuestionItemNew = elQuestionItemClone.cloneNode(true);
+      const elQuestionItemTitleInput = elQuestionItemNew.querySelector(`${className.elQuestionTitleInput}`);
+      const elQuestionTypeLabel = elQuestionItemNew.querySelector(`${className.elQuestionTypeLabel}`);
+      elQuestionItemNew.classList.remove('clone');
+      elQuestionItemNew.dataset.questionId = item.id;
+      elQuestionItemTitleInput.value = item.titleSelected;
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItemNew, 1);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elQuestionItemNew, 1);
+      elQuestionItemClone.insertAdjacentElement('beforebegin', elQuestionItemNew);
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(elQuestionItemNew, 1);
+    });
+
+    // Ajax to add items to quiz
+    const callBack = {
+      success: response => {
+        const {
+          message,
+          status,
+          data
+        } = response;
+        if (status === 'success') {
+          showToast(message, status);
+          const {
+            html_edit_question
+          } = data;
+          if (html_edit_question) {
+            Object.entries(html_edit_question).forEach(([question_id, item_html]) => {
+              const elQuestionItemNew = elEditQuizWrap.querySelector(`${className.elQuestionItem}[data-question-id="${question_id}"]`);
+              elQuestionItemNew.outerHTML = item_html;
+            });
+          }
+          updateCountItems();
+          _edit_question_js__WEBPACK_IMPORTED_MODULE_6__.initTinyMCE();
+        } else {
+          throw `Error: ${message}`;
+        }
+      },
+      error: error => {
+        showToast(error, 'error');
+      },
+      completed: () => {}
+    };
+    const dataSend = {
+      quiz_id: quizID,
+      action: 'add_questions_to_quiz',
+      question_ids: questionIds,
+      args: {
+        id_url: idUrlHandle
+      }
+    };
+    window.lpAJAXG.fetchAJAX(dataSend, callBack);
+  });
+  _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.showItemsSelected(e, target, elPopupSelectItems);
+  _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.backToSelectItems(e, target, elPopupSelectItems);
+  _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.removeItemSelected(e, target, elPopupSelectItems);
+  // End events for Popup Select Items to add
 });
 // Event keydown
 document.addEventListener('keydown', e => {
@@ -10822,18 +11299,15 @@ document.addEventListener('keydown', e => {
 // Event keyup
 document.addEventListener('keyup', e => {
   const target = e.target;
-  //console.log( 'keyup', target );
-  if (target.classList.contains('lp-editor-tinymce')) {
-    //window.tinymce.triggerSave();
-    //console.log( 'keyup', target.value );
-  }
+  changeTitleQuestion(e, target);
+  checkCanAddQuestion(e, target);
+  _lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_5__.searchTitleItemToSelect(e, target, elPopupSelectItems);
 });
-// Event focus in
-document.addEventListener('focusin', e => {
-  //console.log( 'focusin', e.target );
+// Event change
+document.addEventListener('change', e => {
+  const target = e.target;
+  checkCanAddQuestion(e, target);
 });
-// Event focus out
-document.addEventListener('focusout', e => {});
 
 // Element root ready.
 _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(`${className.elEditQuizWrap}`, elEditQuizWrapFound => {
@@ -10842,7 +11316,16 @@ _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(`${className.elEditQuizW
   const elLPTarget = elEditQuizWrap.closest(`${className.LPTarget}`);
   const dataSend = window.lpAJAXG.getDataSetCurrent(elLPTarget);
   quizID = dataSend.args.quiz_id;
-  initTinyMCE();
+  const elPopupItemsToSelectClone = elEditQuizWrap.querySelector(`${className.elPopupItemsToSelectClone}`);
+  elPopupSelectItems = elPopupItemsToSelectClone.cloneNode(true);
+  elPopupSelectItems.classList.remove('clone', 'lp-hidden');
+  sortAbleQuestion();
+  _edit_question_js__WEBPACK_IMPORTED_MODULE_6__.events();
+  _edit_question_js__WEBPACK_IMPORTED_MODULE_6__.initTinyMCE();
+  const elQuestionEditMains = elEditQuizWrapFound.querySelectorAll(`${className.elQuestionEditMain}`);
+  elQuestionEditMains.forEach(elQuestionEditMain => {
+    _edit_question_js__WEBPACK_IMPORTED_MODULE_6__.sortAbleQuestionAnswer(elQuestionEditMain);
+  });
 });
 })();
 

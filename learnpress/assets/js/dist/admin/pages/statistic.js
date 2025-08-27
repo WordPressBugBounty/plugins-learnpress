@@ -1,4 +1,4 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 /*!*****************************************************!*\
   !*** ./assets/src/apps/js/admin/pages/statistic.js ***!
@@ -18,7 +18,6 @@ var __webpack_exports__ = {};
     });
     //
   };
-
   $.fn.LP_Statistic_Users = function () {
     if (parseInt($(this).length) === 0) {
       return;
@@ -195,7 +194,6 @@ var __webpack_exports__ = {};
             q: term // search term
           };
         },
-
         results(data, page) {
           return {
             results: data.items
@@ -219,7 +217,6 @@ var __webpack_exports__ = {};
             q: term // search term
           };
         },
-
         results(data, page) {
           return {
             results: data.items

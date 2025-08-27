@@ -1,4 +1,7 @@
 /**
+ * Edit Curriculum styles
+ */
+/**
  * Mixin
  */
 @-webkit-keyframes rotating4 {
@@ -107,6 +110,214 @@
   padding: 12px 20px;
   border: none;
   margin: 0 auto;
+}
+
+/**
+* Style for the popup select item to add in LearnPress
+*/
+.lp-select-items-popup {
+  padding: 0 !important;
+  grid-row: 1 !important;
+  --swal2-close-button-font-size: 32px;
+}
+.lp-select-items-html-container {
+  padding: 0 !important;
+}
+
+.lp-popup-items-to-select {
+  text-align: left;
+  font-size: 1rem;
+  /**
+  * Style for the buttons
+  */
+}
+.lp-popup-items-to-select .lp-btn-edit-primary {
+  border: none;
+  background: #135e96;
+  color: #fff;
+}
+.lp-popup-items-to-select .lp-btn-edit-primary:not(.active) {
+  opacity: 0.5;
+}
+.lp-popup-items-to-select .lp-btn-edit-primary:hover, .lp-popup-items-to-select .lp-btn-edit-primary.active, .lp-popup-items-to-select .lp-btn-edit-primary.active:hover {
+  background: #135E96;
+  color: #fff;
+  opacity: 1;
+}
+.lp-popup-items-to-select .header {
+  position: relative;
+}
+.lp-popup-items-to-select .header .header-count-items-selected {
+  border-bottom: 1px solid #C3C4C7;
+  padding: 16px 20px;
+}
+.lp-popup-items-to-select .header .tabs {
+  margin: 0;
+  border-bottom: 1px solid #C3C4C7;
+}
+.lp-popup-items-to-select .header .tabs .tab {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+}
+.lp-popup-items-to-select .header .tabs .tab:not(:last-child)::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  height: 44px;
+  margin-top: -22px;
+  border-right: 1px solid #C3C4C7;
+  content: "";
+}
+.lp-popup-items-to-select .header .tabs .tab.active::after {
+  display: inline-block;
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -6px;
+  border: 1px solid #C3C4C7;
+  border-right: 0;
+  border-bottom: 0;
+  background: #fff;
+  content: "";
+  transform: rotate(45deg);
+}
+.lp-popup-items-to-select .header .tabs .tab.active a {
+  color: #0073aa;
+}
+.lp-popup-items-to-select .header .tabs .tab a {
+  display: inline-block;
+  height: 44px;
+  padding: 0 20px;
+  color: #333;
+  font-weight: 600;
+  line-height: 2.75rem;
+  text-decoration: none;
+}
+.lp-popup-items-to-select .header .tabs .tab a:focus {
+  box-shadow: none;
+}
+.lp-popup-items-to-select .main {
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+  border-bottom: 1px solid #C3C4C7;
+}
+.lp-popup-items-to-select .main input.lp-search-title-item {
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid #C3C4C7;
+  margin-bottom: 10px;
+}
+.lp-popup-items-to-select .list-items, .lp-popup-items-to-select .list-items-selected {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  min-height: 260px;
+  max-height: 460px;
+  margin: 0;
+}
+.lp-popup-items-to-select .list-items li, .lp-popup-items-to-select .list-items-selected li {
+  margin: 0;
+  cursor: pointer;
+}
+.lp-popup-items-to-select .list-items-selected li {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: #999;
+}
+.lp-popup-items-to-select .list-items-selected li .item-type {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  line-height: unset;
+}
+.lp-popup-items-to-select .list-items-selected li .item-title {
+  color: #333;
+}
+.lp-popup-items-to-select .list-items-selected li.selected {
+  background-color: #F4FCFF;
+}
+.lp-popup-items-to-select .list-items-selected li:hover .dashicons-remove {
+  opacity: 1;
+}
+.lp-popup-items-to-select .list-items-selected .dashicons-remove {
+  color: #E74C3C;
+  opacity: 0.6;
+}
+.lp-popup-items-to-select .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0 -10px -10px;
+  align-items: center;
+}
+.lp-popup-items-to-select .pagination li {
+  margin: 0;
+  cursor: pointer;
+}
+.lp-popup-items-to-select .pagination li .page-numbers {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp-popup-items-to-select .pagination li a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.lp-popup-items-to-select .footer {
+  padding: 16px 20px;
+  display: flex;
+  gap: 5px;
+}
+
+/**
+* Style for the popup alert, confirm
+*/
+.swal2-popup .swal2-actions {
+  width: 100%;
+  padding: 0 30px;
+}
+.swal2-popup .swal2-actions button {
+  flex: 1;
+}
+.swal2-popup .swal2-actions button.swal2-confirm {
+  background-color: #E02200;
+}
+.swal2-popup .swal2-actions button.swal2-cancel {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  color: inherit;
+}
+.swal2-popup .swal2-warning {
+  color: #E02200;
+  border-color: transparent;
+  background-color: rgba(223, 0, 0, 0.1019607843);
+}
+.swal2-popup .swal2-icon {
+  width: 50px;
+  height: 50px;
+}
+.swal2-popup .swal2-icon .swal2-icon-content {
+  font-size: 0;
+}
+.swal2-popup .swal2-icon .swal2-icon-content::before {
+  content: "\f071";
+  font-family: "lp-icon";
+  font-size: 24px;
+  display: inline-block;
+}
+.swal2-popup .swal2-title {
+  font-size: 1.5em;
+}
+.swal2-popup .swal2-html-container {
+  font-size: 1em;
 }
 
 #lp-course-edit-curriculum {
@@ -380,6 +591,18 @@
   border: 1px solid #C3C4C7;
   border-top: none;
   background-color: #F4FCFF;
+  /**
+  * Style for the buttons
+  */
+  /*.lp-btn-add-section {
+  	border: none;
+  	background: rgba(19, 94, 150, 0.5);
+  	color: #fff;
+
+  	&:hover, &.active {
+  		background: rgba(19, 94, 150, 1);
+  	}
+  }*/
 }
 #lp-course-edit-curriculum .add-new-section.focus {
   border-top: 1px solid;
@@ -388,13 +611,18 @@
 #lp-course-edit-curriculum .add-new-section input {
   font-size: 16px;
 }
-#lp-course-edit-curriculum .add-new-section .lp-btn-add-section {
+#lp-course-edit-curriculum .add-new-section .lp-btn-edit-primary {
   border: none;
-  background: rgba(19, 94, 150, 0.5);
+  background: #135e96;
   color: #fff;
 }
-#lp-course-edit-curriculum .add-new-section .lp-btn-add-section:hover, #lp-course-edit-curriculum .add-new-section .lp-btn-add-section.active {
-  background: rgb(19, 94, 150);
+#lp-course-edit-curriculum .add-new-section .lp-btn-edit-primary:not(.active) {
+  opacity: 0.5;
+}
+#lp-course-edit-curriculum .add-new-section .lp-btn-edit-primary:hover, #lp-course-edit-curriculum .add-new-section .lp-btn-edit-primary.active, #lp-course-edit-curriculum .add-new-section .lp-btn-edit-primary.active:hover {
+  background: #135E96;
+  color: #fff;
+  opacity: 1;
 }
 #lp-course-edit-curriculum .lp-add-item-type {
   border: 1px solid #2271B1;
@@ -449,7 +677,6 @@
   padding: 6px 10px;
   background: #fff;
   transition: background 200ms ease-out;
-  justify-content: center;
   align-items: center;
   gap: 5px;
 }
@@ -563,154 +790,4 @@
 }
 #lp-course-edit-curriculum .lp-section-title-input {
   font-size: 16px;
-}
-
-.lp-select-items-popup {
-  padding: 0 !important;
-  grid-row: 1 !important;
-  --swal2-close-button-font-size: 32px;
-}
-.lp-select-items-popup .swal2-close {
-  padding-top: 8px;
-}
-
-.lp-select-items-html-container {
-  padding: 0 !important;
-}
-
-.lp-popup-items-to-select {
-  text-align: left;
-  font-size: 1rem;
-}
-.lp-popup-items-to-select .header {
-  position: relative;
-}
-.lp-popup-items-to-select .header .header-count-items-selected {
-  border-bottom: 1px solid #C3C4C7;
-  padding: 16px 20px;
-}
-.lp-popup-items-to-select .header .tabs {
-  margin: 0;
-  border-bottom: 1px solid #C3C4C7;
-}
-.lp-popup-items-to-select .header .tabs .tab {
-  display: inline-block;
-  position: relative;
-  margin: 0;
-}
-.lp-popup-items-to-select .header .tabs .tab:not(:last-child)::before {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  height: 44px;
-  margin-top: -22px;
-  border-right: 1px solid #C3C4C7;
-  content: "";
-}
-.lp-popup-items-to-select .header .tabs .tab.active::after {
-  display: inline-block;
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  margin-left: -6px;
-  border: 1px solid #C3C4C7;
-  border-right: 0;
-  border-bottom: 0;
-  background: #fff;
-  content: "";
-  transform: rotate(45deg);
-}
-.lp-popup-items-to-select .header .tabs .tab.active a {
-  color: #0073aa;
-}
-.lp-popup-items-to-select .header .tabs .tab a {
-  display: inline-block;
-  height: 44px;
-  padding: 0 20px;
-  color: #333;
-  font-weight: 600;
-  line-height: 2.75rem;
-  text-decoration: none;
-}
-.lp-popup-items-to-select .header .tabs .tab a:focus {
-  box-shadow: none;
-}
-.lp-popup-items-to-select .main {
-  overflow: hidden;
-  position: relative;
-  padding: 20px;
-  border-bottom: 1px solid #C3C4C7;
-}
-.lp-popup-items-to-select .main input.lp-search-title-item {
-  width: 100%;
-  font-size: 1rem;
-  border: 1px solid #C3C4C7;
-  margin-bottom: 10px;
-}
-.lp-popup-items-to-select .list-items, .lp-popup-items-to-select .list-items-selected {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
-  min-height: 260px;
-  max-height: 460px;
-  margin: 0;
-}
-.lp-popup-items-to-select .list-items li, .lp-popup-items-to-select .list-items-selected li {
-  margin: 0;
-  cursor: pointer;
-}
-.lp-popup-items-to-select .list-items-selected li {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  color: #999;
-}
-.lp-popup-items-to-select .list-items-selected li .item-type {
-  padding: 0;
-  font-size: inherit;
-  color: inherit;
-  line-height: unset;
-}
-.lp-popup-items-to-select .list-items-selected li .item-title {
-  color: #333;
-}
-.lp-popup-items-to-select .list-items-selected li.selected {
-  background-color: #F4FCFF;
-}
-.lp-popup-items-to-select .list-items-selected li:hover .dashicons-remove {
-  opacity: 1;
-}
-.lp-popup-items-to-select .list-items-selected .dashicons-remove {
-  color: #E74C3C;
-  opacity: 0.6;
-}
-.lp-popup-items-to-select .pagination {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px 0 -10px -10px;
-  align-items: center;
-}
-.lp-popup-items-to-select .pagination li {
-  margin: 0;
-  cursor: pointer;
-}
-.lp-popup-items-to-select .pagination li .page-numbers {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.lp-popup-items-to-select .pagination li a {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-.lp-popup-items-to-select .footer {
-  padding: 16px 20px;
-  display: flex;
-  gap: 5px;
 }

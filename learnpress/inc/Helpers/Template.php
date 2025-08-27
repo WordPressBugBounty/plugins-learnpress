@@ -375,4 +375,92 @@ class Template {
 
 		return Template::instance()->nest_elements( $html_wrapper, $pagination );
 	}
+
+	/**
+	 * Convert data to JSON string
+	 *
+	 * @param array|object|mixed $data
+	 *
+	 * @return string
+	 * @since 4.2.9
+	 * @version 1.0.0
+	 */
+	public static function convert_data_to_json( $data ): string {
+		return esc_attr(
+			htmlentities2(
+				wp_json_encode(
+					$data,
+					JSON_HEX_QUOT |
+					JSON_HEX_TAG |
+					JSON_HEX_AMP |
+					JSON_HEX_APOS |
+					JSON_UNESCAPED_UNICODE |
+					JSON_UNESCAPED_SLASHES
+				)
+			)
+		);
+	}
+
+	/**
+	 * Sanitize HTML content by allowing specific tags and attributes.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 * @since 4.2.9
+	 * @version 1.0.0
+	 */
+	public static function sanitize_html_content( string $content = '' ): string {
+		$allowed_tags = wp_kses_allowed_html( 'post' );
+
+		$extra_tag = array(
+			'iframe' => [
+				'src'             => true,
+				'width'           => true,
+				'height'          => true,
+				'frameborder'     => true,
+				'allowfullscreen' => true,
+				'allow'           => true,
+			],
+			'audio'  => array(
+				'autoplay'         => true,
+				'controls'         => true,
+				'loop'             => true,
+				'muted'            => true,
+				'preload'          => true,
+				'src'              => true,
+				'aria-controls'    => true,
+				'aria-current'     => true,
+				'aria-describedby' => true,
+				'aria-details'     => true,
+				'aria-expanded'    => true,
+				'aria-hidden'      => true,
+				'aria-label'       => true,
+				'aria-labelledby'  => true,
+				'aria-live'        => true,
+				'class'            => true,
+				'data-*'           => true,
+				'dir'              => true,
+				'hidden'           => true,
+				'id'               => true,
+				'lang'             => true,
+				'style'            => true,
+				'title'            => true,
+				'role'             => true,
+				'xml:lang'         => true,
+				'controlslist'     => true,
+				'crossorigin'      => true,
+				'poster'           => true,
+			),
+			'source' => array(
+				'src'   => true,
+				'type'  => true,
+				'media' => true,
+			),
+		);
+
+		$allowed_tags = array_merge( $allowed_tags, $extra_tag );
+
+		return wp_kses( $content, $allowed_tags );
+	}
 }

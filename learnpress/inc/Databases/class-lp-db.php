@@ -4,11 +4,9 @@
  *
  * @author tungnx
  * @since 3.2.7.5
- * @version 2.0.2
+ * @version 2.0.3
  */
 defined( 'ABSPATH' ) || exit();
-
-//require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 class LP_Database {
 	private static $_instance;
@@ -27,7 +25,7 @@ class LP_Database {
 	public $tb_lp_sessions;
 	public $tb_lp_files;
 	public $tb_thim_cache;
-	private $collate = '';
+	private $collate         = '';
 	public $max_index_length = '191';
 
 	protected function __construct() {
@@ -568,7 +566,7 @@ class LP_Database {
 
 		$total_pages = floor( $total_rows / $limit );
 		if ( $total_rows % $limit !== 0 ) {
-			$total_pages ++;
+			++$total_pages;
 		}
 
 		return (int) $total_pages;
@@ -615,6 +613,15 @@ class LP_Database {
 					}
 				}
 			}
+
+			foreach ( $filter->fields as $key => $field ) {
+				if ( $field === 'order' ) {
+					// Replace order with `order` to avoid conflict with SQL reserved word.
+					$filter->fields[ $key ] = '`order`';
+					break;
+				}
+			}
+
 			$FIELDS = implode( ',', array_unique( $filter->fields ) );
 		}
 		$FIELDS = apply_filters( 'lp/query/fields', $FIELDS, $filter );
@@ -632,7 +639,7 @@ class LP_Database {
 		$GROUP_BY = '';
 		if ( $filter->group_by ) {
 			$GROUP_BY .= 'GROUP BY ' . $filter->group_by;
-			$GROUP_BY = apply_filters( 'lp/query/group_by', $GROUP_BY, $filter );
+			$GROUP_BY  = apply_filters( 'lp/query/group_by', $GROUP_BY, $filter );
 		}
 
 		// Order by
@@ -644,7 +651,7 @@ class LP_Database {
 			}
 
 			$ORDER_BY .= 'ORDER BY ' . $filter->order_by . ' ' . $filter->order . ' ';
-			$ORDER_BY = apply_filters( 'lp/query/order_by', $ORDER_BY, $filter );
+			$ORDER_BY  = apply_filters( 'lp/query/order_by', $ORDER_BY, $filter );
 		}
 
 		// Limit
@@ -687,7 +694,7 @@ class LP_Database {
 		if ( $filter->return_string_query ) {
 			return $query;
 		} elseif ( ! empty( $filter->union ) ) {
-			$query = implode( ' UNION ', array_unique( $filter->union ) );
+			$query  = implode( ' UNION ', array_unique( $filter->union ) );
 			$query .= $GROUP_BY;
 			$query .= $ORDER_BY;
 			$query .= $LIMIT;
@@ -813,5 +820,120 @@ class LP_Database {
 		}
 
 		return $arr_object_ids;
+	}
+
+	/**
+	 * Insert data
+	 *
+	 * @param array $args
+	 *
+	 * @return int
+	 * @throws Exception
+	 * @version 1.0.0
+	 * @since 4.2.9
+	 */
+	public function insert_data( array $args ): int {
+		$data               = $args['data'] ?? [];
+		$filter             = $args['filter'] ?? null;
+		$table_name         = $args['table_name'] ?? '';
+		$key_auto_increment = $args['key_auto_increment'] ?? '';
+		$key_auto_increment = sanitize_key( $key_auto_increment );
+
+		if ( empty( $data ) || ! is_array( $data ) ) {
+			throw new Exception( __( 'Data must be an array!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( ! $filter instanceof LP_Filter ) {
+			throw new Exception( __( 'Invalid filter!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( empty( $filter->all_fields ) ) {
+			throw new Exception( __( 'Filter must have property all_fields!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( empty( $table_name ) ) {
+			throw new Exception( __( 'Table name is required!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( empty( $key_auto_increment ) || ! is_string( $key_auto_increment ) ) {
+			throw new Exception( __( 'Key auto increment must be a string!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		foreach ( $data as $col_name => $value ) {
+			if ( ! in_array( $col_name, $filter->all_fields ) ) {
+				unset( $data[ $col_name ] );
+			}
+		}
+
+		// unset key is auto increment.
+		unset( $data[ $key_auto_increment ] );
+
+		$this->wpdb->insert( $table_name, $data );
+
+		$this->check_execute_has_error();
+
+		return $this->wpdb->insert_id;
+	}
+
+	/**
+	 * Update data
+	 *
+	 * @param array $args
+	 *
+	 * @return bool
+	 *
+	 * @throws Exception
+	 * @since 4.2.9
+	 * @version 1.0.0
+	 */
+	public function update_data( array $args ): bool {
+		$data       = $args['data'] ?? [];
+		$filter     = $args['filter'] ?? null;
+		$table_name = $args['table_name'] ?? '';
+		$where_key  = $args['where_key'] ?? '';
+		$where_key  = sanitize_key( $where_key );
+
+		if ( ! $filter instanceof LP_Filter ) {
+			throw new Exception( __( 'Invalid filter!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( empty( $filter->all_fields ) ) {
+			throw new Exception( __( 'Filter must have property all_fields!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( empty( $data ) || ! is_array( $data ) ) {
+			throw new Exception( __( 'Data must be an array!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( empty( $where_key ) ) {
+			throw new Exception( __( 'Invalid where key!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		if ( empty( $table_name ) ) {
+			throw new Exception( __( 'Table name is required!', 'learnpress' ) . ' | ' . __FUNCTION__ );
+		}
+
+		$filter->collection = $table_name;
+		foreach ( $data as $col_name => $value ) {
+			if ( ! in_array( $col_name, $filter->all_fields ) ) {
+				continue;
+			}
+
+			// Key `order` is reserved keyword in MySQL
+			if ( $col_name === 'order' ) {
+				$col_name = '`order`';
+			}
+
+			if ( is_null( $value ) ) {
+				$filter->set[] = $col_name . ' = null';
+			} else {
+				$filter->set[] = $this->wpdb->prepare( $col_name . ' = %s', $value );
+			}
+		}
+
+		$filter->where[] = $this->wpdb->prepare( "AND $where_key = %d", $data[ $where_key ] );
+		$this->update_execute( $filter );
+
+		return true;
 	}
 }

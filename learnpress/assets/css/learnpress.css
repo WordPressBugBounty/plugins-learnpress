@@ -2893,20 +2893,6 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   content: "\f29c";
 }
 
-.scroll-wrapper {
-  overflow: hidden;
-  opacity: 0;
-}
-.scroll-wrapper .scroll-element {
-  background: transparent;
-}
-.scroll-wrapper .scroll-element.scroll-y.scroll-scrolly_visible {
-  transition: opacity 0.25s;
-}
-.scroll-wrapper:hover .scroll-element.scroll-y.scroll-scrolly_visible {
-  opacity: 0.7;
-}
-
 .course-remaining-time .label-enrolled {
   font-size: inherit;
 }
@@ -4035,7 +4021,6 @@ button[data-counter]::after {
   margin-bottom: 30px;
 }
 .question .question-content img {
-  width: 100%;
   max-width: 100%;
 }
 .question .question-response {
@@ -5801,6 +5786,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 .lp-single-offline-course__left .item-title {
   margin-bottom: 30px;
 }
+.lp-single-offline-course__left > img {
+  margin-bottom: 30px;
+}
 .lp-single-offline-course__right {
   width: 30%;
   position: relative;
@@ -5845,6 +5833,18 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
 .lp-single-offline-course .info-metas .info-meta-left > span,
 .lp-single-offline-course .course-featured-review .info-meta-left > span {
   min-width: 16px;
+}
+@media (min-width: 992px) {
+  .lp-single-offline-course .info-metas.lp-is-mobile,
+  .lp-single-offline-course .course-featured-review.lp-is-mobile {
+    display: none;
+  }
+}
+@media (max-width: 991px) {
+  .lp-single-offline-course .info-metas.lp-is-pc,
+  .lp-single-offline-course .course-featured-review.lp-is-pc {
+    display: none;
+  }
 }
 .lp-single-offline-course form.purchase-course, .lp-single-offline-course form.enroll-course, .lp-single-offline-course form.retake-course {
   width: 100%;
@@ -8221,6 +8221,20 @@ body.lp-sidebar-toggle__close #popup-header, body.lp-sidebar-toggle__close #popu
 .course-curriculum .section.closed .section-content {
   overflow: hidden;
   height: 0;
+}
+
+.scroll-wrapper {
+  overflow: hidden;
+  opacity: 0;
+}
+.scroll-wrapper .scroll-element {
+  background: transparent;
+}
+.scroll-wrapper .scroll-element.scroll-y.scroll-scrolly_visible {
+  transition: opacity 0.25s;
+}
+.scroll-wrapper:hover .scroll-element.scroll-y.scroll-scrolly_visible {
+  opacity: 0.7;
 }
 
 .lp-skeleton-animation {
