@@ -634,7 +634,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=43") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=149") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -648,6 +648,7 @@ ul .clearfix {
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  font-display: swap;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

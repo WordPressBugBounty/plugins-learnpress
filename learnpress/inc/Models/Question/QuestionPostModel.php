@@ -128,7 +128,7 @@ class QuestionPostModel extends PostModel {
 		}
 
 		// For addon sorting choice old <= v4.0.1
-		if ( class_exists( 'LP_Addon_Sorting_Choice_Preload' ) ) {
+		if ( class_exists( 'LP_Addon_Sorting_Choice_Preload' ) && $type === 'sorting_choice' ) {
 			if ( version_compare( LP_ADDON_SORTING_CHOICE_VER, '4.0.1', '<=' ) ) {
 				return QuestionSortingChoiceModel::class;
 			}
@@ -192,32 +192,6 @@ class QuestionPostModel extends PostModel {
 		}
 
 		return $types[ $type ];
-	}
-
-	/**
-	 * Get class name of Template html
-	 *
-	 * @param string $type
-	 *
-	 * @return string
-	 */
-	public function get_template_by_type( string $type = '' ): string {
-		if ( empty( $type ) ) {
-			$type = $this->get_type();
-		}
-
-		switch ( $type ) {
-			case 'true_or_false':
-				return 'question-true-or-false';
-			case 'multi_choice':
-				return 'question-multi-choice';
-			case 'single_choice':
-				return 'question-single-choice';
-			case 'fill_in_blanks':
-				return 'question-fill-in-blanks';
-			default:
-				return '';
-		}
 	}
 
 	/**

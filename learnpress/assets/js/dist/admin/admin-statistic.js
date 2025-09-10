@@ -751,7 +751,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./chunks/helpers.dataset.js */ "./node_modules/chart.js/dist/chunks/helpers.dataset.js");
 /*!
- * Chart.js v4.4.9
+ * Chart.js v4.5.0
  * https://www.chartjs.org
  * (c) 2025 Chart.js Contributors
  * Released under the MIT License
@@ -2273,6 +2273,22 @@ class BarController extends DatasetController {
  _getStackCount(index) {
         return this._getStacks(undefined, index).length;
     }
+    _getAxisCount() {
+        return this._getAxis().length;
+    }
+    getFirstScaleIdForIndexAxis() {
+        const scales = this.chart.scales;
+        const indexScaleId = this.chart.options.indexAxis;
+        return Object.keys(scales).filter((key)=>scales[key].axis === indexScaleId).shift();
+    }
+    _getAxis() {
+        const axis = {};
+        const firstScaleAxisId = this.getFirstScaleIdForIndexAxis();
+        for (const dataset of this.chart.data.datasets){
+            axis[(0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.v)(this.chart.options.indexAxis === 'x' ? dataset.xAxisID : dataset.yAxisID, firstScaleAxisId)] = true;
+        }
+        return Object.keys(axis);
+    }
  _getStackIndex(datasetIndex, name, dataIndex) {
         const stacks = this._getStacks(datasetIndex, dataIndex);
         const index = name !== undefined ? stacks.indexOf(name) : -1;
@@ -2363,10 +2379,13 @@ class BarController extends DatasetController {
         const skipNull = options.skipNull;
         const maxBarThickness = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.v)(options.maxBarThickness, Infinity);
         let center, size;
+        const axisCount = this._getAxisCount();
         if (ruler.grouped) {
             const stackCount = skipNull ? this._getStackCount(index) : ruler.stackCount;
-            const range = options.barThickness === 'flex' ? computeFlexCategoryTraits(index, ruler, options, stackCount) : computeFitCategoryTraits(index, ruler, options, stackCount);
-            const stackIndex = this._getStackIndex(this.index, this._cachedMeta.stack, skipNull ? index : undefined);
+            const range = options.barThickness === 'flex' ? computeFlexCategoryTraits(index, ruler, options, stackCount * axisCount) : computeFitCategoryTraits(index, ruler, options, stackCount * axisCount);
+            const axisID = this.chart.options.indexAxis === 'x' ? this.getDataset().xAxisID : this.getDataset().yAxisID;
+            const axisNumber = this._getAxis().indexOf((0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.v)(axisID, this.getFirstScaleIdForIndexAxis()));
+            const stackIndex = this._getStackIndex(this.index, this._cachedMeta.stack, skipNull ? index : undefined) + axisNumber;
             center = range.start + range.chunk * stackIndex + range.chunk / 2;
             size = Math.min(maxBarThickness, range.chunk * range.ratio);
         } else {
@@ -6284,7 +6303,7 @@ function needContext(proxy, names) {
     return false;
 }
 
-var version = "4.4.9";
+var version = "4.5.0";
 
 const KNOWN_POSITIONS = [
     'top',
@@ -7178,6 +7197,34 @@ function invalidatePlugins() {
     return (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.F)(Chart.instances, (chart)=>chart._plugins.invalidate());
 }
 
+function clipSelf(ctx, element, endAngle) {
+    const { startAngle , x , y , outerRadius , innerRadius , options  } = element;
+    const { borderWidth , borderJoinStyle  } = options;
+    const outerAngleClip = Math.min(borderWidth / outerRadius, (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(startAngle - endAngle));
+    ctx.beginPath();
+    ctx.arc(x, y, outerRadius - borderWidth / 2, startAngle + outerAngleClip / 2, endAngle - outerAngleClip / 2);
+    if (innerRadius > 0) {
+        const innerAngleClip = Math.min(borderWidth / innerRadius, (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(startAngle - endAngle));
+        ctx.arc(x, y, innerRadius + borderWidth / 2, endAngle - innerAngleClip / 2, startAngle + innerAngleClip / 2, true);
+    } else {
+        const clipWidth = Math.min(borderWidth / 2, outerRadius * (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(startAngle - endAngle));
+        if (borderJoinStyle === 'round') {
+            ctx.arc(x, y, clipWidth, endAngle - _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.P / 2, startAngle + _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.P / 2, true);
+        } else if (borderJoinStyle === 'bevel') {
+            const r = 2 * clipWidth * clipWidth;
+            const endX = -r * Math.cos(endAngle + _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.P / 2) + x;
+            const endY = -r * Math.sin(endAngle + _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.P / 2) + y;
+            const startX = r * Math.cos(startAngle + _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.P / 2) + x;
+            const startY = r * Math.sin(startAngle + _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.P / 2) + y;
+            ctx.lineTo(endX, endY);
+            ctx.lineTo(startX, startY);
+        }
+    }
+    ctx.closePath();
+    ctx.moveTo(0, 0);
+    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.clip('evenodd');
+}
 function clipArc(ctx, element, endAngle) {
     const { startAngle , pixelMargin , x , y , outerRadius , innerRadius  } = element;
     let angleMargin = pixelMargin / outerRadius;
@@ -7195,7 +7242,7 @@ function clipArc(ctx, element, endAngle) {
     ctx.clip();
 }
 function toRadiusCorners(value) {
-    return (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(value, [
+    return (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.am)(value, [
         'outerStart',
         'outerEnd',
         'innerStart',
@@ -7341,7 +7388,7 @@ function drawArc(ctx, element, offset, spacing, circular) {
 }
 function drawBorder(ctx, element, offset, spacing, circular) {
     const { fullCircles , startAngle , circumference , options  } = element;
-    const { borderWidth , borderJoinStyle , borderDash , borderDashOffset  } = options;
+    const { borderWidth , borderJoinStyle , borderDash , borderDashOffset , borderRadius  } = options;
     const inner = options.borderAlign === 'inner';
     if (!borderWidth) {
         return;
@@ -7368,6 +7415,9 @@ function drawBorder(ctx, element, offset, spacing, circular) {
     if (inner) {
         clipArc(ctx, element, endAngle);
     }
+    if (options.selfJoin && endAngle - startAngle >= _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.P && borderRadius === 0 && borderJoinStyle !== 'miter') {
+        clipSelf(ctx, element, endAngle);
+    }
     if (!fullCircles) {
         pathArc(ctx, element, offset, spacing, endAngle, circular);
         ctx.stroke();
@@ -7386,7 +7436,8 @@ class ArcElement extends Element {
         offset: 0,
         spacing: 0,
         angle: undefined,
-        circular: true
+        circular: true,
+        selfJoin: false
     };
     static defaultRoutes = {
         backgroundColor: 'backgroundColor'
@@ -7495,10 +7546,10 @@ function lineTo(ctx, previous, target) {
 }
  function getLineMethod(options) {
     if (options.stepped) {
-        return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.as;
+        return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.at;
     }
     if (options.tension || options.cubicInterpolationMode === 'monotone') {
-        return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.at;
+        return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.au;
     }
     return lineTo;
 }
@@ -7593,12 +7644,12 @@ function pathVars(points, segment, params = {}) {
 }
  function _getInterpolationMethod(options) {
     if (options.stepped) {
-        return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ap;
-    }
-    if (options.tension || options.cubicInterpolationMode === 'monotone') {
         return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.aq;
     }
-    return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ar;
+    if (options.tension || options.cubicInterpolationMode === 'monotone') {
+        return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ar;
+    }
+    return _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.as;
 }
 function strokePathWithCache(ctx, line, start, count) {
     let path = line._path;
@@ -7678,7 +7729,7 @@ class LineElement extends Element {
         const options = this.options;
         if ((options.tension || options.cubicInterpolationMode === 'monotone') && !options.stepped && !this._pointsUpdated) {
             const loop = options.spanGaps ? this._loop : this._fullLoop;
-            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.am)(this._points, options, chartArea, loop, indexAxis);
+            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.an)(this._points, options, chartArea, loop, indexAxis);
             this._pointsUpdated = true;
         }
     }
@@ -7692,7 +7743,7 @@ class LineElement extends Element {
         return this._points;
     }
     get segments() {
-        return this._segments || (this._segments = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.an)(this, this.options.segment));
+        return this._segments || (this._segments = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ao)(this, this.options.segment));
     }
  first() {
         const segments = this.segments;
@@ -7709,7 +7760,7 @@ class LineElement extends Element {
         const options = this.options;
         const value = point[property];
         const points = this.points;
-        const segments = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ao)(this, {
+        const segments = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ap)(this, {
             property,
             start: value,
             end: value
@@ -7846,7 +7897,7 @@ class PointElement extends Element {
         ctx.strokeStyle = options.borderColor;
         ctx.lineWidth = options.borderWidth;
         ctx.fillStyle = options.backgroundColor;
-        (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.au)(ctx, options, this.x, this.y);
+        (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av)(ctx, options, this.x, this.y);
     }
     getRange() {
         const options = this.options || {};
@@ -7890,7 +7941,7 @@ function skipOrLimit(skip, value, min, max) {
 function parseBorderWidth(bar, maxW, maxH) {
     const value = bar.options.borderWidth;
     const skip = bar.borderSkipped;
-    const o = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.aw)(value);
+    const o = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(value);
     return {
         t: skipOrLimit(skip.top, o.top, 0, maxH),
         r: skipOrLimit(skip.right, o.right, 0, maxW),
@@ -7903,7 +7954,7 @@ function parseBorderRadius(bar, maxW, maxH) {
         'enableBorderRadius'
     ]);
     const value = bar.options.borderRadius;
-    const o = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(value);
+    const o = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(value);
     const maxR = Math.min(maxW, maxH);
     const skip = bar.borderSkipped;
     const enableBorder = enableBorderRadius || (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.i)(value);
@@ -7996,7 +8047,7 @@ class BarElement extends Element {
     draw(ctx) {
         const { inflateAmount , options: { borderColor , backgroundColor  }  } = this;
         const { inner , outer  } = boundingRects(this);
-        const addRectPath = hasRadius(outer.radius) ? _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av : addNormalRectPath;
+        const addRectPath = hasRadius(outer.radius) ? _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.aw : addNormalRectPath;
         ctx.save();
         if (outer.w !== inner.w || outer.h !== inner.h) {
             ctx.beginPath();
@@ -8347,10 +8398,10 @@ function _segments(line, target, property) {
             });
             continue;
         }
-        const targetSegments = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ao)(target, bounds);
+        const targetSegments = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ap)(target, bounds);
         for (const tgt of targetSegments){
             const subBounds = _getBounds(property, tpoints[tgt.start], tpoints[tgt.end], tgt.loop);
-            const fillSources = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(segment, points, subBounds);
+            const fillSources = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.az)(segment, points, subBounds);
             for (const fillSource of fillSources){
                 parts.push({
                     source: fillSource,
@@ -8374,8 +8425,8 @@ function _getBounds(property, first, last, loop) {
     let start = first[property];
     let end = last[property];
     if (property === 'angle') {
-        start = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.az)(start);
-        end = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.az)(end);
+        start = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(start);
+        end = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(end);
     }
     return {
         property,
@@ -8742,24 +8793,41 @@ function doFill(ctx, cfg) {
     const { line , target , above , below , area , scale , clip  } = cfg;
     const property = line._loop ? 'angle' : cfg.axis;
     ctx.save();
-    if (property === 'x' && below !== above) {
-        clipVertical(ctx, target, area.top);
-        fill(ctx, {
-            line,
-            target,
-            color: above,
-            scale,
-            property,
-            clip
-        });
-        ctx.restore();
-        ctx.save();
-        clipVertical(ctx, target, area.bottom);
+    let fillColor = below;
+    if (below !== above) {
+        if (property === 'x') {
+            clipVertical(ctx, target, area.top);
+            fill(ctx, {
+                line,
+                target,
+                color: above,
+                scale,
+                property,
+                clip
+            });
+            ctx.restore();
+            ctx.save();
+            clipVertical(ctx, target, area.bottom);
+        } else if (property === 'y') {
+            clipHorizontal(ctx, target, area.left);
+            fill(ctx, {
+                line,
+                target,
+                color: below,
+                scale,
+                property,
+                clip
+            });
+            ctx.restore();
+            ctx.save();
+            clipHorizontal(ctx, target, area.right);
+            fillColor = above;
+        }
     }
     fill(ctx, {
         line,
         target,
-        color: below,
+        color: fillColor,
         scale,
         property,
         clip
@@ -8792,6 +8860,35 @@ function clipVertical(ctx, target, clipY) {
         }
     }
     ctx.lineTo(target.first().x, clipY);
+    ctx.closePath();
+    ctx.clip();
+}
+function clipHorizontal(ctx, target, clipX) {
+    const { segments , points  } = target;
+    let first = true;
+    let lineLoop = false;
+    ctx.beginPath();
+    for (const segment of segments){
+        const { start , end  } = segment;
+        const firstPoint = points[start];
+        const lastPoint = points[_findSegmentEnd(start, end, points)];
+        if (first) {
+            ctx.moveTo(firstPoint.x, firstPoint.y);
+            first = false;
+        } else {
+            ctx.lineTo(clipX, firstPoint.y);
+            ctx.lineTo(firstPoint.x, firstPoint.y);
+        }
+        lineLoop = !!target.pathSegment(ctx, segment, {
+            move: lineLoop
+        });
+        if (lineLoop) {
+            ctx.closePath();
+        } else {
+            ctx.lineTo(clipX, lastPoint.y);
+        }
+    }
+    ctx.lineTo(clipX, target.first().y);
     ctx.closePath();
     ctx.clip();
 }
@@ -9187,10 +9284,10 @@ class Legend extends Element {
             } else {
                 const yBoxTop = y + Math.max((fontSize - boxHeight) / 2, 0);
                 const xBoxLeft = rtlHelper.leftForLtr(x, boxWidth);
-                const borderRadius = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(legendItem.borderRadius);
+                const borderRadius = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(legendItem.borderRadius);
                 ctx.beginPath();
                 if (Object.values(borderRadius).some((v)=>v !== 0)) {
-                    (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av)(ctx, {
+                    (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.aw)(ctx, {
                         x: xBoxLeft,
                         y: yBoxTop,
                         w: boxWidth,
@@ -9872,7 +9969,7 @@ function alignY(size, yAlign, paddingAndSize) {
     const { caretSize , caretPadding , cornerRadius  } = options;
     const { xAlign , yAlign  } = alignment;
     const paddingAndSize = caretSize + caretPadding;
-    const { topLeft , topRight , bottomLeft , bottomRight  } = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(cornerRadius);
+    const { topLeft , topRight , bottomLeft , bottomRight  } = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(cornerRadius);
     let x = alignX(size, xAlign);
     const y = alignY(size, yAlign, paddingAndSize);
     if (yAlign === 'center') {
@@ -10164,7 +10261,7 @@ class Tooltip extends Element {
     getCaretPosition(tooltipPoint, size, options) {
         const { xAlign , yAlign  } = this;
         const { caretSize , cornerRadius  } = options;
-        const { topLeft , topRight , bottomLeft , bottomRight  } = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(cornerRadius);
+        const { topLeft , topRight , bottomLeft , bottomRight  } = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(cornerRadius);
         const { x: ptX , y: ptY  } = tooltipPoint;
         const { width , height  } = size;
         let x1, x2, x3, y1, y2, y3;
@@ -10254,10 +10351,10 @@ class Tooltip extends Element {
             const centerY = colorY + boxHeight / 2;
             ctx.strokeStyle = options.multiKeyBackground;
             ctx.fillStyle = options.multiKeyBackground;
-            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.au)(ctx, drawOptions, centerX, centerY);
+            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av)(ctx, drawOptions, centerX, centerY);
             ctx.strokeStyle = labelColor.borderColor;
             ctx.fillStyle = labelColor.backgroundColor;
-            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.au)(ctx, drawOptions, centerX, centerY);
+            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av)(ctx, drawOptions, centerX, centerY);
         } else {
             ctx.lineWidth = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.i)(labelColor.borderWidth) ? Math.max(...Object.values(labelColor.borderWidth)) : labelColor.borderWidth || 1;
             ctx.strokeStyle = labelColor.borderColor;
@@ -10265,11 +10362,11 @@ class Tooltip extends Element {
             ctx.lineDashOffset = labelColor.borderDashOffset || 0;
             const outerX = rtlHelper.leftForLtr(rtlColorX, boxWidth);
             const innerX = rtlHelper.leftForLtr(rtlHelper.xPlus(rtlColorX, 1), boxWidth - 2);
-            const borderRadius = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(labelColor.borderRadius);
+            const borderRadius = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(labelColor.borderRadius);
             if (Object.values(borderRadius).some((v)=>v !== 0)) {
                 ctx.beginPath();
                 ctx.fillStyle = options.multiKeyBackground;
-                (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av)(ctx, {
+                (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.aw)(ctx, {
                     x: outerX,
                     y: colorY,
                     w: boxWidth,
@@ -10280,7 +10377,7 @@ class Tooltip extends Element {
                 ctx.stroke();
                 ctx.fillStyle = labelColor.backgroundColor;
                 ctx.beginPath();
-                (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av)(ctx, {
+                (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.aw)(ctx, {
                     x: innerX,
                     y: colorY + 1,
                     w: boxWidth - 2,
@@ -10362,7 +10459,7 @@ class Tooltip extends Element {
         const { xAlign , yAlign  } = this;
         const { x , y  } = pt;
         const { width , height  } = tooltipSize;
-        const { topLeft , topRight , bottomLeft , bottomRight  } = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(options.cornerRadius);
+        const { topLeft , topRight , bottomLeft , bottomRight  } = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(options.cornerRadius);
         ctx.fillStyle = options.backgroundColor;
         ctx.strokeStyle = options.borderColor;
         ctx.lineWidth = options.borderWidth;
@@ -11255,7 +11352,7 @@ function determineLimits(angle, pos, size, min, max) {
         const plFont = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.a0)(opts.font);
         const textSize = measureLabelSize(scale.ctx, plFont, scale._pointLabels[i]);
         labelSizes[i] = textSize;
-        const angleRadians = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.az)(scale.getIndexAngle(i) + additionalAngle);
+        const angleRadians = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(scale.getIndexAngle(i) + additionalAngle);
         const angle = Math.round((0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.U)(angleRadians));
         const hLimits = determineLimits(angle, pointPosition.x, textSize.w, 0, 180);
         const vLimits = determineLimits(angle, pointPosition.y, textSize.h, 90, 270);
@@ -11288,7 +11385,7 @@ function createPointLabelItem(scale, index, itemOpts) {
     const outerDistance = scale.drawingArea;
     const { extra , additionalAngle , padding , size  } = itemOpts;
     const pointLabelPosition = scale.getPointPosition(index, outerDistance + extra + padding, additionalAngle);
-    const angle = Math.round((0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.U)((0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.az)(pointLabelPosition.angle + _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.H)));
+    const angle = Math.round((0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.U)((0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(pointLabelPosition.angle + _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.H)));
     const y = yForAngle(pointLabelPosition.y, size.h, angle);
     const textAlign = getTextAlignForAngle(angle);
     const left = leftForTextAlign(pointLabelPosition.x, size.w, textAlign);
@@ -11375,7 +11472,7 @@ function drawPointLabelBox(ctx, opts, item) {
     const { left , top , right , bottom  } = item;
     const { backdropColor  } = opts;
     if (!(0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.k)(backdropColor)) {
-        const borderRadius = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ax)(opts.borderRadius);
+        const borderRadius = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.ay)(opts.borderRadius);
         const padding = (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.E)(opts.backdropPadding);
         ctx.fillStyle = backdropColor;
         const backdropLeft = left - padding.left;
@@ -11384,7 +11481,7 @@ function drawPointLabelBox(ctx, opts, item) {
         const backdropHeight = bottom - top + padding.height;
         if (Object.values(borderRadius).some((v)=>v !== 0)) {
             ctx.beginPath();
-            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.av)(ctx, {
+            (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.aw)(ctx, {
                 x: backdropLeft,
                 y: backdropTop,
                 w: backdropWidth,
@@ -11548,7 +11645,7 @@ class RadialLinearScale extends LinearScaleBase {
     getIndexAngle(index) {
         const angleMultiplier = _chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.T / (this._pointLabels.length || 1);
         const startAngle = this.options.startAngle || 0;
-        return (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.az)(index * angleMultiplier + (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.t)(startAngle));
+        return (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.al)(index * angleMultiplier + (0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.t)(startAngle));
     }
     getDistanceFromCenterForValue(value) {
         if ((0,_chunks_helpers_dataset_js__WEBPACK_IMPORTED_MODULE_0__.k)(value)) {
@@ -12333,21 +12430,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ai: () => (/* binding */ _elementsEqual),
 /* harmony export */   aj: () => (/* binding */ _isClickEvent),
 /* harmony export */   ak: () => (/* binding */ _isBetween),
-/* harmony export */   al: () => (/* binding */ _readValueToProps),
-/* harmony export */   am: () => (/* binding */ _updateBezierControlPoints),
-/* harmony export */   an: () => (/* binding */ _computeSegments),
-/* harmony export */   ao: () => (/* binding */ _boundSegments),
-/* harmony export */   ap: () => (/* binding */ _steppedInterpolation),
-/* harmony export */   aq: () => (/* binding */ _bezierInterpolation),
-/* harmony export */   ar: () => (/* binding */ _pointInLine),
-/* harmony export */   as: () => (/* binding */ _steppedLineTo),
-/* harmony export */   at: () => (/* binding */ _bezierCurveTo),
-/* harmony export */   au: () => (/* binding */ drawPoint),
-/* harmony export */   av: () => (/* binding */ addRoundedRectPath),
-/* harmony export */   aw: () => (/* binding */ toTRBL),
-/* harmony export */   ax: () => (/* binding */ toTRBLCorners),
-/* harmony export */   ay: () => (/* binding */ _boundSegment),
-/* harmony export */   az: () => (/* binding */ _normalizeAngle),
+/* harmony export */   al: () => (/* binding */ _normalizeAngle),
+/* harmony export */   am: () => (/* binding */ _readValueToProps),
+/* harmony export */   an: () => (/* binding */ _updateBezierControlPoints),
+/* harmony export */   ao: () => (/* binding */ _computeSegments),
+/* harmony export */   ap: () => (/* binding */ _boundSegments),
+/* harmony export */   aq: () => (/* binding */ _steppedInterpolation),
+/* harmony export */   ar: () => (/* binding */ _bezierInterpolation),
+/* harmony export */   as: () => (/* binding */ _pointInLine),
+/* harmony export */   at: () => (/* binding */ _steppedLineTo),
+/* harmony export */   au: () => (/* binding */ _bezierCurveTo),
+/* harmony export */   av: () => (/* binding */ drawPoint),
+/* harmony export */   aw: () => (/* binding */ addRoundedRectPath),
+/* harmony export */   ax: () => (/* binding */ toTRBL),
+/* harmony export */   ay: () => (/* binding */ toTRBLCorners),
+/* harmony export */   az: () => (/* binding */ _boundSegment),
 /* harmony export */   b: () => (/* binding */ isArray),
 /* harmony export */   b0: () => (/* binding */ fontString),
 /* harmony export */   b1: () => (/* binding */ toLineHeight),
@@ -12384,7 +12481,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _kurkle_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kurkle/color */ "./node_modules/@kurkle/color/dist/color.esm.js");
 /*!
- * Chart.js v4.4.9
+ * Chart.js v4.5.0
  * https://www.chartjs.org
  * (c) 2025 Chart.js Contributors
  * Released under the MIT License

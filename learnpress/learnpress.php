@@ -4,10 +4,10 @@
  * Plugin URI: http://thimpress.com/learnpress
  * Description: LearnPress is a WordPress complete solution for creating a Learning Management System (LMS). It can help you to create courses, lessons and quizzes.
  * Author: ThimPress
- * Version: 4.2.9
+ * Version: 4.2.9.1
  * Author URI: http://thimpress.com
  * Requires at least: 6.0
- * Requires PHP: 7.0
+ * Requires PHP: 7.1
  * Text Domain: learnpress
  * Domain Path: /languages/
  *
@@ -24,6 +24,7 @@ use LearnPress\ExternalPlugin\RankMath\LPRankMath;
 use LearnPress\ExternalPlugin\YoastSeo\LPYoastSeo;
 use LearnPress\Gutenberg\GutenbergHandleMain;
 use LearnPress\Ajax\EditCurriculumAjax;
+use LearnPress\Ajax\SendEmailAjax;
 use LearnPress\Models\CourseModel;
 use LearnPress\Models\UserModel;
 use LearnPress\Shortcodes\Course\FilterCourseShortcode;
@@ -425,7 +426,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			include_once 'inc/course/class-lp-course.php';
 			include_once 'inc/quiz/lp-quiz-functions.php';
 			include_once 'inc/quiz/class-lp-quiz.php';
-			include_once 'inc/lesson/lp-lesson-functions.php';
+			//include_once 'inc/lesson/lp-lesson-functions.php';
 			include_once 'inc/order/lp-order-functions.php';
 			include_once 'inc/order/class-lp-order.php';
 
@@ -668,6 +669,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 					EditCurriculumAjax::catch_lp_ajax();
 					EditQuizAjax::catch_lp_ajax();
 					EditQuestionAjax::catch_lp_ajax();
+					SendEmailAjax::catch_lp_ajax();
 				},
 				11
 			);
