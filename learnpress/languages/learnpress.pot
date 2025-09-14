@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LearnPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LearnPress 4.2.9.1\n"
+"Project-Id-Version: LearnPress 4.2.9.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-09-10T11:32:04+03:00\n"
+"POT-Creation-Date: 2025-09-14T16:38:36+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: learnpress\n"
@@ -614,26 +614,20 @@ msgstr ""
 msgid "This is an editor placeholder for the Item Curriculum Course page. Content will render content of single item curriculum course. Should be not remove it"
 msgstr ""
 
-#: assets/src/apps/js/blocks/single-course/course-title/edit.js:7
-#: assets/src/apps/js/blocks/single-course-legacy/edit.js:11
-msgid "Single Course (Legacy)"
-msgstr ""
-
-#: assets/src/apps/js/blocks/single-course/course-title/edit.js:11
-#: assets/src/apps/js/blocks/single-course/edit.js:15
-msgid "This is an editor placeholder for the Single Course page. Content will render content of single course. Should be not remove it"
-msgstr ""
-
 #: assets/src/apps/js/blocks/single-course/edit.js:11
 msgid "Single Course"
 msgstr ""
 
-#: assets/src/apps/js/blocks/single-course-legacy/edit.js:15
-msgid "Display full content of Single Course, can not edit."
+#: assets/src/apps/js/blocks/single-course/edit.js:15
+msgid "This is an editor placeholder for the Single Course page. Content will render content of single course. Should be not remove it"
 msgstr ""
 
-#: assets/src/apps/js/blocks/single-course-types/course-title/index.js:47
-msgid "test"
+#: assets/src/apps/js/blocks/single-course-legacy/edit.js:11
+msgid "Single Course (Legacy)"
+msgstr ""
+
+#: assets/src/apps/js/blocks/single-course-legacy/edit.js:15
+msgid "Display full content of Single Course, can not edit."
 msgstr ""
 
 #: assets/js/dist/frontend/quiz.min.js:41
@@ -655,6 +649,21 @@ msgstr ""
 #: inc/TemplateHooks/Profile/ProfileTemplate.php:276
 #: templates/profile/tabs/settings/avatar.php:28
 msgid "Cancel"
+msgstr ""
+
+#: assets/js/dist/frontend/profile.min.js:131
+#: assets/js/dist/frontend/profile.min.js:131
+msgid "The file size is too large. You need to upload a file < 2MB."
+msgstr ""
+
+#: assets/js/dist/frontend/profile.min.js:133
+#: assets/js/dist/frontend/profile.min.js:133
+msgid "The image size must be greater than or equal to %1$sx%2$spx"
+msgstr ""
+
+#: assets/js/dist/frontend/profile.min.js:146
+#: assets/js/dist/frontend/profile.min.js:146
+msgid "Are you sure you want to remove your avatar?"
 msgstr ""
 
 #: assets/js/dist/frontend/quiz.min.js:98
@@ -877,16 +886,8 @@ msgstr ""
 msgid "Submitting…"
 msgstr ""
 
-#: assets/js/dist/frontend/profile.min.js:131
-msgid "The file size is too large. You need to upload a file < 2MB."
-msgstr ""
-
-#: assets/js/dist/frontend/profile.min.js:133
-msgid "The image size must be greater than or equal to %1$sx%2$spx"
-msgstr ""
-
-#: assets/js/dist/frontend/profile.min.js:146
-msgid "Are you sure you want to remove your avatar?"
+#: assets/src/js/admin/admin.js:107
+msgid "Search by user"
 msgstr ""
 
 #. Plugin Name of the plugin
@@ -4337,12 +4338,12 @@ msgid "Repurchase action"
 msgstr ""
 
 #: inc/admin/views/meta-boxes/course/settings.php:188
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:493
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:498
 msgid "Reset course progress"
 msgstr ""
 
 #: inc/admin/views/meta-boxes/course/settings.php:189
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:494
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:499
 msgid "Keep course progress"
 msgstr ""
 
@@ -7481,8 +7482,8 @@ msgid "The course ID is invalid."
 msgstr ""
 
 #: inc/jwt/rest-api/version1/class-lp-rest-courses-v1-controller.php:366
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:412
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:539
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:417
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:544
 msgid "Error: The course cannot be added to the cart."
 msgstr ""
 
@@ -8828,55 +8829,55 @@ msgstr ""
 msgid "Invalid course!"
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:425
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:430
 msgid "Congrats! You have enrolled in the course successfully. Redirecting..."
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:441
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:555
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:446
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:560
 msgid "Error: Please set up a page for checkout."
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:445
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:450
 msgid "Redirecting..."
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:476
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:481
 msgid "Error: Invalid Course ID."
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:481
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:486
 msgid "Error: No Course available."
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:522
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:527
 msgid "Repurchase Options"
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:561
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:566
 msgid "\"%s\" has been added to your cart. Redirecting..."
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:586
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:591
 msgid "Invalid params"
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:591
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:704
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:596
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:709
 #: inc/user/abstract-lp-user.php:766
 msgid "Invalid course"
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:596
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:601
 msgid "Invalid user"
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:601
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:713
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:606
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:718
 msgid "Invalid user course"
 msgstr ""
 
-#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:613
+#: inc/rest-api/v1/frontend/class-lp-rest-courses-controller.php:618
 msgid "Now you can begin this course"
 msgstr ""
 

@@ -127,13 +127,18 @@ const Edit = props => {
         target: value
       });
     }
-  }) : '')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }) : '')), props.attributes.isLink ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(TagName, {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(TagName, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     dangerouslySetInnerHTML: {
       __html: courseTitle
     }
-  })));
+  })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(TagName, {
+    ...blockProps,
+    dangerouslySetInnerHTML: {
+      __html: courseTitle
+    }
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 

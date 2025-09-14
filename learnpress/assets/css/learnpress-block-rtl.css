@@ -1299,7 +1299,7 @@ Css for Block of Gutenberg
 }
 [class*=wp-block-learnpress] .info-meta-item i,
 .block-editor-block-list__block .info-meta-item i {
-  color: var(--lp-primary-color, #ffb606);
+  color: #ffb606;
 }
 [class*=wp-block-learnpress] .info-meta-left,
 .block-editor-block-list__block .info-meta-left {
@@ -1336,7 +1336,7 @@ Breadcrumb
   margin: 0;
 }
 .wp-block-learnpress-breadcrumb li a:hover {
-  color: var(--lp-primary-color);
+  color: #ffb606;
 }
 .wp-block-learnpress-breadcrumb i {
   margin: 0 8px;
@@ -1360,9 +1360,9 @@ Breadcrumb
   margin: 20px auto;
 }
 .courses-btn-load-more:hover {
-  background: var(--lp-primary-color, #ffb606);
+  background: #ffb606;
   color: var(--lp-color-white, #fff);
-  border-color: var(--lp-primary-color, #ffb606);
+  border-color: #ffb606;
 }
 
 /**
@@ -1442,10 +1442,10 @@ Breadcrumb
 .wp-block-learnpress-course-button {
   cursor: pointer;
   padding: 12px 24px;
-  background-color: var(--lp-primary-color, #ffb606);
+  background-color: #ffb606;
   border-width: 0;
   border-radius: var(--lp-border-radius, 5px);
-  border-color: var(--lp-primary-color, #ffb606);
+  border-color: #ffb606;
   color: var(--lp-color-white, #fff);
   font-size: var(--lp-font-size-base, 1em);
   text-align: center;
@@ -1458,8 +1458,8 @@ Breadcrumb
 }
 .wp-block-learnpress-course-button-read-more:hover,
 .wp-block-learnpress-course-button:hover {
-  background-color: var(--lp-secondary-color);
-  border-color: var(--lp-secondary-color);
+  background-color: #442e66;
+  border-color: #442e66;
 }
 .wp-block-learnpress-course-button-read-more.loading,
 .wp-block-learnpress-course-button.loading {
@@ -1787,7 +1787,7 @@ Breadcrumb
 .wp-block-learnpress-item-navigation .course-item-nav .prev:hover a, .wp-block-learnpress-item-navigation .course-item-nav .prev:hover::before,
 .wp-block-learnpress-item-navigation .course-item-nav .next:hover a,
 .wp-block-learnpress-item-navigation .course-item-nav .next:hover::before {
-  color: var(--lp-primary-color);
+  color: #ffb606;
 }
 .wp-block-learnpress-item-navigation .course-item-nav .prev:hover .course-item-nav__name,
 .wp-block-learnpress-item-navigation .course-item-nav .next:hover .course-item-nav__name {
@@ -2024,9 +2024,9 @@ ul.wp-block-learn-press-courses[data-layout=grid] {
   text-align: center;
 }
 .wp-block-learnpress-course-button-read-more button:hover {
-  background: var(--lp-primary-color, #ffb606);
+  background: #ffb606;
   color: var(--lp-color-white, #fff);
-  border-color: var(--lp-primary-color, #ffb606);
+  border-color: #ffb606;
 }
 
 .wp-block-learnpress-course-button .course-readmore a {
@@ -2041,9 +2041,9 @@ ul.wp-block-learn-press-courses[data-layout=grid] {
   text-align: center;
 }
 .wp-block-learnpress-course-button .course-readmore a:hover {
-  background: var(--lp-primary-color, #ffb606);
+  background: #ffb606;
   color: var(--lp-color-white, #fff);
-  border-color: var(--lp-primary-color, #ffb606);
+  border-color: #ffb606;
 }
 
 .courses-order-by-wrapper .courses-order-by {
@@ -2068,7 +2068,7 @@ ul.wp-block-learn-press-courses[data-layout=grid] {
   background-position-x: calc(100% - (100% - 10px));
 }
 .courses-order-by-wrapper .courses-order-by:focus {
-  border-color: var(--lp-primary-color);
+  border-color: #ffb606;
   outline: 0;
 }
 
@@ -2113,7 +2113,7 @@ ul.wp-block-learn-press-courses[data-layout=grid] {
   border-radius: 0 var(--lp-border-radius, 5px) 0 var(--lp-border-radius, 5px);
   text-transform: capitalize;
   cursor: pointer;
-  color: var(--lp-primary-color, #ffb606);
+  color: #ffb606;
   text-decoration: none;
   opacity: 0;
   visibility: hidden;
