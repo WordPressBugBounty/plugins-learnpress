@@ -2,17 +2,65 @@
 # This file is distributed under the same license as the LearnPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LearnPress 4.2.9.2\n"
+"Project-Id-Version: LearnPress 4.2.9.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learnpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-09-14T16:38:36+00:00\n"
+"POT-Creation-Date: 2025-09-23T05:11:47+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: learnpress\n"
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:67
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:74
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:81
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:99
+msgid "Edit with AI"
+msgstr ""
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:126
+msgid "Copied"
+msgstr ""
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:128
+#: inc/admin/lp-admin-functions.php:1646
+#: inc/TemplateHooks/Course/SingleCourseModernLayout.php:370
+msgid "Copy"
+msgstr ""
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:133
+msgid "Failed to copy text: "
+msgstr ""
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:179
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:202
+msgid "Applied"
+msgstr ""
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:183
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:206
+#: assets/src/apps/js/blocks/course-filter/button-submit-filter/edit.js:8
+#: assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/edit.js:8
+#: inc/TemplateHooks/Course/FilterCourseTemplate.php:763
+msgid "Apply"
+msgstr ""
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:553
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:647
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:730
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:825
+msgid "Generate"
+msgstr ""
+
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:581
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:675
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:759
+#: assets/src/apps/js/admin/pages/open-ai/course/course.js:852
+msgid "An error occurred during generation."
+msgstr ""
 
 #: assets/js/dist/admin/pages/tools.min.js:118
 msgid "Reset Course Progress"
@@ -123,7 +171,7 @@ msgstr ""
 #: config/settings/permalink.php:141
 #: inc/admin/sub-menus/class-lp-submenu-settings.php:18
 #: inc/admin/views/addons.php:181
-#: learnpress.php:772
+#: learnpress.php:776
 msgid "Settings"
 msgstr ""
 
@@ -251,7 +299,7 @@ msgstr ""
 
 #: assets/src/apps/js/blocks/course-elements/course-features/edit.js:10
 #: inc/TemplateHooks/Course/SingleCourseTemplate.php:1142
-#: inc/templates/class-lp-template-course.php:887
+#: inc/templates/class-lp-template-course.php:871
 msgid "Features"
 msgstr ""
 
@@ -335,7 +383,7 @@ msgstr ""
 #: inc/admin/views/meta-boxes/course/settings.php:602
 #: inc/TemplateHooks/Course/SingleCourseTemplate.php:1094
 #: inc/templates/class-lp-template-course.php:328
-#: inc/templates/class-lp-template-course.php:883
+#: inc/templates/class-lp-template-course.php:867
 #: inc/Widgets/course-extra.php:35
 msgid "Requirements"
 msgstr ""
@@ -348,7 +396,7 @@ msgstr ""
 #: assets/src/apps/js/blocks/course-elements/course-target-audiences/edit.js:10
 #: inc/TemplateHooks/Course/SingleCourseTemplate.php:1190
 #: inc/templates/class-lp-template-course.php:380
-#: inc/templates/class-lp-template-course.php:891
+#: inc/templates/class-lp-template-course.php:875
 msgid "Target audiences"
 msgstr ""
 
@@ -372,12 +420,6 @@ msgstr ""
 #: inc/admin/views/tools/course/html-user-item.php:26
 #: inc/TemplateHooks/Course/FilterCourseTemplate.php:791
 msgid "Reset"
-msgstr ""
-
-#: assets/src/apps/js/blocks/course-filter/button-submit-filter/edit.js:8
-#: assets/src/apps/js/blocks/course-filter-elements/button-submit-filter/edit.js:8
-#: inc/TemplateHooks/Course/FilterCourseTemplate.php:763
-msgid "Apply"
 msgstr ""
 
 #: assets/src/apps/js/blocks/course-filter/course-author-filter/edit.js:9
@@ -614,20 +656,26 @@ msgstr ""
 msgid "This is an editor placeholder for the Item Curriculum Course page. Content will render content of single item curriculum course. Should be not remove it"
 msgstr ""
 
-#: assets/src/apps/js/blocks/single-course/edit.js:11
-msgid "Single Course"
-msgstr ""
-
-#: assets/src/apps/js/blocks/single-course/edit.js:15
-msgid "This is an editor placeholder for the Single Course page. Content will render content of single course. Should be not remove it"
-msgstr ""
-
+#: assets/src/apps/js/blocks/single-course/course-title/edit.js:7
 #: assets/src/apps/js/blocks/single-course-legacy/edit.js:11
 msgid "Single Course (Legacy)"
 msgstr ""
 
+#: assets/src/apps/js/blocks/single-course/course-title/edit.js:11
+#: assets/src/apps/js/blocks/single-course/edit.js:15
+msgid "This is an editor placeholder for the Single Course page. Content will render content of single course. Should be not remove it"
+msgstr ""
+
+#: assets/src/apps/js/blocks/single-course/edit.js:11
+msgid "Single Course"
+msgstr ""
+
 #: assets/src/apps/js/blocks/single-course-legacy/edit.js:15
 msgid "Display full content of Single Course, can not edit."
+msgstr ""
+
+#: assets/src/apps/js/blocks/single-course-types/course-title/index.js:47
+msgid "test"
 msgstr ""
 
 #: assets/js/dist/frontend/quiz.min.js:41
@@ -649,21 +697,6 @@ msgstr ""
 #: inc/TemplateHooks/Profile/ProfileTemplate.php:276
 #: templates/profile/tabs/settings/avatar.php:28
 msgid "Cancel"
-msgstr ""
-
-#: assets/js/dist/frontend/profile.min.js:131
-#: assets/js/dist/frontend/profile.min.js:131
-msgid "The file size is too large. You need to upload a file < 2MB."
-msgstr ""
-
-#: assets/js/dist/frontend/profile.min.js:133
-#: assets/js/dist/frontend/profile.min.js:133
-msgid "The image size must be greater than or equal to %1$sx%2$spx"
-msgstr ""
-
-#: assets/js/dist/frontend/profile.min.js:146
-#: assets/js/dist/frontend/profile.min.js:146
-msgid "Are you sure you want to remove your avatar?"
 msgstr ""
 
 #: assets/js/dist/frontend/quiz.min.js:98
@@ -886,8 +919,16 @@ msgstr ""
 msgid "Submitting…"
 msgstr ""
 
-#: assets/src/js/admin/admin.js:107
-msgid "Search by user"
+#: assets/js/dist/frontend/profile.min.js:131
+msgid "The file size is too large. You need to upload a file < 2MB."
+msgstr ""
+
+#: assets/js/dist/frontend/profile.min.js:133
+msgid "The image size must be greater than or equal to %1$sx%2$spx"
+msgstr ""
+
+#: assets/js/dist/frontend/profile.min.js:146
+msgid "Are you sure you want to remove your avatar?"
 msgstr ""
 
 #. Plugin Name of the plugin
@@ -3627,11 +3668,6 @@ msgstr ""
 msgid "HTML"
 msgstr ""
 
-#: inc/admin/lp-admin-functions.php:1646
-#: inc/TemplateHooks/Course/SingleCourseModernLayout.php:370
-msgid "Copy"
-msgstr ""
-
 #: inc/admin/lp-admin-functions.php:1754
 msgid "Question id %s does not exist."
 msgstr ""
@@ -3884,7 +3920,7 @@ msgid "Reset Password"
 msgstr ""
 
 #: inc/admin/sub-menus/class-lp-submenu-addons.php:18
-#: learnpress.php:774
+#: learnpress.php:778
 msgid "Add-ons"
 msgstr ""
 
@@ -6804,31 +6840,41 @@ msgstr ""
 msgid "Invalid ID!"
 msgstr ""
 
-#: inc/Databases/class-lp-db.php:843
-#: inc/Databases/class-lp-db.php:905
-msgid "Data must be an array!"
-msgstr ""
-
 #: inc/Databases/class-lp-db.php:847
-#: inc/Databases/class-lp-db.php:897
-msgid "Invalid filter!"
+#: inc/Databases/class-lp-db.php:909
+#: inc/Databases/DataBase.php:786
+#: inc/Databases/DataBase.php:848
+msgid "Data must be an array!"
 msgstr ""
 
 #: inc/Databases/class-lp-db.php:851
 #: inc/Databases/class-lp-db.php:901
-msgid "Filter must have property all_fields!"
+#: inc/Databases/DataBase.php:790
+#: inc/Databases/DataBase.php:840
+msgid "Invalid filter!"
 msgstr ""
 
 #: inc/Databases/class-lp-db.php:855
-#: inc/Databases/class-lp-db.php:913
-msgid "Table name is required!"
+#: inc/Databases/class-lp-db.php:905
+#: inc/Databases/DataBase.php:794
+#: inc/Databases/DataBase.php:844
+msgid "Filter must have property all_fields!"
 msgstr ""
 
 #: inc/Databases/class-lp-db.php:859
+#: inc/Databases/class-lp-db.php:917
+#: inc/Databases/DataBase.php:798
+#: inc/Databases/DataBase.php:856
+msgid "Table name is required!"
+msgstr ""
+
+#: inc/Databases/class-lp-db.php:863
+#: inc/Databases/DataBase.php:802
 msgid "Key auto increment must be a string!"
 msgstr ""
 
-#: inc/Databases/class-lp-db.php:909
+#: inc/Databases/class-lp-db.php:913
+#: inc/Databases/DataBase.php:852
 msgid "Invalid where key!"
 msgstr ""
 
@@ -7197,7 +7243,7 @@ msgid "Course Price"
 msgstr ""
 
 #: inc/ExternalPlugin/Elementor/Widgets/Course/Skins/SkinCoursesBase.php:222
-#: inc/templates/class-lp-template-course.php:978
+#: inc/templates/class-lp-template-course.php:962
 msgid "View More"
 msgstr ""
 
@@ -9686,19 +9732,19 @@ msgstr ""
 msgid "Key features"
 msgstr ""
 
-#: inc/templates/class-lp-template-course.php:847
+#: inc/templates/class-lp-template-course.php:831
 msgid "%d lesson"
 msgid_plural "%d lessons"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/templates/class-lp-template-course.php:851
+#: inc/templates/class-lp-template-course.php:835
 msgid "%d quiz"
 msgid_plural "%d quizzes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/templates/class-lp-template-course.php:855
+#: inc/templates/class-lp-template-course.php:839
 msgid "%d student"
 msgid_plural "%d students"
 msgstr[0] ""
@@ -10056,7 +10102,27 @@ msgstr ""
 msgid "Recent Courses"
 msgstr ""
 
-#: learnpress.php:773
+#: inc/WPGDPR/ErasePersonalData.php:37
+msgid "LP Data Eraser"
+msgstr ""
+
+#: inc/WPGDPR/ErasePersonalData.php:72
+msgid "LP erasers Personal Data done"
+msgstr ""
+
+#: inc/WPGDPR/ErasePersonalData.php:73
+msgid "- Eraser Orders of User"
+msgstr ""
+
+#: inc/WPGDPR/ErasePersonalData.php:74
+msgid "- Eraser attend course of User"
+msgstr ""
+
+#: inc/WPGDPR/ErasePersonalData.php:75
+msgid "- Eraser attend lessons, quizzes... of User"
+msgstr ""
+
+#: learnpress.php:777
 msgid "Documentation"
 msgstr ""
 
