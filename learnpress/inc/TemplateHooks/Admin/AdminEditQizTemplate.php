@@ -3,6 +3,9 @@
 namespace LearnPress\TemplateHooks\Admin;
 
 use Exception;
+use LearnPress\Databases\DataBase;
+use LearnPress\Filters\PostFilter;
+use LearnPress\Helpers\Config;
 use LearnPress\Helpers\Singleton;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\Question\QuestionPostModel;
@@ -21,6 +24,11 @@ use stdClass;
  */
 class AdminEditQizTemplate {
 	use Singleton;
+
+	/**
+	 * @var QuizPostModel
+	 */
+	public $quizPostModel;
 
 	public function init() {
 		add_action( 'learn-press/admin/edit-quiz/layout', [ $this, 'edit_quiz_layout' ] );
@@ -53,10 +61,13 @@ class AdminEditQizTemplate {
 		wp_enqueue_style( 'lp-edit-quiz' );
 		wp_enqueue_script( 'lp-edit-quiz' );
 
-		$args      = [
+		$args = [
 			'id_url'  => 'edit-quiz',
 			'quiz_id' => $quizPostModel->ID,
 		];
+		/**
+		 * @uses self::render_edit_quiz
+		 */
 		$call_back = array(
 			'class'  => self::class,
 			'method' => 'render_edit_quiz',
@@ -67,8 +78,6 @@ class AdminEditQizTemplate {
 
 	/**
 	 * Allow callback for AJAX.
-	 * @use self::render_edit_quiz
-	 * @use self::render_list_items_not_assign
 	 *
 	 * @param array $callbacks
 	 *
@@ -93,6 +102,11 @@ class AdminEditQizTemplate {
 			throw new Exception( __( 'Quiz not found', 'learnpress' ) );
 		}
 
+		// Check permission
+		$quizPostModel->check_capabilities_create_item_course();
+
+		self::instance()->quizPostModel = $quizPostModel;
+
 		$content          = new stdClass();
 		$content->content = self::instance()->html_edit_quiz( $quizPostModel );
 
@@ -116,7 +130,7 @@ class AdminEditQizTemplate {
 
 		foreach ( $question_ids as $question_id ) {
 			$questionPostModel = QuestionPostModel::find( $question_id, true );
-			$html_questions   .= $this->html_edit_question( $questionPostModel );
+			$html_questions    .= $this->html_edit_question( $questionPostModel );
 		}
 
 		$section_questions = [
@@ -300,9 +314,17 @@ class AdminEditQizTemplate {
 					type="text"
 					title="%1$s"
 					placeholder="%1$s"
-					data-mess-empty-title="%2$s">',
+					data-mess-empty-title="%2$s"
+					data-send="%3$s">',
 				esc_attr__( 'Create a new question', 'learnpress' ),
-				esc_attr__( 'Question title is required', 'learnpress' )
+				esc_attr__( 'Question title is required', 'learnpress' ),
+				Template::convert_data_to_json(
+					[
+						'id_url'  => 'create-question-add-to-quiz',
+						'quiz_id' => $this->quizPostModel->get_id(),
+						'action'  => 'create_question_add_to_quiz',
+					]
+				),
 			),
 			'types'            => $html_question_types,
 			'button'           => sprintf(
@@ -311,7 +333,9 @@ class AdminEditQizTemplate {
 				__( 'Add Question', 'learnpress' )
 			),
 			'btn-select-items' => sprintf(
-				'<button type="button" class="button lp-btn-show-popup-items-to-select">%s</button>',
+				'<button type="button"
+					class="button lp-btn-show-popup-items-to-select"
+					data-template="#lp-tmpl-select-question-bank">%s</button>',
 				__( 'Question Bank', 'learnpress' )
 			),
 			'wrap_end'         => '</div>',
@@ -335,15 +359,12 @@ class AdminEditQizTemplate {
 		/**
 		 * @uses self::render_list_items_not_assign
 		 */
-		ob_start();
-		lp_skeleton_animation_html( 10 );
-		$html_loading = ob_get_clean();
-		$html_items   = TemplateAJAX::load_content_via_ajax(
+		$html_items = TemplateAJAX::load_content_via_ajax(
 			[
-				'id_url'                  => 'list-questions-not-assign',
-				'html_no_load_ajax_first' => $html_loading,
-				'quiz_id'                 => $quizPostModel->ID,
-				'paged'                   => 1,
+				'id_url'             => 'list-questions-not-assign',
+				'enableScrollToView' => false,
+				'quiz_id'            => $quizPostModel->ID,
+				'paged'              => 1,
 			],
 			[
 				'class'  => self::class,
@@ -351,11 +372,22 @@ class AdminEditQizTemplate {
 			]
 		);
 
-		return AdminTemplate::html_popup_items_to_select_clone( $tabs, $html_items );
+		$section = [
+			'wrap-script-template'     => '<script type="text/template" id="lp-tmpl-select-question-bank">',
+			'popup'                    => AdminTemplate::html_popup_items_to_select_clone( $tabs, $html_items ),
+			'wrap-script-template-end' => '</div>',
+		];
+
+		return Template::combine_components( $section );
 	}
 
 	/**
+	 * Render list items not assign to any quiz.
+	 *
 	 * @throws Exception
+	 *
+	 * @since 4.2.8.7
+	 * @version 1.0.1
 	 */
 	public static function render_list_items_not_assign( $data ): stdClass {
 		$content                = new stdClass();
@@ -370,15 +402,15 @@ class AdminEditQizTemplate {
 			throw new Exception( __( 'Quiz not found', 'learnpress' ) );
 		}
 
-		$lp_db               = LP_Database::getInstance();
-		$filter              = new LP_Post_Type_Filter();
+		$lp_posts_db         = LP_Post_DB::getInstance();
+		$filter              = new PostFilter();
 		$filter->only_fields = [
-			'DISTINCT(p.ID)',
+			'DISTINCT(p.ID) AS ID',
 			'p.post_title',
 			'p.post_type',
 		];
 		$filter->post_type   = LP_QUESTION_CPT;
-		$filter->post_status = 'publish';
+		$filter->post_status = [ 'publish' ];
 		$filter->order_by    = 'p.ID';
 		$filter->page        = $paged;
 
@@ -388,12 +420,12 @@ class AdminEditQizTemplate {
 
 		// Old logic: Get all questions not assigned to any quiz.
 		// New logic: Get all questions not assigned to the quiz.
-		$filter->where[] = $lp_db->wpdb->prepare(
-			"AND p.ID NOT IN ( SELECT question_id FROM {$lp_db->tb_lp_quiz_questions} WHERE quiz_id = %d )",
+		$filter->where[] = $lp_posts_db->wpdb->prepare(
+			"AND p.ID NOT IN ( SELECT question_id FROM {$lp_posts_db->tb_lp_quiz_questions} WHERE quiz_id = %d )",
 			$quizPostModel->ID
 		);
 
-		$lp_posts_db = LP_Post_DB::getInstance();
+
 		$total_rows  = 0;
 		$posts       = $lp_posts_db->get_posts( $filter, $total_rows );
 		$total_pages = LP_Database::get_total_pages( $filter->limit, $total_rows );
@@ -455,44 +487,16 @@ class AdminEditQizTemplate {
 			}
 		}
 
-		$page_numbers = paginate_links(
-			apply_filters(
-				'learn_press_pagination_args',
-				array(
-					'base'      => add_query_arg( 'paged', '%#%', \LP_Helper::getUrlCurrent() ),
-					'format'    => '',
-					'add_args'  => '',
-					'current'   => max( 1, $paged ),
-					'total'     => $total_pages,
-					'prev_text' => '<i class="lp-icon-arrow-left"></i>',
-					'next_text' => '<i class="lp-icon-arrow-right"></i>',
-					'type'      => 'array',
-					'end_size'  => 3,
-					'mid_size'  => 3,
-				)
-			)
-		);
-
-		$html_li_number = '';
-		if ( ! empty( $page_numbers ) ) {
-			foreach ( $page_numbers as $page_number ) {
-				$html_li_number .= sprintf(
-					'<li>%s</li>',
-					$page_number
-				);
-			}
-		}
-		$section_pagination = [
-			'wrap'     => '<ul class="pagination">',
-			'numbers'  => $html_li_number,
-			'wrap_end' => '</ul>',
-		];
-
 		$section = [
 			'ul'         => '<ul class="list-items">',
 			'items'      => $html_lis,
 			'ul_end'     => '</ul>',
-			'pagination' => Template::combine_components( $section_pagination ),
+			'pagination' => Template::instance()->html_pagination(
+				[
+					'total_pages' => $total_pages,
+					'paged'       => $paged,
+				]
+			),
 		];
 
 		$content->content = Template::combine_components( $section );

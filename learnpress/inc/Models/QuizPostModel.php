@@ -4,7 +4,7 @@
  * Class Quiz Post Model
  *
  * @package LearnPress/Classes
- * @version 1.0.0
+ * @version 1.0.1
  * @since 4.2.7.6
  */
 
@@ -12,10 +12,9 @@ namespace LearnPress\Models;
 
 use Exception;
 use LearnPress\Databases\QuizQuestionsDB;
+use LearnPress\Models\Question\QuestionAnswerModel;
 use LearnPress\Models\Question\QuestionPostModel;
-use LearnPress\Models\Question\QuestionSortingChoiceModel;
 use LearnPress\Models\Quiz\QuizQuestionModel;
-use LP_Addon_Sorting_Choice;
 use LP_Cache;
 use LP_Question;
 use LP_Question_DB;
@@ -226,16 +225,18 @@ class QuizPostModel extends PostModel {
 	/**
 	 * Create question and add to quiz.
 	 *
-	 * @param array $data
+	 * @param array $data [ question_title, question_type, question_content ]
 	 *
 	 * @return QuizQuestionModel
 	 * @throws Exception
 	 * @since 4.2.9
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	public function create_question_and_add( array $data ): QuizQuestionModel {
-		$question_title = $data['question_title'] ?? '';
-		$question_type  = $data['question_type'] ?? '';
+		$question_title   = $data['question_title'] ?? '';
+		$question_type    = $data['question_type'] ?? '';
+		$question_content = $data['question_content'] ?? '';
+		$question_options = $data['question_options'] ?? [];
 
 		if ( empty( $question_title ) ) {
 			throw new Exception( __( 'Question title is required', 'learnpress' ) );
@@ -246,10 +247,11 @@ class QuizPostModel extends PostModel {
 		}
 
 		// Create question
-		$questionPostModelNew              = new QuestionPostModel();
-		$questionPostModelNew->post_title  = $question_title;
-		$questionPostModelNew->post_status = 'publish';
-		$questionPostModelNew->post_author = get_current_user_id();
+		$questionPostModelNew               = new QuestionPostModel();
+		$questionPostModelNew->post_title   = $question_title;
+		$questionPostModelNew->post_content = $question_content;
+		$questionPostModelNew->post_status  = 'publish';
+		$questionPostModelNew->post_author  = get_current_user_id();
 		$questionPostModelNew->save();
 		$questionPostModelNew->save_meta_value_by_key(
 			QuestionPostModel::META_KEY_TYPE,
@@ -259,8 +261,25 @@ class QuizPostModel extends PostModel {
 		// Get question object by type
 		$questionClassName = $questionPostModelNew::get_question_obj_by_type( $question_type );
 		if ( class_exists( $questionClassName ) ) {
+			/**
+			 * @var QuestionPostModel $questionPostTyeModel
+			 */
 			$questionPostTyeModel = new $questionClassName( $questionPostModelNew );
-			if ( method_exists( $questionPostTyeModel, 'create_default_answers' ) ) {
+			if ( ! empty( $question_options ) ) {
+				foreach ( $question_options as $index => $answer ) {
+					$answer = array(
+						'question_id' => $questionPostTyeModel->get_id(),
+						'title'       => $answer['title'],
+						'value'       => $questionPostTyeModel->random_value(),
+						'is_true'     => $answer['is_true'] ?? '',
+						'order'       => $index + 1,
+					);
+
+					$questionAnswerModel = new QuestionAnswerModel( $answer );
+					$questionAnswerModel->save();
+					$answers[ $index ]['question_answer_id'] = $questionAnswerModel->question_answer_id;
+				}
+			} elseif ( method_exists( $questionPostTyeModel, 'create_default_answers' ) ) {
 				$questionPostTyeModel->create_default_answers();
 			}
 		} else {
@@ -278,5 +297,97 @@ class QuizPostModel extends PostModel {
 		$quizQuestionModel->save();
 
 		return $quizQuestionModel;
+	}
+
+	/**
+	 * Add questions exists (from Question Bank) to quiz.
+	 *
+	 * @param array $data [ 'question_ids' => [] ]
+	 *
+	 * @throws Exception
+	 * @since 4.3.2
+	 * @version 1.0.0
+	 */
+	public function add_questions_to_quiz( array $data ): array {
+		$this->check_capabilities_update_item_course();
+
+		$question_ids = $data['question_ids'] ?? [];
+		if ( empty( $question_ids ) ) {
+			throw new Exception( __( 'Question IDs are required', 'learnpress' ) );
+		}
+
+		$quiz_questions_added = [];
+		foreach ( $question_ids as $question_id ) {
+			$questionPostModel = QuestionPostModel::find( $question_id, true );
+			if ( ! $questionPostModel ) {
+				throw new Exception( __( 'Question not found', 'learnpress' ) );
+			}
+
+			// Check if question already exists in quiz
+			$quizQuestionModel = QuizQuestionModel::find( $this->get_id(), $question_id, true );
+			if ( $quizQuestionModel ) {
+				continue; // Skip if question already exists in quiz
+			}
+
+			$quizQuestionsDB = QuizQuestionsDB::getInstance();
+			$max_order       = $quizQuestionsDB->get_last_number_order( $this->get_id() );
+
+			// Add question to quiz
+			$quizQuestionModel                 = new QuizQuestionModel();
+			$quizQuestionModel->quiz_id        = $this->get_id();
+			$quizQuestionModel->question_id    = $question_id;
+			$quizQuestionModel->question_order = $max_order + 1;
+			$quizQuestionModel->save();
+
+			$quiz_questions_added[] = $quizQuestionModel;
+		}
+
+		return $quiz_questions_added;
+	}
+
+	/**
+	 * Update question positions in quiz.
+	 *
+	 * @param int[] $data [ 'question_ids' => [] ]
+	 *
+	 * @throws Exception
+	 * @since 4.3.2
+	 * @version 1.0.0
+	 */
+	public function update_question_position( array $data ) {
+		$this->check_capabilities_update_item_course();
+
+		$question_ids = $data['question_ids'] ?? [];
+		if ( empty( $question_ids ) ) {
+			throw new Exception( __( 'Question IDs are required', 'learnpress' ) );
+		}
+
+		$question_ids = $data['question_ids'] ?? [];
+		QuizQuestionsDB::getInstance()->update_question_position( $question_ids, $this->get_id() );
+	}
+
+	/**
+	 * Remove question from quiz.
+	 *
+	 * @param int $question_id
+	 *
+	 * @throws Exception
+	 * @since 4.3.2
+	 * @version 1.0.0
+	 */
+	public function remove_question_from_quiz( int $question_id ) {
+		$this->check_capabilities_update_item_course();
+
+		$questionPostModel = QuestionPostModel::find( $question_id, true );
+		if ( ! $questionPostModel ) {
+			throw new Exception( __( 'Question not found', 'learnpress' ) );
+		}
+
+		$quizQuestionModel = QuizQuestionModel::find( $this->get_id(), $question_id );
+		if ( ! $quizQuestionModel ) {
+			throw new Exception( __( 'Question not found in quiz', 'learnpress' ) );
+		}
+
+		$quizQuestionModel->delete();
 	}
 }

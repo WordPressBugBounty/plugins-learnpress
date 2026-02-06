@@ -34,7 +34,7 @@ const edit = props => {
   const {
     lpCourseData
   } = context;
-  const courseImage = lpCourseData?.image || '<div className="course-img"><img src="https://placehold.co/500x300?text=Course+Image"/></div>';
+  const courseImage = lpCourseData?.image || '<div class="course-img"><img src="/wp-content/plugins/learnpress/assets/images/no-image.png" alt="course thumbnail placeholder"</div>';
   const sizeOption = [{
     label: 'Thumbnail',
     value: 'thumbnail'
@@ -87,7 +87,8 @@ const edit = props => {
         width = 2560;
       }
     }
-    return `<div class="course-img"><img src="https://placehold.co/${width}x${height}?text=Course+Image" alt="course thumbnail placeholder"</div>`;
+    const ratio = width / height;
+    return `<div class="course-img"><img src="/wp-content/plugins/learnpress/assets/images/no-image.png" width="${width}" height="${height}" style="aspect-ratio: ${ratio}; object-fit:cover;" alt="course thumbnail placeholder"</div>`;
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'learnpress')

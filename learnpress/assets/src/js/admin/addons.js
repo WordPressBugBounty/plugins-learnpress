@@ -134,13 +134,18 @@ const setGridItems = ( totalItems ) => {
 };
 // Check element loaded and data API returned.
 const loadElData = setInterval( () => {
-	if ( ! elAddonsPage && ! elNotifyActionWrapper ) {
+	if ( ! elAddonsPage || ! elNotifyActionWrapper ) {
 		elAddonsPage = document.querySelector( '.lp-addons-page' );
 		elNotifyActionWrapper = document.querySelector( '.lp-notify-action-wrapper' );
 	} else if ( dataHtml && elAddonsPage && elNotifyActionWrapper ) {
 		elAddonsPage.innerHTML = dataHtml;
 		elLPAddons = elAddonsPage.querySelector( '#lp-addons' );
 		const elNavTabWrapper = document.querySelector( '.lp-nav-tab-wrapper' );
+		if ( ! elNavTabWrapper ) {
+			clearInterval( loadElData );
+			return;
+		}
+
 		const elNavTabWrapperClone = elNavTabWrapper.cloneNode( true );
 		elAddonsPage.insertBefore( elNavTabWrapperClone, elAddonsPage.children[ 0 ] );
 		elNavTabWrapperClone.style.display = 'flex';
@@ -157,7 +162,7 @@ document.addEventListener( 'DOMContentLoaded', ( e ) => {
 
 /*** Events ***/
 document.addEventListener( 'click', ( e ) => {
-	const el = e.target;
+	let el = e.target;
 	const tagName = el.tagName.toLowerCase();
 	if ( tagName === 'span' ) {
 		e.preventDefault();
@@ -212,7 +217,8 @@ document.addEventListener( 'click', ( e ) => {
 	}*/
 
 	// Events actions: install, update, delete.
-	if ( el.classList.contains( 'btn-addon-action' ) ) {
+	if ( el.closest( '.btn-addon-action' ) ) {
+		el = el.closest( '.btn-addon-action' );
 		e.preventDefault();
 		el.classList.add( 'handling' );
 		let purchaseCode = '';
@@ -264,6 +270,8 @@ document.addEventListener( 'click', ( e ) => {
 					elNavInstalled.textContent = parseInt( elNavInstalled.textContent ) + 1;
 					const elNavNoInstalled = document.querySelector( '.nav-tab[data-tab=not_installed] span' );
 					elNavNoInstalled.textContent = parseInt( elNavNoInstalled.textContent ) - 1;
+					elItemPurchase.querySelector( '.purchase-install' ).style.display = 'none';
+					elItemPurchase.querySelector( '.purchase-update' ).querySelector( '.enter-purchase-code' ).value = purchaseCode;
 				} else if ( action === 'update' ) {
 					const elAddonVersionCurrent = elAddonItem.querySelector( '.addon-version-current' );
 					elAddonVersionCurrent.innerHTML = addon.version;

@@ -1,4 +1,7 @@
 <?php
+
+use LearnPress\Models\UserModel;
+
 defined( 'ABSPATH' ) || exit();
 
 /**
@@ -30,6 +33,7 @@ class LP_Submenu_Settings extends LP_Abstract_Submenu {
 				'emails'    => include_once LP_PLUGIN_PATH . 'inc/admin/settings/class-lp-settings-emails.php',
 				'permalink' => include_once LP_PLUGIN_PATH . 'inc/admin/settings/class-lp-settings-permalink.php',
 				'advanced'  => include_once LP_PLUGIN_PATH . 'inc/admin/settings/class-lp-settings-advanced.php',
+				'open-ai'   => include_once LP_PLUGIN_PATH . 'inc/admin/settings/class-lp-settings-open-ai.php',
 			)
 		);
 
@@ -70,11 +74,13 @@ class LP_Submenu_Settings extends LP_Abstract_Submenu {
 	 * Update metabox setting
 	 *
 	 * @return void
-	 * @version 4.0.0
+	 * @version 4.0.1
 	 * @author ThimPress <nhamdv>
 	 */
 	public function save_settings() {
-		if ( ! is_admin() || ! isset( $_GET['page'] ) || 'learn-press-settings' !== $_GET['page'] ) {
+		if ( ! current_user_can( UserModel::ROLE_ADMINISTRATOR )
+			| ! is_admin() || ! isset( $_GET['page'] )
+			|| 'learn-press-settings' !== $_GET['page'] ) {
 			return;
 		}
 

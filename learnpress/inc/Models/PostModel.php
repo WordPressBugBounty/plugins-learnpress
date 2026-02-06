@@ -5,7 +5,7 @@
  * To replace class LP_User_Item
  *
  * @package LearnPress/Classes
- * @version 1.0.7
+ * @version 1.0.8
  * @since 4.2.6.9
  */
 
@@ -13,17 +13,13 @@ namespace LearnPress\Models;
 
 use Exception;
 use LearnPress;
-use LP_Course_Cache;
-use LP_Course_DB;
-use LP_Course_Filter;
-use LP_Datetime;
-use LP_Post_DB;
+use LearnPress\Databases\PostDB;
+use LearnPress\Filters\FilterBase;
+use LearnPress\Filters\PostFilter;
+use LP_Cache;
 use LP_Post_Meta_DB;
 use LP_Post_Meta_Filter;
 use LP_Post_Type_Filter;
-use LP_User;
-use LP_User_Filter;
-use LP_User_Guest;
 
 use stdClass;
 use Throwable;
@@ -148,17 +144,60 @@ class PostModel {
 	}
 
 	/**
+	 * Get post course by ID
+	 *
+	 * @param int $post_id
+	 * @param bool $check_cache
+	 *
+	 * @return false|PostModel
+	 * @version 1.0.0
+	 * @since 4.3.2
+	 */
+	public static function find_by_id( int $post_id, bool $check_cache = false ) {
+		$filter            = new PostFilter();
+		$filter->ID        = $post_id;
+		$filter->post_type = ( new static() )->post_type;
+
+		$type      = ( new static() )->post_type;
+		$key_cache = "postModel/find/{$post_id}/" . $type;
+		$lp_cache  = new LP_Cache();
+
+		// Check first load cache
+		$postModel = LP_Cache::cache_load_first( 'get', $key_cache );
+		if ( false !== $postModel ) {
+			return $postModel;
+		}
+
+		// Check cache
+		if ( $check_cache ) {
+			$quizPostModel = $lp_cache->get_cache( $key_cache );
+			if ( $quizPostModel instanceof QuizPostModel ) {
+				return $quizPostModel;
+			}
+		}
+
+		$postModel = self::get_item_model_from_db( $filter );
+		// Set cache
+		if ( $postModel instanceof PostModel ) {
+			$lp_cache->set_cache( $key_cache, $postModel );
+		}
+		LP_Cache::cache_load_first( 'set', $key_cache, $postModel );
+
+		return $postModel;
+	}
+
+	/**
 	 * Get post from database.
 	 * If not exists, return false.
 	 * If exists, return PostModel.
 	 *
-	 * @param LP_Course_Filter $filter
+	 * @param LP_Post_Type_Filter|FilterBase $filter
 	 *
 	 * @return PostModel|false|static
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
-	public static function get_item_model_from_db( LP_Post_Type_Filter $filter ) {
-		$lp_post_db = LP_Post_DB::getInstance();
+	public static function get_item_model_from_db( $filter ) {
+		$lp_post_db = PostDB::getInstance();
 		$post_model = false;
 
 		try {
@@ -206,6 +245,28 @@ class PostModel {
 		}
 
 		return $this->meta_data;
+	}
+
+	/**
+	 * Check capabilities to create new post.
+	 *
+	 * @return bool
+	 * @since 4.2.9.4
+	 * @version 1.0.0
+	 */
+	public function check_capabilities_create(): bool {
+		return true;
+	}
+
+	/**
+	 * Check capabilities to update post.
+	 *
+	 * @return bool
+	 * @since 4.2.9.4
+	 * @version 1.0.0
+	 */
+	public function check_capabilities_update(): bool {
+		return true;
 	}
 
 	/**
@@ -261,9 +322,9 @@ class PostModel {
 	 *
 	 * @throws Exception
 	 * @since 4.2.5
-	 * @version 1.0.2
+	 * @version 1.0.3
 	 */
-	public function save() {
+	public function save( bool $force_save = false ) {
 		$data = [];
 		foreach ( get_object_vars( $this ) as $property => $value ) {
 			$data[ $property ] = $value;
@@ -271,11 +332,27 @@ class PostModel {
 
 		// Check if exists course id.
 		if ( empty( $this->ID ) ) { // Insert data.
-			$this->check_capabilities_create_item_course();
+			// Check permission
+			if ( ! $force_save ) {
+				if ( ! $this->check_capabilities_create() ) {
+					throw new Exception( __( 'You do not have permission to create item.', 'learnpress' ) );
+				}
+
+				$this->check_capabilities_create_item_course();
+			}
+
 			unset( $data['ID'] );
 			$post_id = wp_insert_post( $data, true );
 		} else { // Update data.
-			$this->check_capabilities_update_item_course();
+			// Check permission
+			if ( ! $force_save ) {
+				if ( ! $this->check_capabilities_update() ) {
+					throw new Exception( __( 'You do not have permission to edit this item.', 'learnpress' ) );
+				}
+
+				$this->check_capabilities_update_item_course();
+			}
+
 			$post_id = wp_update_post( $data, true );
 		}
 
@@ -405,10 +482,22 @@ class PostModel {
 	 *
 	 * @param string $key
 	 * @param mixed $value
+	 * @param bool $fore_update
 	 *
 	 * @return void
+	 * @throws Exception
+	 * @since 4.2.6.9
+	 * @version 1.0.3
 	 */
-	public function save_meta_value_by_key( string $key, $value ) {
+	public function save_meta_value_by_key( string $key, $value, bool $fore_update = false ) {
+		// Check permission
+		if ( ! $fore_update ) {
+			if ( ! $this->check_capabilities_update() ) {
+				throw new Exception( __( 'You do not have permission to edit this item.', 'learnpress' ) );
+			}
+			$this->check_capabilities_create_item_course();
+		}
+
 		$this->meta_data->{$key} = $value;
 		update_post_meta( $this->ID, $key, $value );
 	}

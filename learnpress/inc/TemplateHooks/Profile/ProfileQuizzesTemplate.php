@@ -3,11 +3,12 @@
  * Class ProfileQuizzesTemplate.
  *
  * @since 4.2.8.2
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 namespace LearnPress\TemplateHooks\Profile;
 
+use LearnPress\Filters\UserItemsFilter;
 use LearnPress\Helpers\Singleton;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\UserItems\UserItemModel;
@@ -34,10 +35,9 @@ class ProfileQuizzesTemplate {
 	/**
 	 * Set up the callback for the AJAX request.
 	 *
-	 * @param $callbacks
+	 * @param array $callbacks
 	 *
-	 * @return mixed
-	 * @uses self::renderContent()
+	 * @return array
 	 */
 	public function allow_callback( $callbacks ) {
 		$callbacks[] = get_class( $this ) . ':renderContent';
@@ -49,13 +49,6 @@ class ProfileQuizzesTemplate {
 	 * @throws Exception
 	 */
 	public static function tab_content() {
-		self::instance()->quiz_profile_layout();
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	public function quiz_profile_layout( array $data = [] ) {
 		$html_wrapper = array(
 			'<div class="learn-press-subtab-content">' => '</div>',
 		);
@@ -70,11 +63,15 @@ class ProfileQuizzesTemplate {
 			throw new Exception( __( 'User is not exist', 'learnpress' ) );
 		}
 
+		/**
+		 * @uses ProfileQuizzesTemplate::renderContent()
+		 */
 		$callback = array(
-			'class'  => get_class( $this ),
+			'class'  => self::class,
 			'method' => 'renderContent',
 		);
 		$args     = array(
+			'id_url'  => 'profile_quizzes',
 			'user_id' => $user_id,
 			'paged'   => 1,
 			'type'    => 'all',
@@ -85,7 +82,14 @@ class ProfileQuizzesTemplate {
 		echo $html;
 	}
 
-	public static function renderContent( $args ): stdClass {
+	/**
+	 * Render the content for the quiz tab.
+	 *
+	 * @param array $args
+	 *
+	 * @return stdClass
+	 */
+	public static function renderContent( array $args ): stdClass {
 		$content = new stdClass();
 		$html    = '';
 
@@ -95,13 +99,20 @@ class ProfileQuizzesTemplate {
 				throw new Exception( __( 'Invalid User', 'learnpress' ) );
 			}
 
+			// Check permission, self user or admin can view
+			$user_current_id = get_current_user_id();
+			if ( $user_current_id !== $userModel->get_id()
+				&& ! current_user_can( UserModel::ROLE_ADMINISTRATOR ) ) {
+				throw new Exception( __( 'You do not have permission to view this profile.', 'learnpress' ) );
+			}
+
 			$total_rows = 0;
 			$limit      = apply_filters(
 				'learnpress/profile/user-quizzes/limit',
 				get_option( 'posts_per_page', 10 )
 			);
 
-			$filter          = new LP_User_Items_Filter();
+			$filter          = new UserItemsFilter();
 			$filter->user_id = $userModel->get_id();
 			$filter->limit   = $limit;
 			$filter->page    = $args['paged'];

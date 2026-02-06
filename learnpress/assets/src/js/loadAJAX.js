@@ -62,6 +62,8 @@ const lpAJAX = ( () => {
 			// Set param id_url for identify.
 			if ( params.hasOwnProperty( 'args' ) && params.args.hasOwnProperty( 'id_url' ) ) {
 				urlAjax = lpAddQueryArgs( urlAjax, { id_url: params.args.id_url } );
+			} else if ( params.hasOwnProperty( 'id_url' ) ) {
+				urlAjax = lpAddQueryArgs( urlAjax, { id_url: params.id_url } );
 			}
 			// Set param lang here if exits, for detect translate
 			if ( lpSettings.urlParams.hasOwnProperty( 'lang' ) ) {
@@ -165,9 +167,11 @@ const lpAJAX = ( () => {
 			elLPTarget.dataset.send = JSON.stringify( dataSend );
 
 			// Set url params to reload page.
-			// Todo: need check allow set url params.
-			lpSettings.urlParams.paged = dataSend.args.paged;
-			window.history.pushState( {}, '', lpAddQueryArgs( urlCurrent, lpSettings.urlParams ) );
+			if ( ! dataSend.args.hasOwnProperty( 'enableUpdateParamsUrl' ) ||
+				dataSend.args.enableUpdateParamsUrl ) {
+				lpSettings.urlParams.paged = dataSend.args.paged;
+				window.history.pushState( {}, '', lpAddQueryArgs( urlCurrent, lpSettings.urlParams ) );
+			}
 			// End.
 
 			// Show loading
@@ -175,8 +179,11 @@ const lpAJAX = ( () => {
 			// End
 
 			// Scroll to archive element
-			const elLPTargetY = elLPTarget.getBoundingClientRect().top + window.scrollY - 100;
-			window.scrollTo( { top: elLPTargetY } );
+			if ( ! dataSend.args.hasOwnProperty( 'enableScrollToView' ) ||
+				dataSend.args.enableScrollToView ) {
+				const elLPTargetY = elLPTarget.getBoundingClientRect().top + window.scrollY - 100;
+				window.scrollTo( { top: elLPTargetY } );
+			}
 
 			const callBack = {
 				success: ( response ) => {

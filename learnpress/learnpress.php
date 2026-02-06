@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: LearnPress
- * Plugin URI: http://thimpress.com/learnpress
+ * Plugin URI: https://thimpress.com/learnpress
  * Description: LearnPress is a WordPress complete solution for creating a Learning Management System (LMS). It can help you to create courses, lessons and quizzes.
  * Author: ThimPress
- * Version: 4.2.9.3
+ * Version: 4.3.2.7
  * Author URI: http://thimpress.com
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -18,6 +18,7 @@ use LearnPress\Ajax\EditQuestionAjax;
 use LearnPress\Ajax\EditQuizAjax;
 use LearnPress\Ajax\LessonAjax;
 use LearnPress\Ajax\LoadContentViaAjax;
+use LearnPress\Ajax\AI\OpenAiAjax;
 use LearnPress\Background\LPBackgroundTrigger;
 use LearnPress\ExternalPlugin\Elementor\LPElementor;
 use LearnPress\ExternalPlugin\RankMath\LPRankMath;
@@ -28,9 +29,14 @@ use LearnPress\Ajax\SendEmailAjax;
 use LearnPress\Models\CourseModel;
 use LearnPress\Models\UserModel;
 use LearnPress\Shortcodes\Course\FilterCourseShortcode;
+use LearnPress\Shortcodes\CourseButtonShortcode;
+use LearnPress\Shortcodes\Courses\ListCoursesShortcode;
 use LearnPress\Shortcodes\ListInstructorsShortcode;
 use LearnPress\Shortcodes\SingleInstructorShortcode;
 use LearnPress\Shortcodes\CourseMaterialShortcode;
+use LearnPress\TemplateHooks\Admin\AI\AdminCreateCourseAITemplate;
+use LearnPress\TemplateHooks\Admin\AI\AdminEditCourseCurriculumWithAITemplate;
+use LearnPress\TemplateHooks\Admin\AI\AdminEditWithAITemplate;
 use LearnPress\TemplateHooks\Admin\AdminEditQizTemplate;
 use LearnPress\TemplateHooks\Admin\AdminEditQuestionTemplate;
 use LearnPress\TemplateHooks\Course\AdminEditCurriculumTemplate;
@@ -43,6 +49,7 @@ use LearnPress\TemplateHooks\Course\SingleCourseClassicTemplate;
 use LearnPress\TemplateHooks\Course\SingleCourseTemplate;
 use LearnPress\TemplateHooks\Instructor\ListInstructorsTemplate;
 use LearnPress\TemplateHooks\Instructor\SingleInstructorTemplate;
+use LearnPress\TemplateHooks\Profile\ProfileCoursesTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileGeneralInfoTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileInstructorStatisticsTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileQuizzesTemplate;
@@ -50,8 +57,10 @@ use LearnPress\TemplateHooks\Profile\ProfileOrdersTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileOrderTemplate;
 use LearnPress\TemplateHooks\Profile\ProfileStudentStatisticsTemplate;
 use LearnPress\TemplateHooks\Course\CourseMaterialTemplate;
+use LearnPress\TemplateHooks\Order\AdminOrderItemsTemplate;
 use LearnPress\Widgets\LPRegisterWidget;
 use LearnPress\WPGDPR\ErasePersonalData;
+use LearnPress\WPGDPR\ExportPersonalData;
 
 defined( 'ABSPATH' ) || exit();
 
@@ -130,6 +139,8 @@ if ( ! class_exists( 'LearnPress' ) ) {
 		public $thim_core_version_require = '2.0.0';
 
 		public static $time_limit_default_of_sever = 0;
+
+		public static $doc_link = 'https://learnpresslms.com/docs/';
 
 		/**
 		 * LearnPress constructor.
@@ -325,15 +336,20 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			ProfileGeneralInfoTemplate::instance();
 			FilterCourseTemplate::instance();
 			ProfileQuizzesTemplate::instance();
+			ProfileCoursesTemplate::instance();
 
 			// Admin template hooks.
 			AdminEditCurriculumTemplate::instance();
 			AdminEditQizTemplate::instance();
 			AdminEditQuestionTemplate::instance();
 			CourseMaterialTemplate::instance();
-
+			AdminOrderItemsTemplate::instance();
+			AdminCreateCourseAITemplate::instance();
+			AdminEditWithAITemplate::instance();
+			AdminEditCourseCurriculumWithAITemplate::instance();
 			// WP GDPR
 			ErasePersonalData::instance();
+			ExportPersonalData::instance();
 
 			// Models
 			include_once 'inc/Models/class-lp-rest-response.php';
@@ -378,12 +394,12 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			include_once 'inc/class-lp-datetime.php';
 
 			// Register custom-post-type and taxonomies .
-			include_once 'inc/custom-post-types/abstract.php';
+			/*include_once 'inc/custom-post-types/abstract.php';
 			include_once 'inc/custom-post-types/course.php';
 			include_once 'inc/custom-post-types/lesson.php';
 			include_once 'inc/custom-post-types/quiz.php';
 			include_once 'inc/custom-post-types/question.php';
-			include_once 'inc/custom-post-types/order.php';
+			include_once 'inc/custom-post-types/order.php';*/
 
 			include_once 'inc/interfaces/interface-curd.php';
 			include_once 'inc/abstracts/abstract-array-access.php';
@@ -448,7 +464,9 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			SingleInstructorShortcode::instance();
 			ListInstructorsShortcode::instance();
 			CourseMaterialShortcode::instance();
+			CourseButtonShortcode::instance();
 			FilterCourseShortcode::instance();
+			ListCoursesShortcode::instance();
 			//ListCourseRecentShortcode::instance();
 			include_once 'inc/class-lp-shortcodes.php';
 
@@ -507,7 +525,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 			// Meta box helper
 			include_once 'inc/admin/meta-box/class-lp-meta-box-helper.php';
 
-			include_once 'inc/admin/class-lp-admin.php';
+			// include_once 'inc/admin/class-lp-admin.php';
 			// include_once 'inc/admin/settings/abstract-settings-page.php';
 		}
 
@@ -536,12 +554,20 @@ if ( ! class_exists( 'LearnPress' ) ) {
 		 *
 		 * @return void
 		 * @version 4.2.7.6
-		 * @version 1.0.1
+		 * @version 1.0.2
 		 */
 		public function lp_main_handle() {
 			try {
 				// Load text domain.
 				$this->load_plugin_text_domain();
+
+				// Register custom post type and taxonomies .
+				include_once 'inc/custom-post-types/abstract.php';
+				include_once 'inc/custom-post-types/course.php';
+				include_once 'inc/custom-post-types/lesson.php';
+				include_once 'inc/custom-post-types/quiz.php';
+				include_once 'inc/custom-post-types/question.php';
+				include_once 'inc/custom-post-types/order.php';
 
 				// Polylang
 				if ( defined( 'POLYLANG_VERSION' ) ) {
@@ -568,9 +594,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 				$this->admin_api = new LP_Admin_Core_API();
 				$this->get_session();
 				$this->settings = $this->settings();
-				if ( $this->is_request( 'frontend' ) ) {
-					$this->get_cart();
-				}
+				$this->get_cart();
 
 				// Init emails
 				LP_Emails::instance();
@@ -579,6 +603,8 @@ if ( ! class_exists( 'LearnPress' ) ) {
 
 				if ( is_admin() ) {
 					$this->check_addons_version_valid();
+
+					include_once 'inc/admin/class-lp-admin.php';
 				}
 
 				// let third parties know that we're ready .
@@ -674,6 +700,9 @@ if ( ! class_exists( 'LearnPress' ) ) {
 					EditQuizAjax::catch_lp_ajax();
 					EditQuestionAjax::catch_lp_ajax();
 					SendEmailAjax::catch_lp_ajax();
+					OpenAiAjax::catch_lp_ajax();
+
+					do_action( 'learn-press/register-ajax-handlers' );
 				},
 				11
 			);
@@ -774,7 +803,7 @@ if ( ! class_exists( 'LearnPress' ) ) {
 		 */
 		public function plugin_links( array $links ): array {
 			$links[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=learn-press-settings' ), __( 'Settings', 'learnpress' ) );
-			$links[] = sprintf( '<a href="%s" target="_blank">%s</a>', 'https://docs.thimpress.com/learnpress/', __( 'Documentation', 'learnpress' ) );
+			$links[] = sprintf( '<a href="%s" target="_blank">%s</a>', LearnPress::$doc_link, __( 'Documentation', 'learnpress' ) );
 			$links[] = sprintf( '<a href="%s" target="_blank">%s</a>', get_admin_url() . '/admin.php?page=learn-press-addons', __( 'Add-ons', 'learnpress' ) );
 
 			return $links;
@@ -880,8 +909,12 @@ if ( ! class_exists( 'LearnPress' ) ) {
 		 * @param string $type ajax, frontend or admin.
 		 *
 		 * @return bool
+		 * @deprecated 4.2.9.4
 		 */
 		public function is_request( $type ) {
+			_deprecated_function( __METHOD__, '4.2.9.4' );
+			return false;
+
 			switch ( $type ) {
 				case 'admin':
 					return is_admin();

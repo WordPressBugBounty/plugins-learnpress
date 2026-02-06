@@ -34,7 +34,14 @@ const edit = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "instructor-avatar"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: "https://placehold.co/160x160?text=Instructor"
+    src: "/wp-content/plugins/learnpress/assets/images/no-image.png",
+    alt: "Instructor avatar placeholder",
+    height: 160,
+    width: 160,
+    style: {
+      aspectRatio: '1 / 1',
+      objectFit: 'cover'
+    }
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "lp-section-instructor"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {

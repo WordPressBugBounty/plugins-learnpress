@@ -1,5 +1,6 @@
 <?php
 
+use LearnPress\Filters\Course\CourseJsonFilter;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\Courses;
 use LearnPress\Models\UserItems\UserCourseModel;
@@ -27,28 +28,28 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_indexes' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'check_permission' ),
 				),
 			),
 			'list-tables-indexs'   => array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'get_list_tables_indexs' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'check_permission' ),
 				),
 			),
 			'clean-tables'         => array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'clean_tables' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'check_permission' ),
 				),
 			),
 			'admin-notices'        => array(
 				array(
 					'methods'             => WP_REST_Server::ALLMETHODS,
 					'callback'            => array( $this, 'admin_notices' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'check_permission' ),
 				),
 			),
 			'search-course'        => array(
@@ -103,9 +104,19 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 		$lp_db    = LP_Database::getInstance();
 
 		try {
-			$tables     = $request->get_param( 'tables' );
-			$table      = $request->get_param( 'table' );
-			$table_keys = array();
+			$tables_valid = [
+				$lp_db->tb_lp_user_items,
+				$lp_db->tb_lp_user_itemmeta,
+				$lp_db->tb_lp_quiz_questions,
+				$lp_db->tb_lp_question_answers,
+				$lp_db->tb_lp_question_answermeta,
+				$lp_db->tb_lp_order_items,
+				$lp_db->tb_lp_order_itemmeta,
+				$lp_db->tb_lp_sections,
+				$lp_db->tb_lp_section_items,
+			];
+			$table        = $request->get_param( 'table' );
+			$tables       = $request->get_param( 'tables' );
 
 			$lp_db->wpdb->query( 'SET autocommit = 0' );
 
@@ -115,9 +126,8 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 				$table_keys = array_keys( $tables );
 			}
 
-			if ( empty( $table ) ) {
-				$table = $lp_db->tb_lp_user_items;
-			} elseif ( array_key_exists( $table, $table_keys ) ) {
+			if ( ! array_key_exists( $table, $tables )
+				|| ! in_array( $table, $tables_valid ) ) {
 				throw new Exception( 'Table invalid!' );
 			}
 
@@ -353,7 +363,7 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 	 *
 	 * @return LP_REST_Response
 	 * @since 4.2.5
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 	public function search_courses( WP_REST_Request $request ): LP_REST_Response {
 		ini_set( 'max_execution_time', HOUR_IN_SECONDS );
@@ -366,7 +376,7 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 			$not_ids_str         = LP_Helper::sanitize_params_submitted( $params['id_not_in'] ?? '' );
 			$current_ids         = (array) LP_Helper::sanitize_params_submitted( $params['current_ids'] ?? [] );
 			$total_rows          = 0;
-			$filter              = new LP_Course_Filter();
+			$filter              = new CourseJsonFilter();
 			$filter->limit       = 20;
 			$filter->only_fields = [ 'ID', 'post_title' ];
 			$filter->post_status = [ 'publish' ];
@@ -374,7 +384,7 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 			$filter->page        = LP_Helper::sanitize_params_submitted( $params['paged'] ?? 1, 'int' );
 
 			if ( ! empty( $ids_str ) ) {
-				$filter->post_ids = explode( ',', $ids_str );
+				$filter->ids = explode( ',', $ids_str );
 			}
 
 			if ( ! empty( $not_ids_str ) ) {
@@ -385,7 +395,7 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 			}
 
 			// Get all courses.
-			$courses = Courses::get_courses( $filter, $total_rows );
+			$courses = Courses::get_list_courses( $filter, $total_rows );
 
 			// Get selected courses.
 			$courses_current = [];
@@ -559,6 +569,16 @@ class LP_REST_Admin_Tools_Controller extends LP_Abstract_REST_Controller {
 				$course_id = $user_course['course_id'] ?? 0;
 				if ( ! $user_id || ! $course_id ) {
 					throw new Exception( 'User or Course is invalid', 'learnpress' );
+				}
+
+				$can_handle = apply_filters(
+					'learn-press/assign-courses-to-users/can-handle',
+					true,
+					$user_id,
+					$course_id
+				);
+				if ( ! $can_handle ) {
+					continue;
 				}
 
 				// Delete data user who already enrolled this course.

@@ -90,59 +90,6 @@ class LP_Addon {
 		$this->_define_constants();
 		$this->_includes();
 		$this->load_text_domain();
-		add_action(
-			'init',
-			function () {
-				$this->_enqueue_assets();
-			}
-		);
-		add_filter(
-			"plugin_action_links_$this->plugin_base",
-			array(
-				$this,
-				'_plugin_links',
-			)
-		);
-
-		// Run init hooks after learn-press/ready run on hook 'init', priority -1000
-		add_action(
-			'init',
-			function () {
-				$this->_init_hooks();
-			}
-		);
-	}
-
-	/**
-	 * @deprecated 4.2.0
-	 */
-	public static function admin_errors() {
-		_deprecated_function( __METHOD__, '4.2.0' );
-		if ( ! self::$_admin_notices ) {
-			return;
-		}
-
-		foreach ( self::$_admin_notices as $notice ) {
-			?>
-			<div class="error"><p><?php echo wp_kses_post( $notice ); ?></p></div>
-			<?php
-		}
-	}
-
-	public function _plugin_links( $links ) {
-		if ( method_exists( $this, 'plugin_links' ) ) {
-			$plugin_links = call_user_func( array( $this, 'plugin_links' ) );
-
-			if ( is_callable( array( $this, 'plugin_links' ) ) && $plugin_links ) {
-				$links = array_merge( $links, $plugin_links );
-			}
-		}
-
-		return $links;
-	}
-
-	public function plugin_links() {
-		return [];
 	}
 
 	/**
@@ -156,50 +103,6 @@ class LP_Addon {
 	 */
 	protected function _includes() {
 	}
-
-	/**
-	 * Init add-on hooks.
-	 *
-	 * @deprecated 4.2.7.6
-	 * Need remove this function, don't use on the addons news to controls hook.
-	 */
-	protected function _init_hooks() {
-	}
-
-	/**
-	 * Enqueue scripts.
-	 * @deprecated 4.2.7.6
-	 *
-	 * Need remove this function, use on the addons: wishlist, my-cred
-	 */
-	protected function _enqueue_assets() {
-	}
-
-	/**
-	 * Check required version of LP.
-	 *
-	 * @return bool|null
-	 * @deprecated 4.0.0
-	 * @todo clean, remove code
-	 */
-	/*protected function _check_version() {
-		if ( null === $this->_valid ) {
-			$this->_valid = true;
-
-			if ( $this->require_version ) {
-				if ( version_compare( $this->require_version, LEARNPRESS_VERSION, '>' ) ) {
-					add_action( 'admin_notices', array( $this, '_admin_notices' ) );
-
-					// Deactivate plugin .
-					deactivate_plugins( plugin_basename( $this->plugin_file ) );
-
-					$this->_valid = false;
-				}
-			}
-		}
-
-		return $this->_valid;
-	}*/
 
 	/**
 	 * Check required version Addons.
@@ -464,12 +367,11 @@ class LP_Addon {
 	}
 
 	/**
-	 * @return mixed
-	 * @deprecated 4.2.0
-	 * using on the addons: co-instructor(4.0.1), wishlist(4.0.4), announcements(4.0.3), course-review, coming-soon ...
+	 * @deprecated 4.2.0, wishlist v4.0.8 still use
 	 */
 	public static function instance() {
-		$name = self::_get_called_class();
+		return new static();
+		/*$name = self::_get_called_class();
 		if ( false === $name ) {
 			return false;
 		}
@@ -478,14 +380,14 @@ class LP_Addon {
 			self::$instances[ $name ] = new $name();
 		}
 
-		return self::$instances[ $name ];
+		return self::$instances[ $name ];*/
 	}
 
 	/**
 	 * @return bool|string
 	 * @deprecated 4.2.0
 	 */
-	protected static function _get_called_class() {
+	/*protected static function _get_called_class() {
 		if ( function_exists( 'get_called_class' ) ) {
 			return get_called_class();
 		}
@@ -501,5 +403,5 @@ class LP_Addon {
 		}
 
 		return $backtrace[2]['args'][0];
-	}
+	}*/
 }

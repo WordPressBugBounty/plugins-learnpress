@@ -1,4 +1,7 @@
 <?php
+
+use LearnPress\Helpers\Template;
+
 if ( ! function_exists( 'learn_press_course_content_lesson' ) ) {
 	/**
 	 * Display course description
@@ -258,8 +261,6 @@ if ( ! function_exists( 'learn_press_course_purchase_button' ) ) {
 	 */
 	function learn_press_course_purchase_button() {
 		_deprecated_function( __FUNCTION__, '3.3.0' );
-		return '';
-		LearnPress::instance()->template( 'course' )->course_purchase_button();
 	}
 }
 
@@ -269,8 +270,6 @@ if ( ! function_exists( 'learn_press_course_enroll_button' ) ) {
 	 */
 	function learn_press_course_enroll_button() {
 		_deprecated_function( __FUNCTION__, '3.3.0' );
-		return '';
-		LearnPress::instance()->template( 'course' )->course_enroll_button();
 	}
 }
 
@@ -282,8 +281,6 @@ if ( ! function_exists( 'learn_press_course_external_button' ) ) {
 	 */
 	function learn_press_course_external_button() {
 		_deprecated_function( __FUNCTION__, '4.2.5.3' );
-		return;
-		LearnPress::instance()->template( 'course' )->func( 'course_external_button' );
 	}
 }
 
@@ -844,8 +841,12 @@ if ( ! function_exists( 'learn_press_breadcrumb' ) ) {
 	 * Still using
 	 *
 	 * @param array $args
+	 * @deprecated still using addons collection, upsell, themes
 	 */
 	function learn_press_breadcrumb( $args = array() ) {
+		echo Template::html_breadcrumb( $args );
+		return;
+
 		$args = wp_parse_args(
 			$args,
 			apply_filters(
