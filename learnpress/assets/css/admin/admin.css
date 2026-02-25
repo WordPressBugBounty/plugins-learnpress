@@ -117,6 +117,20 @@
   border: none;
   margin: 0 auto;
 }
+.lp-toast.toastify.warning {
+  background-color: #FEF7E6;
+  color: #fb9422;
+  padding: 12px 20px;
+  border: none;
+  margin: 0 auto;
+}
+.lp-toast.toastify.info {
+  background-color: rgba(0, 122, 255, 0.1019607843);
+  color: #277afc;
+  padding: 12px 20px;
+  border: none;
+  margin: 0 auto;
+}
 
 /**
 * Style for the Tom Select
@@ -681,7 +695,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=165") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=34") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -2191,6 +2205,10 @@ ul .clearfix {
 }
 .wrap #learn-press-uninstall-sample-data:hover {
   opacity: 1;
+}
+
+#adminmenu .wp-menu-image img {
+  width: 17px;
 }
 
 .learnpress .rwmb-field {

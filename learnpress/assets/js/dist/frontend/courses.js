@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/api.js":
+/***/ "./assets/src/js/api.js"
 /*!******************************!*\
   !*** ./assets/src/js/api.js ***!
   \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -49,13 +49,13 @@ if (lp_rest_url) {
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -376,13 +376,13 @@ const eventHandlers = (eventName, eventHandlers) => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/utils/cookies.js":
+/***/ "./assets/src/js/utils/cookies.js"
 /*!****************************************!*\
   !*** ./assets/src/js/utils/cookies.js ***!
   \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -440,7 +440,7 @@ const Cookies = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Cookies);
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -453,6 +453,12 @@ const Cookies = {
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -499,6 +505,8 @@ const Cookies = {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!*******************************************!*\
   !*** ./assets/src/js/frontend/courses.js ***!
   \*******************************************/
@@ -1048,6 +1056,8 @@ document.addEventListener('DOMContentLoaded', function () {
   window.lpCourseList.init();
   window.lpCourseList.ajaxEnableLoadPage();
 });
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=courses.js.map

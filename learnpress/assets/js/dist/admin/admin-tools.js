@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/js/admin/tools/assign-user-course.js":
+/***/ "./assets/src/js/admin/tools/assign-user-course.js"
 /*!*********************************************************!*\
   !*** ./assets/src/js/admin/tools/assign-user-course.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -243,13 +243,13 @@ function assignUserCourse() {
   });
 }
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/admin/utils-admin.js":
+/***/ "./assets/src/js/admin/utils-admin.js"
 /*!********************************************!*\
   !*** ./assets/src/js/admin/utils-admin.js ***!
   \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -365,13 +365,13 @@ const AdminUtilsFunctions = {
 };
 
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/api.js":
+/***/ "./assets/src/js/api.js"
 /*!******************************!*\
   !*** ./assets/src/js/api.js ***!
   \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -414,13 +414,13 @@ if (lp_rest_url) {
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -741,13 +741,13 @@ const eventHandlers = (eventName, eventHandlers) => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@orchidjs/sifter/dist/esm/sifter.js":
+/***/ "./node_modules/@orchidjs/sifter/dist/esm/sifter.js"
 /*!**********************************************************!*\
   !*** ./node_modules/@orchidjs/sifter/dist/esm/sifter.js ***!
   \**********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1068,25 +1068,25 @@ class Sifter {
 
 //# sourceMappingURL=sifter.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@orchidjs/sifter/dist/esm/types.js":
+/***/ "./node_modules/@orchidjs/sifter/dist/esm/types.js"
 /*!*********************************************************!*\
   !*** ./node_modules/@orchidjs/sifter/dist/esm/types.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 
 //# sourceMappingURL=types.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@orchidjs/sifter/dist/esm/utils.js":
+/***/ "./node_modules/@orchidjs/sifter/dist/esm/utils.js"
 /*!*********************************************************!*\
   !*** ./node_modules/@orchidjs/sifter/dist/esm/utils.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1192,13 +1192,13 @@ const cmp = (a, b) => {
 };
 //# sourceMappingURL=utils.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@orchidjs/unicode-variants/dist/esm/index.js":
+/***/ "./node_modules/@orchidjs/unicode-variants/dist/esm/index.js"
 /*!*******************************************************************!*\
   !*** ./node_modules/@orchidjs/unicode-variants/dist/esm/index.js ***!
   \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1595,13 +1595,13 @@ const getPattern = (str) => {
 
 //# sourceMappingURL=index.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@orchidjs/unicode-variants/dist/esm/regex.js":
+/***/ "./node_modules/@orchidjs/unicode-variants/dist/esm/regex.js"
 /*!*******************************************************************!*\
   !*** ./node_modules/@orchidjs/unicode-variants/dist/esm/regex.js ***!
   \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1680,13 +1680,13 @@ const unicodeLength = (str) => {
 };
 //# sourceMappingURL=regex.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/@orchidjs/unicode-variants/dist/esm/strings.js":
+/***/ "./node_modules/@orchidjs/unicode-variants/dist/esm/strings.js"
 /*!*********************************************************************!*\
   !*** ./node_modules/@orchidjs/unicode-variants/dist/esm/strings.js ***!
   \*********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1714,13 +1714,13 @@ const allSubstrings = (input) => {
 };
 //# sourceMappingURL=strings.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/constants.js":
+/***/ "./node_modules/tom-select/dist/esm/constants.js"
 /*!*******************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/constants.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1751,13 +1751,13 @@ const IS_MAC = typeof navigator === 'undefined' ? false : /Mac/.test(navigator.u
 const KEY_SHORTCUT = IS_MAC ? 'metaKey' : 'ctrlKey'; // ctrl key or apple key for ma
 //# sourceMappingURL=constants.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/contrib/highlight.js":
+/***/ "./node_modules/tom-select/dist/esm/contrib/highlight.js"
 /*!***************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/contrib/highlight.js ***!
   \***************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1830,13 +1830,13 @@ const removeHighlight = (el) => {
 };
 //# sourceMappingURL=highlight.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/contrib/microevent.js":
+/***/ "./node_modules/tom-select/dist/esm/contrib/microevent.js"
 /*!****************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/contrib/microevent.js ***!
   \****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1904,13 +1904,13 @@ class MicroEvent {
 ;
 //# sourceMappingURL=microevent.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/contrib/microplugin.js":
+/***/ "./node_modules/tom-select/dist/esm/contrib/microplugin.js"
 /*!*****************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/contrib/microplugin.js ***!
   \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2026,13 +2026,13 @@ function MicroPlugin(Interface) {
 }
 //# sourceMappingURL=microplugin.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/defaults.js":
+/***/ "./node_modules/tom-select/dist/esm/defaults.js"
 /*!******************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/defaults.js ***!
   \******************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2121,13 +2121,13 @@ __webpack_require__.r(__webpack_exports__);
 });
 //# sourceMappingURL=defaults.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/getSettings.js":
+/***/ "./node_modules/tom-select/dist/esm/getSettings.js"
 /*!*********************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/getSettings.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2279,13 +2279,13 @@ function getSettings(input, settings_user) {
 ;
 //# sourceMappingURL=getSettings.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/caret_position/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/caret_position/plugin.js"
 /*!***************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/caret_position/plugin.js ***!
   \***************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2456,13 +2456,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/change_listener/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/change_listener/plugin.js"
 /*!****************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/change_listener/plugin.js ***!
   \****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2521,13 +2521,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/checkbox_options/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/checkbox_options/plugin.js"
 /*!*****************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/checkbox_options/plugin.js ***!
   \*****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2714,13 +2714,13 @@ function plugin (userOptions) {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/clear_button/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/clear_button/plugin.js"
 /*!*************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/clear_button/plugin.js ***!
   \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2801,13 +2801,13 @@ function plugin (userOptions) {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/drag_drop/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/drag_drop/plugin.js"
 /*!**********************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/drag_drop/plugin.js ***!
   \**********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3035,13 +3035,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/dropdown_header/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/dropdown_header/plugin.js"
 /*!****************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/dropdown_header/plugin.js ***!
   \****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3151,13 +3151,13 @@ function plugin (userOptions) {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/dropdown_input/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/dropdown_input/plugin.js"
 /*!***************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/dropdown_input/plugin.js ***!
   \***************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3379,13 +3379,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/input_autogrow/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/input_autogrow/plugin.js"
 /*!***************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/input_autogrow/plugin.js ***!
   \***************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3467,13 +3467,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/no_active_items/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/no_active_items/plugin.js"
 /*!****************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/no_active_items/plugin.js ***!
   \****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3507,13 +3507,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/no_backspace_delete/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/no_backspace_delete/plugin.js"
 /*!********************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/no_backspace_delete/plugin.js ***!
   \********************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3553,13 +3553,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/optgroup_columns/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/optgroup_columns/plugin.js"
 /*!*****************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/optgroup_columns/plugin.js ***!
   \*****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3653,13 +3653,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/remove_button/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/remove_button/plugin.js"
 /*!**************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/remove_button/plugin.js ***!
   \**************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3801,13 +3801,13 @@ function plugin (userOptions) {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/restore_on_backspace/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/restore_on_backspace/plugin.js"
 /*!*********************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/restore_on_backspace/plugin.js ***!
   \*********************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -3857,13 +3857,13 @@ function plugin (userOptions) {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/plugins/virtual_scroll/plugin.js":
+/***/ "./node_modules/tom-select/dist/esm/plugins/virtual_scroll/plugin.js"
 /*!***************************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/plugins/virtual_scroll/plugin.js ***!
   \***************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -4143,13 +4143,13 @@ function plugin () {
 //# sourceMappingURL=plugin.js.map
 
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/tom-select.complete.js":
+/***/ "./node_modules/tom-select/dist/esm/tom-select.complete.js"
 /*!*****************************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/tom-select.complete.js ***!
   \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -4202,13 +4202,13 @@ _tom_select_js__WEBPACK_IMPORTED_MODULE_0__["default"].define('virtual_scroll', 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_tom_select_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 //# sourceMappingURL=tom-select.complete.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/tom-select.js":
+/***/ "./node_modules/tom-select/dist/esm/tom-select.js"
 /*!********************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/tom-select.js ***!
   \********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -6493,13 +6493,13 @@ class TomSelect extends (0,_contrib_microplugin_js__WEBPACK_IMPORTED_MODULE_1__[
 ;
 //# sourceMappingURL=tom-select.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/utils.js":
+/***/ "./node_modules/tom-select/dist/esm/utils.js"
 /*!***************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/utils.js ***!
   \***************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -6714,13 +6714,13 @@ const iterate = (object, callback) => {
 };
 //# sourceMappingURL=utils.js.map
 
-/***/ }),
+/***/ },
 
-/***/ "./node_modules/tom-select/dist/esm/vanilla.js":
+/***/ "./node_modules/tom-select/dist/esm/vanilla.js"
 /*!*****************************************************!*\
   !*** ./node_modules/tom-select/dist/esm/vanilla.js ***!
   \*****************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -6914,7 +6914,7 @@ const replaceNode = (existing, replacement) => {
 };
 //# sourceMappingURL=vanilla.js.map
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -6927,6 +6927,12 @@ const replaceNode = (existing, replacement) => {
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -6973,6 +6979,8 @@ const replaceNode = (existing, replacement) => {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!********************************************!*\
   !*** ./assets/src/js/admin/admin-tools.js ***!
   \********************************************/
@@ -6980,6 +6988,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tools_assign_user_course__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tools/assign-user-course */ "./assets/src/js/admin/tools/assign-user-course.js");
 
 (0,_tools_assign_user_course__WEBPACK_IMPORTED_MODULE_0__["default"])();
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=admin-tools.js.map

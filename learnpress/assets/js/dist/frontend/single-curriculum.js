@@ -1,11 +1,11 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/apps/js/frontend/material.js":
+/***/ "./assets/src/apps/js/frontend/material.js"
 /*!*************************************************!*\
   !*** ./assets/src/apps/js/frontend/material.js ***!
   \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -53,13 +53,13 @@ function lpMaterialsLoad() {
   });
 }
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/show-lp-overlay-complete-item.js":
+/***/ "./assets/src/apps/js/frontend/show-lp-overlay-complete-item.js"
 /*!**********************************************************************!*\
   !*** ./assets/src/apps/js/frontend/show-lp-overlay-complete-item.js ***!
   \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -113,13 +113,13 @@ const lpModalOverlayCompleteItem = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lpModalOverlayCompleteItem);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/comment.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/comment.js"
 /*!*****************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/comment.js ***!
   \*****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -173,13 +173,13 @@ const commentForm = () => {
   // } );
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/compatible.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/compatible.js"
 /*!********************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/compatible.js ***!
   \********************************************************************************/
-/***/ (() => {
+() {
 
 /**
  * Compatible with Page Builder.
@@ -242,13 +242,13 @@ LP.Hook.addAction('lp-question-compatible-builder', () => {
   }
 });
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/items-progress.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/items-progress.js"
 /*!************************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/items-progress.js ***!
   \************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -306,13 +306,13 @@ const getResponse = async ele => {
   _show_lp_overlay_complete_item__WEBPACK_IMPORTED_MODULE_1__["default"].init();
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/progress.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/progress.js"
 /*!******************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/progress.js ***!
   \******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -332,13 +332,13 @@ const progressBar = () => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/search.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/search.js"
 /*!****************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/search.js ***!
   \****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -414,13 +414,13 @@ const searchCourseContent = () => {
   }
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/components/sidebar.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/components/sidebar.js"
 /*!*****************************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/components/sidebar.js ***!
   \*****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -496,13 +496,13 @@ const Sidebar = () => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/frontend/single-curriculum/index.js":
+/***/ "./assets/src/apps/js/frontend/single-curriculum/index.js"
 /*!****************************************************************!*\
   !*** ./assets/src/apps/js/frontend/single-curriculum/index.js ***!
   \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -562,13 +562,13 @@ document.addEventListener('DOMContentLoaded', () => {
   singleCurriculums.checkCourseDurationExpire();
 });
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/utils/lp-modal-overlay.js":
+/***/ "./assets/src/apps/js/utils/lp-modal-overlay.js"
 /*!******************************************************!*\
   !*** ./assets/src/apps/js/utils/lp-modal-overlay.js ***!
   \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -629,13 +629,13 @@ const lpModalOverlay = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lpModalOverlay);
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/js/utils.js":
+/***/ "./assets/src/js/utils.js"
 /*!********************************!*\
   !*** ./assets/src/js/utils.js ***!
   \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -957,40 +957,40 @@ const eventHandlers = (eventName, eventHandlers) => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "react":
+/***/ "react"
 /*!************************!*\
   !*** external "React" ***!
   \************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 module.exports = window["React"];
 
-/***/ }),
+/***/ },
 
-/***/ "@wordpress/element":
+/***/ "@wordpress/element"
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
   \*********************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 module.exports = window["wp"]["element"];
 
-/***/ }),
+/***/ },
 
-/***/ "@wordpress/url":
+/***/ "@wordpress/url"
 /*!*****************************!*\
   !*** external ["wp","url"] ***!
   \*****************************/
-/***/ ((module) => {
+(module) {
 
 "use strict";
 module.exports = window["wp"]["url"];
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -1003,6 +1003,12 @@ module.exports = window["wp"]["url"];
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -1061,7 +1067,7 @@ module.exports = window["wp"]["url"];
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 /*!**********************************************************!*\

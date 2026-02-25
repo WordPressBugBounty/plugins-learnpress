@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/apps/js/admin/pages/addons/search-lp-addons-themes.js":
+/***/ "./assets/src/apps/js/admin/pages/addons/search-lp-addons-themes.js"
 /*!**************************************************************************!*\
   !*** ./assets/src/apps/js/admin/pages/addons/search-lp-addons-themes.js ***!
   \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -60,7 +60,7 @@ __webpack_require__.r(__webpack_exports__);
 const searchThemesAddons = () => {};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchThemesAddons);
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -73,6 +73,12 @@ const searchThemesAddons = () => {};
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -119,6 +125,8 @@ const searchThemesAddons = () => {};
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!*********************************************************!*\
   !*** ./assets/src/apps/js/admin/pages/themes-addons.js ***!
   \*********************************************************/
@@ -128,6 +136,8 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener('DOMContentLoaded', function (event) {
   (0,_addons_search_lp_addons_themes__WEBPACK_IMPORTED_MODULE_0__["default"])();
 });
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=themes-addons.js.map

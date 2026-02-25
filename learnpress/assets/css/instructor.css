@@ -631,6 +631,7 @@ body .wp-site-blocks {
   display: none;
 }
 .lp-single-instructor .ul-instructor-courses .course-thumbnail {
+  position: relative;
   border-radius: var(--lp-border-radius, 5px) var(--lp-border-radius, 5px) 0 0;
   overflow: hidden;
 }

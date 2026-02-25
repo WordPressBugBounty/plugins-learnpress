@@ -2,15 +2,15 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "@wordpress/api-fetch":
+/***/ "@wordpress/api-fetch"
 /*!**********************************!*\
   !*** external ["wp","apiFetch"] ***!
   \**********************************/
-/***/ ((module) => {
+(module) {
 
 module.exports = window["wp"]["apiFetch"];
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -23,6 +23,12 @@ module.exports = window["wp"]["apiFetch"];
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -81,6 +87,8 @@ module.exports = window["wp"]["apiFetch"];
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!*********************************************!*\
   !*** ./assets/src/apps/js/data-controls.js ***!
   \*********************************************/
@@ -165,6 +173,8 @@ const controls = {
     return registry.dispatch(storeKey)[actionName](...args);
   })
 };
+})();
+
 (window.LP = window.LP || {}).dataControls = __webpack_exports__;
 /******/ })()
 ;

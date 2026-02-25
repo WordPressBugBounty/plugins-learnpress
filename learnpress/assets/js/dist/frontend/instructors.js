@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/src/apps/js/frontend/instructors/instructor-list.js":
+/***/ "./assets/src/apps/js/frontend/instructors/instructor-list.js"
 /*!********************************************************************!*\
   !*** ./assets/src/apps/js/frontend/instructors/instructor-list.js ***!
   \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -134,13 +134,13 @@ const pagination = () => {
   });
 };
 
-/***/ }),
+/***/ },
 
-/***/ "./assets/src/apps/js/utils/utils.js":
+/***/ "./assets/src/apps/js/utils/utils.js"
 /*!*******************************************!*\
   !*** ./assets/src/apps/js/utils/utils.js ***!
   \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -186,7 +186,7 @@ const lpAddQueryArgs = (endpoint, args) => {
 };
 
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -199,6 +199,12 @@ const lpAddQueryArgs = (endpoint, args) => {
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -245,6 +251,8 @@ const lpAddQueryArgs = (endpoint, args) => {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!****************************************************!*\
   !*** ./assets/src/apps/js/frontend/instructors.js ***!
   \****************************************************/
@@ -252,6 +260,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _instructors_instructor_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instructors/instructor-list */ "./assets/src/apps/js/frontend/instructors/instructor-list.js");
 
 (0,_instructors_instructor_list__WEBPACK_IMPORTED_MODULE_0__["default"])();
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=instructors.js.map
