@@ -608,18 +608,18 @@ const AdminUtilsFunctions = {
     	let i = 0;
     	const chunkedOptions = { ...options };
     	chunkedOptions.options = items_selected.slice( i, chunkSize );
-    		const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
+    			const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
     	i += chunkSize;
-    		const interval = setInterval( () => {
+    			const interval = setInterval( () => {
     		if ( i > ( length - 1 ) ) {
     			clearInterval( interval );
     		}
-    			const optionsSlice = items_selected.slice( i, i + chunkSize );
+    				const optionsSlice = items_selected.slice( i, i + chunkSize );
     		i += chunkSize;
     		tomSelect.addOptions( optionsSlice );
     		tomSelect.setValue( options.items );
     	}, 200 );
-    		return tomSelect;
+    			return tomSelect;
     }*/
 
     return new tom_select__WEBPACK_IMPORTED_MODULE_1__["default"](elTomSelect, options);
@@ -7224,12 +7224,6 @@ const replaceNode = (existing, replacement) => {
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
-/******/ 		// Check if module exists (development only)
-/******/ 		if (__webpack_modules__[moduleId] === undefined) {
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
-/******/ 			e.code = 'MODULE_NOT_FOUND';
-/******/ 			throw e;
-/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
 /******/ 			// no module.id needed
@@ -7238,6 +7232,12 @@ const replaceNode = (existing, replacement) => {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module

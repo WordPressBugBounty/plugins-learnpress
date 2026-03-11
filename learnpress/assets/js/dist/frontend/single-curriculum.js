@@ -471,19 +471,22 @@ const Sidebar = () => {
   /*$( '.section' ).each( function() {
   	const $section = $( this ),
   		$toggle = $section.find( '.section-left' );
-  		$toggle.on( 'click', function() {
+  
+  	$toggle.on( 'click', function() {
   		const isClose = $section.toggleClass( 'closed' ).hasClass( 'closed' );
   		const sections = LP.Cookies.get( 'closed-section-' + lpGlobalSettings.post_id ) || [];
   		const sectionId = parseInt( $section.data( 'section-id' ) );
   		const at = sections.findIndex( ( id ) => {
   			return id == sectionId;
   		} );
-  			if ( isClose ) {
+  
+  		if ( isClose ) {
   			sections.push( parseInt( $section.data( 'section-id' ) ) );
   		} else {
   			sections.splice( at, 1 );
   		}
-  			LP.Cookies.remove( 'closed-section-(.*)' );
+  
+  		LP.Cookies.remove( 'closed-section-(.*)' );
   		LP.Cookies.set( 'closed-section-' + lpGlobalSettings.post_id, [ ...new Set( sections ) ] );
   	} );
   } );*/
@@ -1004,12 +1007,6 @@ module.exports = window["wp"]["url"];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
-/******/ 		// Check if module exists (development only)
-/******/ 		if (__webpack_modules__[moduleId] === undefined) {
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
-/******/ 			e.code = 'MODULE_NOT_FOUND';
-/******/ 			throw e;
-/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
 /******/ 			// no module.id needed
@@ -1018,6 +1015,12 @@ module.exports = window["wp"]["url"];
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module

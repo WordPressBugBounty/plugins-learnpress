@@ -108,6 +108,14 @@
   max-height: 200px;
   overflow: hidden;
 }
+.swal2-popup .swal2-close {
+  background-color: unset !important;
+  outline: none !important;
+  color: rgb(204, 204, 204) !important;
+}
+.swal2-popup .swal2-close:hover {
+  color: #f27474 !important;
+}
 
 .lp-icon-spinner {
   animation: rotation 2s infinite linear;

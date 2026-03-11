@@ -367,6 +367,232 @@ class CreateCourseViaAI {
 
 /***/ },
 
+/***/ "./assets/src/js/admin/courses/view-students-modal.js"
+/*!************************************************************!*\
+  !*** ./assets/src/js/admin/courses/view-students-modal.js ***!
+  \************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ViewStudentsModal: () => (/* binding */ ViewStudentsModal)
+/* harmony export */ });
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
+
+
+class ViewStudentsModal {
+  constructor() {
+    this.isRequesting = false;
+    this.activeCourseId = 0;
+    this.init();
+  }
+  static selectors = {
+    wrap: '#lp-modal-enrolled-wrap',
+    form: '#lp-modal-enrolled-form',
+    toolbarTemplate: '#lp-tmpl-enrolled-students-toolbar-modal',
+    targetTemplate: '#lp-tmpl-enrolled-students-target-modal',
+    toolbar: '.lp-enrolled-students-table-toolbar--modal',
+    courseTrigger: '.lp-btn-view-students',
+    searchInput: '#lp-modal-enrolled-search-input',
+    startDateInput: '#lp-modal-enrolled-filter-start-date',
+    endDateInput: '#lp-modal-enrolled-filter-end-date',
+    searchBtn: '.lp-enrolled-btn-search-modal',
+    clearBtn: '.lp-enrolled-btn-clear-modal',
+    modalSearchFields: '#lp-modal-enrolled-search-input, #lp-modal-enrolled-filter-start-date, #lp-modal-enrolled-filter-end-date'
+  };
+  setButtonLoadingState(btn, isLoading) {
+    if (!btn) {
+      return;
+    }
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_1__.lpSetLoadingEl(btn, isLoading ? 1 : 0);
+    btn.disabled = !!isLoading;
+  }
+  init() {
+    if (ViewStudentsModal._loadedEvents) {
+      return;
+    }
+    ViewStudentsModal._loadedEvents = true;
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_1__.eventHandlers('click', [{
+      selector: ViewStudentsModal.selectors.courseTrigger,
+      class: this,
+      callBack: this.handleOpenModal.name
+    }, {
+      selector: ViewStudentsModal.selectors.searchBtn,
+      class: this,
+      callBack: this.handleModalSearch.name
+    }, {
+      selector: ViewStudentsModal.selectors.clearBtn,
+      class: this,
+      callBack: this.handleModalClear.name
+    }]);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_1__.eventHandlers('keydown', [{
+      selector: ViewStudentsModal.selectors.modalSearchFields,
+      class: this,
+      callBack: this.handleModalSearchOnEnter.name,
+      checkIsEventEnter: true
+    }]);
+  }
+  handleOpenModal(args) {
+    const btn = args?.target?.closest(ViewStudentsModal.selectors.courseTrigger);
+    if (!btn || this.isRequesting || btn.classList.contains('loading') || btn.disabled) {
+      return;
+    }
+    const courseId = parseInt(btn.dataset.courseId, 10) || 0;
+    if (!courseId) {
+      return;
+    }
+    const courseTitle = btn.dataset.courseTitle || '';
+    this.activeCourseId = courseId;
+    this.setButtonLoadingState(btn, true);
+    this.openModal(courseId, courseTitle, btn);
+  }
+  handleModalSearch(args) {
+    const btn = args?.target?.closest(ViewStudentsModal.selectors.searchBtn);
+    if (!btn || !this.activeCourseId) {
+      return;
+    }
+    if (args?.e) {
+      args.e.preventDefault();
+    }
+    if (this.isRequesting || btn.classList.contains('loading') || btn.disabled) {
+      return;
+    }
+    this.setButtonLoadingState(btn, true);
+    this.loadEnrolledStudents(this.activeCourseId, 1, btn);
+  }
+  handleModalSearchOnEnter(args) {
+    if (args?.e) {
+      args.e.preventDefault();
+    }
+    const form = this.getModalForm();
+    if (!form) {
+      return;
+    }
+    const btn = form.querySelector(ViewStudentsModal.selectors.searchBtn);
+    if (!btn) {
+      return;
+    }
+    this.handleModalSearch({
+      ...args,
+      target: btn
+    });
+  }
+  handleModalClear(args) {
+    const btn = args?.target?.closest(ViewStudentsModal.selectors.clearBtn);
+    const form = this.getModalForm();
+    if (!btn || !form || !this.activeCourseId) {
+      return;
+    }
+    if (args?.e) {
+      args.e.preventDefault();
+    }
+    if (this.isRequesting || btn.classList.contains('loading') || btn.disabled) {
+      return;
+    }
+    form.reset();
+    this.setButtonLoadingState(btn, true);
+    this.loadEnrolledStudents(this.activeCourseId, 1, btn);
+  }
+  getModalPopup() {
+    return (sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().getPopup) ? sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().getPopup() : null;
+  }
+  getModalToolbarHtml() {
+    const template = document.querySelector(ViewStudentsModal.selectors.toolbarTemplate);
+    return template ? template.innerHTML : '';
+  }
+  getModalTargetHtml() {
+    const template = document.querySelector(ViewStudentsModal.selectors.targetTemplate);
+    return template ? template.innerHTML : '';
+  }
+  getAjaxHandle() {
+    const ajaxHandle = window.lpAJAXG;
+    if (!ajaxHandle || typeof ajaxHandle.getDataSetCurrent !== 'function' || typeof ajaxHandle.setDataSetCurrent !== 'function' || typeof ajaxHandle.showHideLoading !== 'function' || typeof ajaxHandle.fetchAJAX !== 'function') {
+      return null;
+    }
+    return ajaxHandle;
+  }
+  getModalForm() {
+    const popup = this.getModalPopup();
+    if (!popup) {
+      return null;
+    }
+    return popup.querySelector(ViewStudentsModal.selectors.form);
+  }
+  getModalFilterArgs(dataArgs = {}) {
+    const form = this.getModalForm();
+    if (!form) {
+      return dataArgs;
+    }
+    return lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_1__.mergeDataWithDatForm(form, dataArgs);
+  }
+  loadEnrolledStudents(courseId, paged, elLoading = null) {
+    const wrap = document.querySelector(ViewStudentsModal.selectors.wrap);
+    const elTarget = wrap?.querySelector('.lp-target');
+    const ajaxHandle = this.getAjaxHandle();
+    if (!wrap || !elTarget || !ajaxHandle || this.isRequesting) {
+      return;
+    }
+    this.isRequesting = true;
+    if (elLoading) {
+      this.setButtonLoadingState(elLoading, true);
+    }
+    const dataSend = ajaxHandle.getDataSetCurrent(elTarget);
+    dataSend.args = this.getModalFilterArgs(dataSend.args || {});
+    dataSend.args.course_id = parseInt(courseId, 10) || 0;
+    dataSend.args.paged = paged;
+    ajaxHandle.setDataSetCurrent(elTarget, dataSend);
+    ajaxHandle.showHideLoading(elTarget, 1);
+    const callBack = {
+      success: response => {
+        elTarget.innerHTML = response.data.content;
+      },
+      error: err => {
+        console.error(err);
+      },
+      completed: () => {
+        this.isRequesting = false;
+        ajaxHandle.showHideLoading(elTarget, 0);
+        if (elLoading) {
+          this.setButtonLoadingState(elLoading, false);
+        }
+      }
+    };
+    ajaxHandle.fetchAJAX(dataSend, callBack);
+  }
+  openModal(courseId, courseTitle, elTrigger = null) {
+    const modalToolbarHtml = this.getModalToolbarHtml();
+    const modalTargetHtml = this.getModalTargetHtml();
+    if (!modalToolbarHtml || !modalTargetHtml) {
+      if (elTrigger) {
+        this.setButtonLoadingState(elTrigger, false);
+      }
+      return;
+    }
+    this.activeCourseId = parseInt(courseId, 10) || 0;
+    sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+      title: `${courseTitle}`,
+      html: modalToolbarHtml + modalTargetHtml,
+      width: '80%',
+      showConfirmButton: false,
+      showCloseButton: true,
+      didOpen: () => {
+        this.loadEnrolledStudents(this.activeCourseId, 1, elTrigger);
+      },
+      didClose: () => {
+        this.activeCourseId = 0;
+        if (elTrigger) {
+          this.setButtonLoadingState(elTrigger, false);
+        }
+      }
+    });
+  }
+}
+
+/***/ },
+
 /***/ "./assets/src/js/lpToastify.js"
 /*!*************************************!*\
   !*** ./assets/src/js/lpToastify.js ***!
@@ -6610,12 +6836,6 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
-/******/ 		// Check if module exists (development only)
-/******/ 		if (__webpack_modules__[moduleId] === undefined) {
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
-/******/ 			e.code = 'MODULE_NOT_FOUND';
-/******/ 			throw e;
-/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
 /******/ 			id: moduleId,
@@ -6624,6 +6844,12 @@ if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
@@ -6686,15 +6912,18 @@ var __webpack_exports__ = {};
   \**********************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _courses_generate_with_ai_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./courses/generate-with-ai.js */ "./assets/src/js/admin/courses/generate-with-ai.js");
+/* harmony import */ var _courses_view_students_modal_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./courses/view-students-modal.js */ "./assets/src/js/admin/courses/view-students-modal.js");
 /**
  * Admin Courses JS
  *
  * @since 4.3.0
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 
+
 new _courses_generate_with_ai_js__WEBPACK_IMPORTED_MODULE_0__.CreateCourseViaAI();
+new _courses_view_students_modal_js__WEBPACK_IMPORTED_MODULE_1__.ViewStudentsModal();
 })();
 
 /******/ })()
