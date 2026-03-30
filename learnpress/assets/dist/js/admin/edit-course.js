@@ -1760,7 +1760,7 @@ class GenerateWithOpenai {
       _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-document-bar', el => {
         el.insertAdjacentHTML('afterend', `<button type="button"
 					style="margin-left: 5px"
-					class="lp-btn-generate-with-ai"
+					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-title-ai">
 					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
 				</button>`);
@@ -1770,7 +1770,7 @@ class GenerateWithOpenai {
       _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
         el.insertAdjacentHTML('beforebegin', `<button type="button"
 					style="padding: 5px 10px; justify-content: center;"
-					class="lp-btn-generate-with-ai"
+					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-description-ai">
 					<i class="lp-ico-ai"></i><span>Generate description with AI</span>
 				</button>`);
@@ -1780,7 +1780,7 @@ class GenerateWithOpenai {
       _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
         el.insertAdjacentHTML('afterend', `<button type="button"
 					style="padding: 5px 10px; justify-content: center;"
-					class="lp-btn-generate-with-ai"
+					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-image-ai">
 					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
 				</button>`);

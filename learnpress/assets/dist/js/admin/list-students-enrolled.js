@@ -420,7 +420,7 @@ class ListStudentsEnrolled {
   }
   static selectors = {
     elContainer: '#lp-enrolled-students',
-    elForm: '#lp-enrolled-students-form',
+    elForm: '.lp-enrolled-students-form',
     elLPTarget: '.lp-target',
     elCourseNameInput: '.lp-enrolled-filter-course-name',
     elCourseIdInput: '#lp-enrolled-filter-course-id',
@@ -467,22 +467,22 @@ class ListStudentsEnrolled {
     lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('keydown', [{
       selector: ListStudentsEnrolled.selectors.elSearchInput,
       class: this,
-      callBack: this.searchStudents.name,
+      callBack: this.triggerBtnSearch.name,
       checkIsEventEnter: true
     }, {
       selector: ListStudentsEnrolled.selectors.elCourseNameInput,
       class: this,
-      callBack: this.searchStudents.name,
+      callBack: this.triggerBtnSearch.name,
       checkIsEventEnter: true
     }, {
       selector: ListStudentsEnrolled.selectors.elStartDateInput,
       class: this,
-      callBack: this.searchStudents.name,
+      callBack: this.triggerBtnSearch.name,
       checkIsEventEnter: true
     }, {
       selector: ListStudentsEnrolled.selectors.elEndDateInput,
       class: this,
-      callBack: this.searchStudents.name,
+      callBack: this.triggerBtnSearch.name,
       checkIsEventEnter: true
     }]);
     lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('change', [{
@@ -496,6 +496,14 @@ class ListStudentsEnrolled {
     }]);
   }
 
+  // Click button search.
+  triggerBtnSearch() {
+    const buttonSearch = this.elContainer.querySelector(ListStudentsEnrolled.selectors.elBtnSearch);
+    if (buttonSearch) {
+      buttonSearch.click();
+    }
+  }
+
   // Ensure start date is not after end date and vice versa. If invalid, adjust the other date to match.
   checkDatesRange(args) {
     const {
@@ -505,7 +513,7 @@ class ListStudentsEnrolled {
     if (!elInput) {
       return;
     }
-    const elForm = this.getToolbarForm();
+    const elForm = elInput.closest(ListStudentsEnrolled.selectors.elForm);
     if (!elForm) {
       return;
     }
@@ -544,9 +552,6 @@ class ListStudentsEnrolled {
       return null;
     }
     return ajaxHandle;
-  }
-  getToolbarForm() {
-    return this.elContainer?.querySelector(ListStudentsEnrolled.selectors.elForm);
   }
   syncCourseIdFromName(elForm) {
     const courseIdInput = elForm?.querySelector(ListStudentsEnrolled.selectors.elCourseIdInput);
@@ -589,7 +594,7 @@ class ListStudentsEnrolled {
     } else if (this.isRequesting) {
       return;
     }
-    const elForm = this.getToolbarForm();
+    const elForm = btn.closest(ListStudentsEnrolled.selectors.elForm);
     const elLPTarget = this.elContainer.querySelector(ListStudentsEnrolled.selectors.elLPTarget);
     if (!elLPTarget || !elForm) {
       return;
@@ -625,7 +630,7 @@ class ListStudentsEnrolled {
     } else if (this.isRequesting) {
       return;
     }
-    const elForm = this.getToolbarForm();
+    const elForm = btn.closest(ListStudentsEnrolled.selectors.elForm);
     const elLPTarget = this.elContainer.querySelector(ListStudentsEnrolled.selectors.elLPTarget);
     if (!elLPTarget || !elForm) {
       return;

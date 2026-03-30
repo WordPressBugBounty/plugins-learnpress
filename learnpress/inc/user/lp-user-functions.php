@@ -10,10 +10,27 @@ use LearnPress\Models\UserModel;
  * @package LearnPress/Functions/User
  * @version 1.0
  */
-
 function learn_press_get_user_profile_tabs() {
 	return LP_Profile::instance()->get_tabs();
 }
+
+/**
+ * Ensure new users receive a public slug.
+ *
+ * @param int $user_id
+ *
+ * @return void
+ */
+function learn_press_maybe_generate_user_pretty_slug_on_register( int $user_id ) {
+	$userModel = UserModel::find( $user_id, true );
+	if ( ! $userModel ) {
+		return;
+	}
+
+	$userModel->generate_pretty_slug();
+}
+
+add_action( 'user_register', 'learn_press_maybe_generate_user_pretty_slug_on_register' );
 
 /**
  * Delete user data by user ID
@@ -96,7 +113,7 @@ if ( ! function_exists( 'learn_press_get_user' ) ) {
 	 * Get user by ID. Return false if the user does not exist.
 	 * If user_id = 0, return a guest user.
 	 *
-	 * @param int  $user_id
+	 * @param int $user_id
 	 * @param bool $current
 	 *
 	 * @return LP_User|LP_User_Guest|false
@@ -275,6 +292,7 @@ function learn_press_add_user_roles() {
  */
 function learn_press_get_profile_user() {
 	return LP_Profile::instance()->get_user_current();
+
 	return LP_Profile::get_queried_user();
 }
 
@@ -309,8 +327,8 @@ add_action( 'register_form', 'learn_press_user_become_teacher_registration_form'
  *                                              field_name_n => value n
  *                                              )
  * @param mixed $where - Optional. Fields with values for conditional update with the same format of $fields.
- * @param bool  $update_cache - Optional. Should be update to cache or not (since 3.0.0).
- * @param bool  $update_extra_fields_as_meta - Optional. Update extra fields as item meta (since 3.1.0).
+ * @param bool $update_cache - Optional. Should be update to cache or not (since 3.0.0).
+ * @param bool $update_extra_fields_as_meta - Optional. Update extra fields as item meta (since 3.1.0).
  *
  * @return mixed
  */
@@ -504,7 +522,7 @@ function learn_press_update_user_item_field( array $fields = [], $where = false,
  * Get user item row(s) from user items table by multiple WHERE conditional
  *
  * @param array|int $where
- * @param bool      $single
+ * @param bool $single
  *
  * @return array
  */
@@ -561,9 +579,9 @@ function learn_press_get_user_item( $where, $single = true ) {
 /**
  * Get user item meta from user_itemmeta table
  *
- * @param int    $user_item_id .
+ * @param int $user_item_id .
  * @param string $meta_key .
- * @param bool   $single .
+ * @param bool $single .
  *
  * @return mixed
  */
@@ -579,9 +597,9 @@ function learn_press_get_user_item_meta( $user_item_id = 0, $meta_key = '', $sin
 /**
  * Add user item meta into table user_itemmeta
  *
- * @param int    $user_item_id
+ * @param int $user_item_id
  * @param string $meta_key
- * @param mixed  $meta_value
+ * @param mixed $meta_value
  * @param string $prev_value
  *
  * @return false|int
@@ -593,9 +611,9 @@ function learn_press_add_user_item_meta( $user_item_id, $meta_key, $meta_value, 
 /**
  * Update user item meta to table user_itemmeta
  *
- * @param int    $user_item_id
+ * @param int $user_item_id
  * @param string $meta_key
- * @param mixed  $meta_value
+ * @param mixed $meta_value
  * @param string $prev_value
  *
  * @return bool|int
@@ -608,10 +626,10 @@ function learn_press_update_user_item_meta( $user_item_id, $meta_key, $meta_valu
 /**
  * Update user item meta to table user_itemmeta
  *
- * @param int    $object_id
+ * @param int $object_id
  * @param string $meta_key
- * @param mixed  $meta_value
- * @param bool   $delete_all
+ * @param mixed $meta_value
+ * @param bool $delete_all
  *
  * @return bool|int
  */
@@ -689,6 +707,7 @@ if ( ! function_exists( 'learn_press_pre_get_avatar_callback' ) ) {
 			return $html_img;
 		} catch ( Throwable $e ) {
 			error_log( $e->getMessage() );
+
 			return $avatar;
 		}
 	}
@@ -1009,12 +1028,12 @@ function learn_press_get_profile( $for_user = 0 ) {
 
 	$query = $wpdb->prepare(
 		"
-        DELETE
-        FROM {$wpdb->learnpress_user_items}
-        WHERE user_id = %d
-        AND ( item_id IN(" . join( ',', $format ) . ")
-        $where )
-    ",
+		DELETE
+		FROM {$wpdb->learnpress_user_items}
+		WHERE user_id = %d
+		AND ( item_id IN(" . join( ',', $format ) . ")
+		$where )
+	",
 		$args
 	);
 }*/
@@ -1022,7 +1041,7 @@ function learn_press_get_profile( $for_user = 0 ) {
 /**
  * Get user profile link
  *
- * @param int  $user_id
+ * @param int $user_id
  * @param null $tab
  *
  * @return mixed|string
@@ -1039,8 +1058,14 @@ function learn_press_user_profile_link( $user_id = 0, $tab = '' ) {
 	}
 
 	global $wp_query;
-	$args = array(
-		'user' => $user->get_username(),
+	$wp_user = get_userdata( $user_id );
+	if ( ! $wp_user instanceof WP_User ) {
+		return '';
+	}
+
+	$user_model = new UserModel( $wp_user );
+	$args       = array(
+		'user' => $user_model->get_pretty_slug(),
 	);
 
 	if ( $tab ) {
@@ -1314,8 +1339,27 @@ function learn_press_update_extra_user_profile_fields( $user_id ) {
 		return;
 	}
 
+	if ( array_key_exists( 'lp_user_slug', $_POST ) ) {
+		$userModel = UserModel::find( $user_id, true );
+		if ( ! $userModel ) {
+			return;
+		}
+
+		$slug_result = $userModel->update_pretty_slug( (string) $_POST['lp_user_slug'] );
+		if ( is_wp_error( $slug_result ) ) {
+			wp_safe_redirect(
+				add_query_arg(
+					'lp-message',
+					urlencode( $slug_result->get_error_message() ),
+					wp_get_referer()
+				)
+			);
+			die();
+		}
+	}
+
 	if ( isset( $_POST['_lp_extra_info'] ) ) {
-		$extra_info = LP_Request::get_param( '_lp_extra_info', [], '', 'post' );
+		$extra_info = LP_Request::get_param( '_lp_extra_info', array(), '', 'post' );
 		update_user_meta( $user_id, '_lp_extra_info', $extra_info );
 	}
 }
@@ -1398,8 +1442,8 @@ function lp_add_default_fields( $fields ) {
 		<li class="form-field">
 			<label for="reg_first_name"><?php esc_html_e( 'First name', 'learnpress' ); ?></label>
 			<input id="reg_first_name" name="reg_first_name" type="text"
-				placeholder="<?php esc_attr_e( 'First name', 'learnpress' ); ?>"
-				value="<?php echo esc_attr( wp_unslash( $_POST['reg_first_name'] ?? '' ) ); ?>">
+					placeholder="<?php esc_attr_e( 'First name', 'learnpress' ); ?>"
+					value="<?php echo esc_attr( wp_unslash( $_POST['reg_first_name'] ?? '' ) ); ?>">
 		</li>
 		<?php
 	}
@@ -1411,8 +1455,8 @@ function lp_add_default_fields( $fields ) {
 		<li class="form-field">
 			<label for="reg_last_name"><?php esc_html_e( 'Last name', 'learnpress' ); ?></label>
 			<input id="reg_last_name" name="reg_last_name" type="text"
-				placeholder="<?php esc_attr_e( 'Last name', 'learnpress' ); ?>"
-				value="<?php echo esc_attr( wp_unslash( $_POST['reg_last_name'] ?? '' ) ); ?>">
+					placeholder="<?php esc_attr_e( 'Last name', 'learnpress' ); ?>"
+					value="<?php echo esc_attr( wp_unslash( $_POST['reg_last_name'] ?? '' ) ); ?>">
 		</li>
 		<?php
 	}
@@ -1424,8 +1468,8 @@ function lp_add_default_fields( $fields ) {
 		<li class="form-field">
 			<label for="reg_display_name"><?php esc_html_e( 'Display name', 'learnpress' ); ?></label>
 			<input id="reg_display_name" name="reg_display_name" type="text"
-				placeholder="<?php esc_attr_e( 'Display name', 'learnpress' ); ?>"
-				value="<?php echo esc_attr( wp_unslash( $_POST['reg_display_name'] ?? '' ) ); ?>">
+					placeholder="<?php esc_attr_e( 'Display name', 'learnpress' ); ?>"
+					value="<?php echo esc_attr( wp_unslash( $_POST['reg_display_name'] ?? '' ) ); ?>">
 		</li>
 		<?php
 	}
@@ -1448,9 +1492,10 @@ function lp_custom_register_fields_display() {
 					.required label {
 						font-weight: bold;
 					}
+
 					.required label:after {
 						content: ' *';
-						display:inline;
+						display: inline;
 					}
 				</style>
 				<?php
@@ -1471,8 +1516,8 @@ function lp_custom_register_fields_display() {
 							?>
 							<label for="description"><?php echo esc_html( $custom_field['name'] ); ?></label>
 							<input name="_lp_custom_register_form[<?php echo esc_attr( $value ); ?>]"
-								type="<?php echo esc_attr( $custom_field['type'] ); ?>" class="regular-text"
-								value="" />
+									type="<?php echo esc_attr( $custom_field['type'] ); ?>" class="regular-text"
+									value=""/>
 							<?php
 							break;
 						case 'textarea':
@@ -1485,7 +1530,7 @@ function lp_custom_register_fields_display() {
 							?>
 							<label>
 								<input name="_lp_custom_register_form[<?php echo esc_attr( $value ); ?>]"
-									type="<?php echo esc_attr( $custom_field['type'] ); ?>" value="1">
+										type="<?php echo esc_attr( $custom_field['type'] ); ?>" value="1">
 								<?php echo esc_html( $custom_field['name'] ); ?>
 							</label>
 							<?php
@@ -1574,6 +1619,7 @@ function learn_press_is_social_profile( $key ) {
  */
 function learn_press_get_user_extra_profile_fields() {
 	_deprecated_function( __FUNCTION__, '4.3.2' );
+
 	return [];
 
 	$socials = learn_press_social_profiles();
@@ -1604,7 +1650,9 @@ function learn_press_user_profile_data( $user ) {
 	learn_press_admin_view( 'backend-user-profile', array( 'user' => $user ) );
 	learn_press_admin_view( 'user/courses.php', array( 'user_id' => $user->ID ) );
 }
+
 add_action( 'edit_user_profile', 'learn_press_user_profile_data', 1000 );
+add_action( 'show_user_profile', 'learn_press_user_profile_data', 1000 );
 
 /*function learnpress_get_count_by_user( $user_id = '', $post_type = 'lp_course' ) {
 	if ( empty( $user_id ) ) {

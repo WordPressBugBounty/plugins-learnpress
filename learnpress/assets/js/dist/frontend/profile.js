@@ -68,6 +68,15 @@ class ViewStudentsModal {
       callBack: this.handleModalSearchOnEnter.name,
       checkIsEventEnter: true
     }]);
+    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_1__.eventHandlers('change', [{
+      selector: ViewStudentsModal.selectors.startDateInput,
+      class: this,
+      callBack: this.checkDatesRange.name
+    }, {
+      selector: ViewStudentsModal.selectors.endDateInput,
+      class: this,
+      callBack: this.checkDatesRange.name
+    }]);
   }
   handleOpenModal(args) {
     const btn = args?.target?.closest(ViewStudentsModal.selectors.courseTrigger);
@@ -222,6 +231,42 @@ class ViewStudentsModal {
         }
       }
     });
+  }
+
+  // Ensure start date is not after end date and vice versa. If invalid, adjust the other date to match.
+  checkDatesRange(args) {
+    const {
+      e
+    } = args;
+    const elInput = e?.target;
+    if (!elInput) {
+      return;
+    }
+    const elForm = elInput.closest(ViewStudentsModal.selectors.form);
+    if (!elForm) {
+      return;
+    }
+    const startDateInput = elForm.querySelector(ViewStudentsModal.selectors.startDateInput);
+    const endDateInput = elForm.querySelector(ViewStudentsModal.selectors.endDateInput);
+    if (elInput === startDateInput) {
+      if (startDateInput.value) {
+        endDateInput.min = startDateInput.value;
+        if (endDateInput.value && endDateInput.value < startDateInput.value) {
+          endDateInput.value = startDateInput.value;
+        }
+      } else {
+        endDateInput.min = '';
+      }
+    } else if (elInput === endDateInput) {
+      if (endDateInput.value) {
+        startDateInput.max = endDateInput.value;
+        if (startDateInput.value && startDateInput.value > endDateInput.value) {
+          startDateInput.value = endDateInput.value;
+        }
+      } else {
+        startDateInput.max = '';
+      }
+    }
   }
 }
 
