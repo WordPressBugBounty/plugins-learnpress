@@ -497,7 +497,6 @@ html:has(#wpadminbar) #lp-course-builder-content.lp-cb-main {
   padding: 20px 12px;
   background: #ffffff;
   border-bottom: 1px solid #f5f5f5;
-  gap: 60px;
 }
 .lp-cb-header .lp-cb-header__left {
   display: flex;
@@ -2059,8 +2058,8 @@ html:has(#wpadminbar) .lp-cb-header {
   gap: 40px;
 }
 .lp-course-builder-content__section .cb-course-edit-column--left {
-  flex: 0 0 400px;
-  max-width: 400px;
+  flex: 0 0 320px;
+  max-width: 320px;
 }
 .lp-course-builder-content__section .cb-course-edit-column--right {
   flex: 1;
@@ -2111,143 +2110,28 @@ html:has(#wpadminbar) .lp-cb-header {
 .lp-course-builder-content__section .cb-course-edit-permalink {
   margin-bottom: 20px;
 }
-.lp-course-builder-content__section .cb-permalink-display {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 10px 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-}
-.lp-course-builder-content__section .cb-permalink-display.lp-hidden {
-  display: none;
-}
-.lp-course-builder-content__section .cb-permalink-label {
+.lp-course-builder-content__section .cb-course-edit-permalink__label {
   display: block;
   font-size: 14px;
   font-weight: 600;
   color: #1a1a1a;
   margin-bottom: 8px;
 }
-.lp-course-builder-content__section .cb-permalink-url {
-  font-size: 13px;
-  color: #1f74ff;
-  text-decoration: none;
-  word-break: break-all;
-  flex: 1;
-  min-width: 0;
-  padding-top: 2px;
-}
-.lp-course-builder-content__section .cb-permalink-url:hover {
-  text-decoration: underline;
-}
-.lp-course-builder-content__section .cb-permalink-edit-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.15s ease;
-}
-.lp-course-builder-content__section .cb-permalink-edit-btn .dashicons {
+.lp-course-builder-content__section .cb-course-edit-permalink__input {
+  width: 100%;
+  padding: 10px 12px;
   font-size: 14px;
-  width: 14px;
-  height: 14px;
-  color: #64748b;
-}
-.lp-course-builder-content__section .cb-permalink-edit-btn:hover {
-  background: #1f74ff;
-  border-color: #1f74ff;
-}
-.lp-course-builder-content__section .cb-permalink-edit-btn:hover .dashicons {
-  color: #fff;
-}
-.lp-course-builder-content__section .cb-permalink-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-}
-.lp-course-builder-content__section .cb-permalink-editor.lp-hidden {
-  display: none;
-}
-.lp-course-builder-content__section .cb-permalink-prefix {
-  font-size: 12px;
-  color: #94a3b8;
-  word-break: break-all;
-  line-height: 1.4;
-}
-.lp-course-builder-content__section .cb-permalink-prefix strong {
-  color: #64748b;
-  font-weight: 600;
-}
-.lp-course-builder-content__section .cb-permalink-input-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.lp-course-builder-content__section .cb-permalink-slug-input {
-  flex: 1;
-  min-width: 0;
-  padding: 8px 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #1a1a1a;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #ddd;
   border-radius: 6px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.2s;
 }
-.lp-course-builder-content__section .cb-permalink-slug-input:focus {
-  border-color: #1f74ff;
-  box-shadow: 0 0 0 3px rgba(31, 116, 255, 0.1);
+.lp-course-builder-content__section .cb-course-edit-permalink__input:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
 }
-.lp-course-builder-content__section .cb-permalink-slug-input::placeholder {
-  color: #94a3b8;
-}
-.lp-course-builder-content__section .cb-permalink-actions {
-  display: flex;
-  gap: 6px;
-  flex-shrink: 0;
-}
-.lp-course-builder-content__section .cb-permalink-ok-btn {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  background: #1f74ff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-.lp-course-builder-content__section .cb-permalink-ok-btn:hover {
-  background: #005df5;
-}
-.lp-course-builder-content__section .cb-permalink-cancel-btn {
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #64748b;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.lp-course-builder-content__section .cb-permalink-cancel-btn:hover {
-  background: #f1f5f9;
-  color: #475569;
+.lp-course-builder-content__section .cb-course-edit-permalink__input::placeholder {
+  color: #9ca3af;
 }
 .lp-course-builder-content__section .cb-course-edit-desc {
   margin-bottom: 24px;
@@ -2411,14 +2295,13 @@ html:has(#wpadminbar) .lp-cb-header {
   border-color: #1f74ff;
   background: rgba(31, 116, 255, 0.03);
 }
-.lp-course-builder-content__section .cb-featured-image-dropzone:hover a {
-  color: #1f74ff;
-}
 .lp-course-builder-content__section .cb-featured-image-dropzone.has-image {
-  cursor: default;
   border-style: solid;
   border-color: #e5e7eb;
   padding: 0;
+}
+.lp-course-builder-content__section .cb-featured-image-dropzone.has-image:hover {
+  border-color: #1f74ff;
 }
 .lp-course-builder-content__section .cb-featured-image-dropzone.dragover {
   border-color: #1f74ff;
@@ -2440,7 +2323,7 @@ html:has(#wpadminbar) .lp-cb-header {
   margin: 0 0 6px 0;
 }
 .lp-course-builder-content__section .cb-featured-image-link {
-  color: #1a1a1a;
+  color: #1f74ff;
   text-decoration: none;
   font-weight: 500;
 }
@@ -2681,8 +2564,8 @@ html:has(#wpadminbar) .lp-cb-header {
   gap: 40px;
 }
 .lp-cb-tab-content .cb-section__course-edit .cb-course-edit-column--left {
-  flex: 0 0 400px;
-  max-width: 400px;
+  flex: 0 0 320px;
+  max-width: 320px;
 }
 .lp-cb-tab-content .cb-section__course-edit .cb-course-edit-column--right {
   flex: 1;
@@ -2733,143 +2616,28 @@ html:has(#wpadminbar) .lp-cb-header {
 .lp-cb-tab-content .cb-section__course-edit .cb-course-edit-permalink {
   margin-bottom: 20px;
 }
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-display {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 10px 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-display.lp-hidden {
-  display: none;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-label {
+.lp-cb-tab-content .cb-section__course-edit .cb-course-edit-permalink__label {
   display: block;
   font-size: 14px;
   font-weight: 600;
   color: #1a1a1a;
   margin-bottom: 8px;
 }
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-url {
-  font-size: 13px;
-  color: #1f74ff;
-  text-decoration: none;
-  word-break: break-all;
-  flex: 1;
-  min-width: 0;
-  padding-top: 2px;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-url:hover {
-  text-decoration: underline;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-edit-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.15s ease;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-edit-btn .dashicons {
+.lp-cb-tab-content .cb-section__course-edit .cb-course-edit-permalink__input {
+  width: 100%;
+  padding: 10px 12px;
   font-size: 14px;
-  width: 14px;
-  height: 14px;
-  color: #64748b;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-edit-btn:hover {
-  background: #1f74ff;
-  border-color: #1f74ff;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-edit-btn:hover .dashicons {
-  color: #fff;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-editor.lp-hidden {
-  display: none;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-prefix {
-  font-size: 12px;
-  color: #94a3b8;
-  word-break: break-all;
-  line-height: 1.4;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-prefix strong {
-  color: #64748b;
-  font-weight: 600;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-input-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-slug-input {
-  flex: 1;
-  min-width: 0;
-  padding: 8px 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #1a1a1a;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #ddd;
   border-radius: 6px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.2s;
 }
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-slug-input:focus {
-  border-color: #1f74ff;
-  box-shadow: 0 0 0 3px rgba(31, 116, 255, 0.1);
+.lp-cb-tab-content .cb-section__course-edit .cb-course-edit-permalink__input:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
 }
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-slug-input::placeholder {
-  color: #94a3b8;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-actions {
-  display: flex;
-  gap: 6px;
-  flex-shrink: 0;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-ok-btn {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  background: #1f74ff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-ok-btn:hover {
-  background: #005df5;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-cancel-btn {
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #64748b;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.lp-cb-tab-content .cb-section__course-edit .cb-permalink-cancel-btn:hover {
-  background: #f1f5f9;
-  color: #475569;
+.lp-cb-tab-content .cb-section__course-edit .cb-course-edit-permalink__input::placeholder {
+  color: #9ca3af;
 }
 .lp-cb-tab-content .cb-section__course-edit .cb-course-edit-desc {
   margin-bottom: 24px;
@@ -3033,14 +2801,13 @@ html:has(#wpadminbar) .lp-cb-header {
   border-color: #1f74ff;
   background: rgba(31, 116, 255, 0.03);
 }
-.lp-cb-tab-content .cb-section__course-edit .cb-featured-image-dropzone:hover a {
-  color: #1f74ff;
-}
 .lp-cb-tab-content .cb-section__course-edit .cb-featured-image-dropzone.has-image {
-  cursor: default;
   border-style: solid;
   border-color: #e5e7eb;
   padding: 0;
+}
+.lp-cb-tab-content .cb-section__course-edit .cb-featured-image-dropzone.has-image:hover {
+  border-color: #1f74ff;
 }
 .lp-cb-tab-content .cb-section__course-edit .cb-featured-image-dropzone.dragover {
   border-color: #1f74ff;
@@ -3062,7 +2829,7 @@ html:has(#wpadminbar) .lp-cb-header {
   margin: 0 0 6px 0;
 }
 .lp-cb-tab-content .cb-section__course-edit .cb-featured-image-link {
-  color: #1a1a1a;
+  color: #1f74ff;
   text-decoration: none;
   font-weight: 500;
 }
