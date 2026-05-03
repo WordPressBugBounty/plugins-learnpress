@@ -832,7 +832,7 @@ window.lpCourseList = (() => {
     		return;
     	}
     	const skeleton = elListCourse.querySelector( `.${ classSkeletonArchiveCourse }` );
-    			return {
+    		return {
     		before: () => {
     			const urlPush = lpAddQueryArgs( currentUrl, args );
     			window.history.pushState( '', '', urlPush );
@@ -852,14 +852,14 @@ window.lpCourseList = (() => {
     				}
     				elLi.remove();
     			} );
-    					// Insert new items.
+    				// Insert new items.
     			elListCourse.insertAdjacentHTML( 'afterbegin', res.data.content || '' );
-    					// Check if Pagination exists will remove.
+    				// Check if Pagination exists will remove.
     			const elPagination = document.querySelector( `.${ classPaginationCourse }` );
     			if ( elPagination ) {
     				elPagination.remove();
     			}
-    					// Insert Pagination.
+    				// Insert Pagination.
     			const pagination = res.data.pagination || '';
     			elListCourse.insertAdjacentHTML( 'afterend', pagination );
     		},
@@ -870,7 +870,7 @@ window.lpCourseList = (() => {
     			if ( skeleton ) {
     				skeleton.style.display = 'none';
     			}
-    					// Scroll to archive element
+    				// Scroll to archive element
     			const optionScroll = { behavior: 'smooth' };
     			elListCourse.closest( '.lp-archive-courses' ).scrollIntoView( optionScroll );
     		},

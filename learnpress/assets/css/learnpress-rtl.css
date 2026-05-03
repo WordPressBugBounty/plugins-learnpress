@@ -2382,7 +2382,7 @@ button.learnpress_avatar__button + button {
   opacity: 0;
   visibility: hidden;
   cursor: pointer;
-  background-color: var(--lp-white-grey, #F7F7FB);
+  background-color: var(--lp-white-grey, #f7f7fb);
   border-radius: 50%;
 }
 @media (max-width: 767px) {
@@ -2476,7 +2476,8 @@ button.learnpress_avatar__button + button {
 .lp-user-profile .lp-profile-nav-tabs > li.active {
   background: var(--lp-primary-color);
 }
-.lp-user-profile .lp-profile-nav-tabs > li.active > a, .lp-user-profile .lp-profile-nav-tabs > li.active > a i {
+.lp-user-profile .lp-profile-nav-tabs > li.active > a,
+.lp-user-profile .lp-profile-nav-tabs > li.active > a i {
   color: #fff;
 }
 .lp-user-profile .lp-profile-nav-tabs > li:not(.active):hover {
@@ -2528,7 +2529,8 @@ button.learnpress_avatar__button + button {
     overflow-x: scroll;
   }
 }
-.lp-user-profile .lp-profile-content .course-categories, .lp-user-profile .lp-profile-content .course-instructor {
+.lp-user-profile .lp-profile-content .course-categories,
+.lp-user-profile .lp-profile-content .course-instructor {
   margin-bottom: 14px;
 }
 .lp-user-profile .lp-profile-content .course-categories {
@@ -2696,6 +2698,47 @@ button.learnpress_avatar__button + button {
 .learn-press-profile-course__statistic {
   margin-bottom: 32px;
 }
+.learn-press-profile-course__tab .learn-press-tabs--with-course-builder {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.learn-press-profile-course__tab .learn-press-tabs--with-course-builder .learn-press-filters {
+  flex: 1 1 auto;
+}
+.learn-press-profile-course__tab .learn-press-tabs--with-course-builder .learn-press-course-builder-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  border-radius: 6px;
+  color: var(--lp-primary-color, #ffb606);
+  font-size: 0.875em;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.learn-press-profile-course__tab .learn-press-tabs--with-course-builder .learn-press-course-builder-link:hover, .learn-press-profile-course__tab .learn-press-tabs--with-course-builder .learn-press-course-builder-link:focus {
+  background: var(--lp-primary-color, #ffb606);
+  border-color: var(--lp-primary-color, #ffb606);
+  color: #fff;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  .learn-press-profile-course__tab .learn-press-tabs--with-course-builder {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .learn-press-profile-course__tab .learn-press-tabs--with-course-builder .learn-press-course-builder-link {
+    width: 100%;
+    margin: 0 0 16px;
+  }
+}
 .learn-press-profile-course__progress .lp_profile_course_progress__item img {
   width: 100%;
   aspect-ratio: 16/9;
@@ -2703,34 +2746,42 @@ button.learnpress_avatar__button + button {
   height: auto;
   display: block;
 }
-.learn-press-profile-course__progress .lp_profile_course_progress__item td, .learn-press-profile-course__progress .lp_profile_course_progress__item th {
+.learn-press-profile-course__progress .lp_profile_course_progress__item td,
+.learn-press-profile-course__progress .lp_profile_course_progress__item th {
   text-align: center;
 }
-.learn-press-profile-course__progress .lp_profile_course_progress__item td:first-child, .learn-press-profile-course__progress .lp_profile_course_progress__item th:first-child {
+.learn-press-profile-course__progress .lp_profile_course_progress__item td:first-child,
+.learn-press-profile-course__progress .lp_profile_course_progress__item th:first-child {
   width: 15%;
   padding: 0;
 }
 @media (max-width: 768px) {
-  .learn-press-profile-course__progress .lp_profile_course_progress__item td:first-child, .learn-press-profile-course__progress .lp_profile_course_progress__item th:first-child {
+  .learn-press-profile-course__progress .lp_profile_course_progress__item td:first-child,
+  .learn-press-profile-course__progress .lp_profile_course_progress__item th:first-child {
     display: none;
   }
 }
-.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(2), .learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(2) {
+.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(2),
+.learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(2) {
   width: 25%;
 }
-.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(2) a, .learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(2) a {
+.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(2) a,
+.learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(2) a {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(3), .learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(3) {
+.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(3),
+.learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(3) {
   width: 10%;
 }
-.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(4), .learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(4) {
+.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(4),
+.learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(4) {
   width: 25%;
 }
-.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(5), .learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(5) {
+.learn-press-profile-course__progress .lp_profile_course_progress__item td:nth-child(5),
+.learn-press-profile-course__progress .lp_profile_course_progress__item th:nth-child(5) {
   width: 25%;
 }
 @media (max-width: 768px) {
@@ -7513,11 +7564,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   border-bottom: 1px solid #d9e0f1;
   background: var(--lp-secondary-color);
   align-items: center;
-  -webkit-transition: right 0.25s;
-  -moz-transition: right 0.25s;
-  -ms-transition: right 0.25s;
-  -o-transition: right 0.25s;
-  transition: right 0.25s;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: left;
+  transform: translateZ(0);
 }
 #popup-header .course-title {
   margin: 0;
@@ -7584,11 +7633,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   position: relative;
   box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.1);
   flex: 0 0 475px;
-  -webkit-transition: 0.25s;
-  -moz-transition: 0.25s;
-  -ms-transition: 0.25s;
-  -o-transition: 0.25s;
-  transition: 0.25s;
+  transition: flex-basis 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: flex-basis;
+  transform: translateZ(0);
 }
 #popup-sidebar .search-course {
   display: flex;
@@ -7859,11 +7906,9 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   margin: 0 auto;
   border-top: 1px solid #ebebeb;
   background: var(--lp-bg-color-lesson, #fff);
-  -webkit-transition: right 0.25s;
-  -moz-transition: right 0.25s;
-  -ms-transition: right 0.25s;
-  -o-transition: right 0.25s;
-  transition: right 0.25s;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: left;
+  transform: translateZ(0);
 }
 @media (max-width: 1024px) {
   #popup-footer {
@@ -8945,7 +8990,7 @@ table.lp-list-table tfoot .pagination {
   flex: 1;
 }
 .swal2-popup .swal2-actions button.swal2-confirm {
-  background-color: #E02200;
+  background-color: #e02200;
 }
 .swal2-popup .swal2-actions button.swal2-cancel {
   background-color: transparent;
@@ -8953,7 +8998,7 @@ table.lp-list-table tfoot .pagination {
   color: inherit;
 }
 .swal2-popup .swal2-warning {
-  color: #E02200;
+  color: #e02200;
   border-color: transparent;
   background-color: rgba(223, 0, 0, 0.1019607843);
 }

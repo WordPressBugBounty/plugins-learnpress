@@ -81,7 +81,11 @@ __webpack_require__.r(__webpack_exports__);
 let editSection = null;
 let editSectionItem = null;
 class EditCurriculumAi {
-  constructor() {
+  constructor(options = {}) {
+    this.options = {
+      isCourseBuilder: false,
+      ...options
+    };
     this.init();
   }
   static selectors = {
@@ -91,14 +95,25 @@ class EditCurriculumAi {
     if (!lpData?.enable_open_ai) {
       return;
     }
-    lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(lpAssetsJsPath_admin_edit_course_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.idElEditCurriculum, el => {
-      const elCountSections = el.querySelector(_edit_section_js__WEBPACK_IMPORTED_MODULE_3__.EditSection.selectors.elCountSections);
-      elCountSections.insertAdjacentHTML('afterend', `<button type="button"
+    if (this.options.isCourseBuilder) {
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(lpAssetsJsPath_admin_edit_course_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.idElEditCurriculum, el => {
+        const elCountSections = el.querySelector(_edit_section_js__WEBPACK_IMPORTED_MODULE_3__.EditSection.selectors.elCountSections);
+        elCountSections.insertAdjacentHTML('beforebegin', `<button type="button"
+						class="cb-course-edit-ai-btn lp-btn-generate-with-ai"
+						data-template="#lp-tmpl-edit-course-curriculum-ai">
+						<i class="lp-ico-ai"></i>
+					</button>`);
+      });
+    } else {
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady(lpAssetsJsPath_admin_edit_course_edit_curriculum_js__WEBPACK_IMPORTED_MODULE_5__.EditCourseCurriculum.selectors.idElEditCurriculum, el => {
+        const elCountSections = el.querySelector(_edit_section_js__WEBPACK_IMPORTED_MODULE_3__.EditSection.selectors.elCountSections);
+        elCountSections.insertAdjacentHTML('afterend', `<button type="button"
 					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-course-curriculum-ai">
 					<i class="lp-ico-ai"></i><span>Generate with AI</span>
 				</button>`);
-    });
+      });
+    }
     this.events();
   }
   events() {
@@ -130,7 +145,9 @@ class EditCurriculumAi {
     if (!sections || sections.length === 0) {
       lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_1__.show('No sections found in the generated data.', 'error');
     }
-    console.log('Generated Sections:', sections);
+
+    // console.log( 'Generated Sections:', sections );
+
     sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().close();
 
     // Wait half second to ensure SweetAlert is closed completely
@@ -386,14 +403,8 @@ class EditSectionItem {
       callBack: this.deleteItem.name
     }, {
       selector: lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__.LpPopupSelectItemToAdd.selectors.elBtnShowPopupItemsToSelect,
-      callBack: args => {
-        const {
-          e,
-          target
-        } = args;
-        const elSection = target.closest(_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection);
-        this.sectionIdSelected = elSection.dataset.sectionId;
-      }
+      class: this,
+      callBack: this.handleShowPopupItemsToSelect.name
     }, {
       selector: lpAssetsJsPath_lpPopupSelectItemToAdd_js__WEBPACK_IMPORTED_MODULE_6__.LpPopupSelectItemToAdd.selectors.elBtnAddItemsSelected,
       class: lpPopupSelectItemToAdd,
@@ -443,6 +454,26 @@ class EditSectionItem {
       callBack: this.focusTitleInput.name,
       focusIn: false
     }]);
+  }
+
+  /* Handle show popup items to select - set sectionIdSelected */
+  handleShowPopupItemsToSelect(args) {
+    const {
+      e,
+      target
+    } = args;
+    const elQuizWrap = target.closest('.lp-edit-quiz-wrap');
+    if (elQuizWrap) {
+      this.sectionIdSelected = null;
+      return;
+    }
+    const elSection = target.closest(_edit_section_js__WEBPACK_IMPORTED_MODULE_5__.EditSection.selectors.elSection);
+    const elEditCurriculum = target.closest('#lp-course-edit-curriculum') || target.closest('.lp-edit-curriculum-wrap');
+    if (elSection && elEditCurriculum) {
+      this.sectionIdSelected = elSection.dataset.sectionId;
+    } else {
+      this.sectionIdSelected = null;
+    }
   }
 
   /* Add item type */
@@ -535,8 +566,12 @@ class EditSectionItem {
             section_item,
             item_link
           } = data || {};
-          elItemNew.dataset.itemId = section_item.item_id || 0;
+          const itemId = section_item.item_id || 0;
+          elItemNew.dataset.itemId = itemId;
           elItemNew.querySelector('.edit-link').setAttribute('href', item_link || '');
+
+          // Add popup attributes for Course Builder context
+          this.addPopupAttributesToItem(elItemNew, itemId, typeValue);
 
           // Call callback nest if exists
           if (callBackNest && typeof callBackNest.success === 'function') {
@@ -570,6 +605,9 @@ class EditSectionItem {
         id_url: idUrlHandle
       }
     };
+    if (document.querySelector('#lp-course-builder')) {
+      dataSend.is_course_builder = 1;
+    }
     window.lpAJAXG.fetchAJAX(dataSend, callBack);
   }
 
@@ -750,8 +788,8 @@ class EditSectionItem {
       icon: 'warning',
       showCloseButton: true,
       showCancelButton: true,
-      cancelButtonText: lpDataAdmin.i18n.cancel,
-      confirmButtonText: lpDataAdmin.i18n.yes,
+      cancelButtonText: lpData.i18n.cancel,
+      confirmButtonText: lpData.i18n.yes,
       reverseButtons: true
     }).then(result => {
       if (result.isConfirmed) {
@@ -870,8 +908,20 @@ class EditSectionItem {
 
   /* Add items selected to section */
   addItemsSelectedToSection(itemsSelectedData) {
+    // Skip if not in curriculum context (e.g., quiz popup)
+    if (!this.sectionIdSelected) {
+      return;
+    }
     const elSection = document.querySelector(`.section[data-section-id="${this.sectionIdSelected}"]`);
+
+    // Skip if section element not found
+    if (!elSection) {
+      return;
+    }
     const elItemClone = elSection.querySelector(`${EditSectionItem.selectors.elItemClone}`);
+
+    // Check if we're in Course Builder context
+    const isCourseBuilder = document.querySelector('#lp-course-builder') !== null;
     itemsSelectedData.forEach(item => {
       const elItemNew = elItemClone.cloneNode(true);
       const elInputTitleNew = elItemNew.querySelector(`${EditSectionItem.selectors.elItemTitleInput}`);
@@ -891,6 +941,7 @@ class EditSectionItem {
       action: 'add_items_to_section',
       section_id: this.sectionIdSelected,
       items: itemsSelectedData,
+      is_course_builder: isCourseBuilder ? 1 : 0,
       args: {
         id_url: idUrlHandle
       }
@@ -912,7 +963,8 @@ class EditSectionItem {
             elItemAdded.remove();
           }
         });
-        if (status === 'success') {
+        if (status === 'success' && html) {
+          // Server returns HTML with popup attributes already included when is_course_builder=1
           elItemClone.insertAdjacentHTML('beforebegin', html);
         }
       },
@@ -997,6 +1049,60 @@ class EditSectionItem {
     const itemsCount = elItems.length;
     elSectionItemsCount.dataset.count = itemsCount;
     elSectionItemsCount.querySelector('.count').textContent = itemsCount;
+  }
+
+  /**
+   * Add popup attributes to item element for Course Builder context.
+   * Only applies when in Course Builder (not admin edit course page).
+   *
+   * @param {HTMLElement} elItem - The item element
+   * @param {number} itemId - The item ID
+   * @param {string} itemType - The item type (lp_lesson, lp_quiz, lp_assignment)
+   */
+  addPopupAttributesToItem(elItem, itemId, itemType) {
+    // Check if we're in Course Builder context
+    const isCourseBuilder = document.querySelector('#lp-course-builder') !== null;
+    if (!isCourseBuilder || !itemId) {
+      return;
+    }
+    const popupType = itemType.replace(/^lp_/, '');
+    const templateSelector = `#lp-tmpl-builder-popup-curriculum-${popupType}-course-${this.courseId}`;
+    if (!popupType || !document.querySelector(templateSelector)) {
+      return;
+    }
+
+    // Find the edit link element - it's an <a> with class 'edit-link' inside .item-actions
+    const editLink = elItem.querySelector('.item-actions .edit-link');
+    if (!editLink) {
+      return;
+    }
+
+    // Get the parent <li> element of the edit link
+    const editBtn = editLink.closest('li');
+    if (!editBtn) {
+      return;
+    }
+
+    // Add popup data attributes based on item type
+    if (itemType === 'lp_lesson') {
+      editBtn.setAttribute('data-popup-lesson', itemId);
+    } else if (itemType === 'lp_quiz') {
+      editBtn.setAttribute('data-popup-quiz', itemId);
+    }
+
+    // Add popup class to the <li> element
+    editBtn.classList.add('lp-btn-edit-item-popup');
+
+    // Update edit link: remove target="_blank" and update classes for popup behavior
+    editLink.removeAttribute('target');
+    editLink.removeAttribute('href');
+    editLink.classList.add('edit-popup-link');
+
+    // Store additional data for popup on the <li> element
+    editBtn.setAttribute('data-course-id', this.courseId);
+    editBtn.setAttribute('data-popup-type', popupType);
+    editBtn.setAttribute('data-popup-id', itemId);
+    editBtn.setAttribute('data-template', templateSelector);
   }
 }
 
@@ -1714,7 +1820,16 @@ let selectGutenberg;
 let dispatchGutenberg;
 let editorGutenberg;
 class GenerateWithOpenai {
-  constructor() {
+  constructor(options = {}) {
+    this.options = {
+      autoInsertButtons: true,
+      isCourseBuilder: false,
+      titleInputSelector: 'input[name=post_title]',
+      courseBuilderTitleInputSelector: 'input[name=course_title]',
+      editorIdClassic: 'content',
+      editorIdCourseBuilder: 'course_description_editor',
+      ...options
+    };
     this.init();
   }
   static selectors = {
@@ -1725,39 +1840,8 @@ class GenerateWithOpenai {
     if (!lpData?.enable_open_ai) {
       return;
     }
-    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#titlewrap', el => {
-      el.insertAdjacentHTML('afterend', `<button type="button"
-					class="lp-btn-generate-with-ai lp-btn-ai-style"
-					data-template="#lp-tmpl-edit-title-ai">
-					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
-				</button>`);
-    });
-    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#wp-content-media-buttons', el => {
-      el.insertAdjacentHTML('beforeend', `<button type="button"
-					class="lp-btn-generate-with-ai lp-btn-ai-style"
-					data-template="#lp-tmpl-edit-description-ai">
-					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
-				</button>`);
-    });
-    _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#postimagediv', el => {
-      const elInside = el.querySelector('.postbox-header');
-      elInside.insertAdjacentHTML('afterend', `<button type="button"
-					style="margin: 12px 12px 0 12px;"
-					class="lp-btn-generate-with-ai lp-btn-ai-style"
-					data-template="#lp-tmpl-edit-image-ai">
-					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
-				</button>`);
-    });
-
-    // Check is layout Gutenberg
-    if (wp.data && wp.data.select('core/editor')) {
-      isLayoutGutenberg = true;
-      selectGutenberg = wp.data.select;
-      dispatchGutenberg = wp.data.dispatch;
-      editorGutenberg = selectGutenberg('core/editor');
-
-      // For layout Gutenberg - button for title
-      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-document-bar', el => {
+    if (this.options.autoInsertButtons) {
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#titlewrap', el => {
         el.insertAdjacentHTML('afterend', `<button type="button"
 					style="margin-left: 5px"
 					class="lp-btn-generate-with-ai lp-btn-ai-style"
@@ -1765,28 +1849,103 @@ class GenerateWithOpenai {
 					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
 				</button>`);
       });
-
-      // For layout Gutenberg - button for description
-      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
-        el.insertAdjacentHTML('beforebegin', `<button type="button"
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#wp-content-media-buttons', el => {
+        el.insertAdjacentHTML('beforeend', `<button type="button"
 					style="padding: 5px 10px; justify-content: center;"
 					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-description-ai">
 					<i class="lp-ico-ai"></i><span>Generate description with AI</span>
 				</button>`);
       });
-
-      // For layout Gutenberg - button for image
-      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
-        el.insertAdjacentHTML('afterend', `<button type="button"
+      _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#postimagediv', el => {
+        const elInside = el.querySelector('.postbox-header');
+        elInside.insertAdjacentHTML('afterend', `<button type="button"
 					style="padding: 5px 10px; justify-content: center;"
 					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-image-ai">
 					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
 				</button>`);
       });
+
+      // Check is layout Gutenberg
+      if (wp.data && wp.data.select('core/editor')) {
+        isLayoutGutenberg = true;
+        selectGutenberg = wp.data.select;
+        dispatchGutenberg = wp.data.dispatch;
+        editorGutenberg = selectGutenberg('core/editor');
+
+        // For layout Gutenberg - button for title
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-document-bar', el => {
+          el.insertAdjacentHTML('afterend', `<button type="button"
+						style="margin-left: 5px"
+						class="lp-btn-generate-with-ai"
+						data-template="#lp-tmpl-edit-title-ai">
+						<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
+					</button>`);
+        });
+
+        // For layout Gutenberg - button for description
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
+          el.insertAdjacentHTML('beforebegin', `<button type="button"
+						style="padding: 5px 10px; justify-content: center;"
+						class="lp-btn-generate-with-ai"
+						data-template="#lp-tmpl-edit-description-ai">
+						<i class="lp-ico-ai"></i><span>Generate description with AI</span>
+					</button>`);
+        });
+
+        // For layout Gutenberg - button for image
+        _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
+          el.insertAdjacentHTML('afterend', `<button type="button"
+						style="padding: 5px 10px; justify-content: center;"
+						class="lp-btn-generate-with-ai"
+						data-template="#lp-tmpl-edit-image-ai">
+						<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
+					</button>`);
+        });
+      }
     }
     this.events();
+  }
+  getTitleInputSelector() {
+    return this.options.isCourseBuilder ? this.options.courseBuilderTitleInputSelector : this.options.titleInputSelector;
+  }
+  getEditorId() {
+    return this.options.isCourseBuilder ? this.options.editorIdCourseBuilder : this.options.editorIdClassic;
+  }
+  setCourseBuilderPostId(form) {
+    if (!this.options.isCourseBuilder || !form) {
+      return;
+    }
+    const postIdInput = form.querySelector('[name="post-id"]');
+    if (!postIdInput) {
+      return;
+    }
+    const courseEditWrap = document.querySelector('.cb-section__course-edit[data-course-id]');
+    const courseId = courseEditWrap?.dataset?.courseId || '';
+    if (courseId) {
+      postIdInput.value = courseId;
+    }
+  }
+  extractImageSourceFromHtml(html) {
+    if (!html) {
+      return '';
+    }
+    const tempWrapper = document.createElement('div');
+    tempWrapper.innerHTML = html;
+    return tempWrapper.querySelector('img')?.getAttribute('src') || '';
+  }
+  applyCourseBuilderFeaturedImage(attachmentId, imageSrc) {
+    if (!attachmentId || !imageSrc) {
+      return false;
+    }
+    document.dispatchEvent(new CustomEvent('lp-course-builder/ai-featured-image-applied', {
+      detail: {
+        attachmentId,
+        imageSrc
+      }
+    }));
+    return true;
   }
   events() {
     _utils_js__WEBPACK_IMPORTED_MODULE_0__.eventHandlers('click', [{
@@ -1863,7 +2022,7 @@ class GenerateWithOpenai {
         popupSweetAlert.click();
 
         // Set post title and post content to hidden fields of form to AI prompt reference
-        const elPostTitleInput = document.querySelector('input[name=post_title]');
+        const elPostTitleInput = document.querySelector(this.getTitleInputSelector());
         let post_title = '';
         if (elPostTitleInput) {
           post_title = elPostTitleInput.value;
@@ -1875,10 +2034,12 @@ class GenerateWithOpenai {
         }
         let post_content = '';
         if (!isLayoutGutenberg) {
-          if (!window.tinymce || !window.tinymce.get('content')) {
-            post_content = document.querySelector('#content').value;
+          const editorId = this.getEditorId();
+          if (!window.tinymce || !window.tinymce.get(editorId)) {
+            const editorElement = document.querySelector(`#${editorId}`);
+            post_content = editorElement ? editorElement.value : '';
           } else {
-            post_content = window.tinymce.get('content').getContent({
+            post_content = window.tinymce.get(editorId).getContent({
               format: 'text'
             });
           }
@@ -1887,6 +2048,7 @@ class GenerateWithOpenai {
           post_content = content.replace(/(<([^>]+)>)/gi, ''); // Remove HTML tags
         }
         const form = popupSweetAlert.querySelector('form');
+        this.setCourseBuilderPostId(form);
         const elPostTitle = form.querySelector('[name=post-title]');
         if (elPostTitle) {
           elPostTitle.value = post_title;
@@ -2095,9 +2257,12 @@ class GenerateWithOpenai {
         if (dataTarget === 'set-wp-editor-content') {
           this.setWPEditorContent(dataApply);
         } else if (dataTarget === 'set-wp-title') {
-          const elTitleInput = document.querySelector('input[name=post_title]');
+          const elTitleInput = document.querySelector(this.getTitleInputSelector());
           if (elTitleInput) {
             elTitleInput.value = dataApply;
+            elTitleInput.dispatchEvent(new Event('input', {
+              bubbles: true
+            }));
           }
         }
       } else if (dataTarget === 'set-wp-editor-content') {
@@ -2151,8 +2316,19 @@ class GenerateWithOpenai {
     } );*/
   }
   setWPEditorContent(htmlContent) {
-    const editor = window.tinymce.get('content');
-    editor.setContent(htmlContent);
+    const editorId = this.getEditorId();
+    const editor = window.tinymce?.get(editorId);
+    if (editor) {
+      editor.setContent(htmlContent);
+      return;
+    }
+    const editorElement = document.querySelector(`#${editorId}`);
+    if (editorElement) {
+      editorElement.value = htmlContent;
+      editorElement.dispatchEvent(new Event('input', {
+        bubbles: true
+      }));
+    }
   }
   applyImageData(args) {
     const {
@@ -2174,7 +2350,15 @@ class GenerateWithOpenai {
         } = response;
         lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show(message, status);
         if (status === 'success') {
-          if (!isLayoutGutenberg) {
+          if (this.options.isCourseBuilder) {
+            const attachmentId = parseInt(data?.attachment_id || 0, 10);
+            const imageSrc = this.extractImageSourceFromHtml(data?.html_image || '');
+            const applied = this.applyCourseBuilderFeaturedImage(attachmentId, imageSrc);
+            if (!applied) {
+              lpAssetsJsPath_lpToastify_js__WEBPACK_IMPORTED_MODULE_2__.show('Failed to apply image to course featured image.', 'error');
+              return;
+            }
+          } else if (!isLayoutGutenberg) {
             // Set image
             const elImagePreview = document.querySelector('#postimagediv .inside');
             elImagePreview.outerHTML = data.html_image;
@@ -2299,6 +2483,9 @@ class LpPopupSelectItemToAdd {
     if (!elBtnShowPopupItemsToSelect) {
       return;
     }
+
+    // Reset items selected data when opening popup
+    itemsSelectedData = [];
     const templateId = target.dataset.template || '';
     const modalTemplate = document.querySelector(templateId);
     sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({

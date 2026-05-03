@@ -3,7 +3,7 @@ Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla
 Donate link:
 Tags: elearning, education, course, lms, learning management system
 Tested up to: 6.9
-Stable tag: 4.3.5
+Stable tag: 4.3.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -279,8 +279,14 @@ https://translate.wordpress.org/projects/wp-plugins/learnpress/
 
 == Changelog ==
 
+= 4.3.6 (2026-05-03) =
+~ Feature: course builder. For teacher, admin manager course without access WP Admin screen.
+~ Fixed: link profile.
+~ Fixed: save lesson change data course assigned.
+~ Fixed: save author via quick edit.
+
 = 4.3.5 (2026-04-10) =
-~ Added: MCP (Model Context Protocol) support for get information courses, curriculum, lessons... with AI.
+~ Added: MCP (Model Context Protocol) support for get information courses, curriculum, lessons, users enroll... with AI.
 ~ Fixed: minor bugs.
 
 = 4.3.4 (2026-03-30) =

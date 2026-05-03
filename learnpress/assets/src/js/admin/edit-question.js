@@ -247,9 +247,20 @@ export class EditQuestion {
 			}
 
 			const elTextarea = document.getElementById( id );
+
+			if ( ! elTextarea ) {
+				return;
+			}
+
 			const elQuestionEditMain = elTextarea.closest(
 				`${ EditQuestion.selectors.elQuestionEditMain }`
 			);
+
+			// Skip if not in question edit context
+			if ( ! elQuestionEditMain ) {
+				return;
+			}
+
 			const questionId = elQuestionEditMain.dataset.questionId;
 			editor.settings.force_p_newlines = false;
 			editor.settings.forced_root_block = '';
@@ -309,8 +320,8 @@ export class EditQuestion {
 					fibSelection
 						.getNode()
 						.classList.contains(
-							`${ EditQuestion.selectors.elQuestionFibInput }`
-						)
+						`${ EditQuestion.selectors.elQuestionFibInput }`
+					)
 				) {
 					const blankId = fibSelection.getNode().dataset.id;
 					const textBlank = fibSelection.getNode().textContent.trim();
@@ -935,7 +946,7 @@ export class EditQuestion {
 	}
 
 	/***** Fill in the blank question type *****/
-	// For FIB question type
+		// For FIB question type
 	fibInsertBlank = ( args ) => {
 		const { e, target } = args;
 		const elBtnFibInsertBlank = target.closest(

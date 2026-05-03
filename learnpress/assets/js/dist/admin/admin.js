@@ -147,7 +147,7 @@ const initTomSelect = (tomSelectEl, customOptions = {}, customParams = {}) => {
     const params = {
       headers: {
         'Content-Type': 'application/json',
-        'X-WP-Nonce': lpDataAdmin.nonce
+        'X-WP-Nonce': lpData.nonce
       },
       method: 'POST',
       body: JSON.stringify(dataSend)
@@ -178,7 +178,7 @@ const initTomSelect = (tomSelectEl, customOptions = {}, customParams = {}) => {
 
 // Init Tom-select user in admin
 const searchUserOnListPost = () => {
-  if (lpDataAdmin.show_search_author_field === '0') {
+  if (lpData.show_search_author_field === '0') {
     return;
   }
   const elPostFilter = document.querySelector('#posts-filter');
@@ -187,7 +187,7 @@ const searchUserOnListPost = () => {
   }
   let elSearchPost = elPostFilter.querySelector('.search-box');
   if (!elSearchPost) {
-    elPostFilter.insertAdjacentHTML('afterbegin', lpDataAdmin.show_search_author_field);
+    elPostFilter.insertAdjacentHTML('afterbegin', lpData.show_search_author_field);
     elSearchPost = elPostFilter.querySelector('.search-box');
   }
   if (!elSearchPost) {
@@ -199,7 +199,7 @@ const searchUserOnListPost = () => {
   }
   const createSelectUserHtml = () => {
     let defaultId = '';
-    const authorIdFilter = lpDataAdmin.urlParams.author;
+    const authorIdFilter = lpData.urlParams.author;
     if (authorIdFilter) {
       defaultId = JSON.stringify(authorIdFilter);
     }
@@ -318,18 +318,18 @@ const AdminUtilsFunctions = {
     	let i = 0;
     	const chunkedOptions = { ...options };
     	chunkedOptions.options = items_selected.slice( i, chunkSize );
-    			const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
+    		const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
     	i += chunkSize;
-    			const interval = setInterval( () => {
+    		const interval = setInterval( () => {
     		if ( i > ( length - 1 ) ) {
     			clearInterval( interval );
     		}
-    				const optionsSlice = items_selected.slice( i, i + chunkSize );
+    			const optionsSlice = items_selected.slice( i, i + chunkSize );
     		i += chunkSize;
     		tomSelect.addOptions( optionsSlice );
     		tomSelect.setValue( options.items );
     	}, 200 );
-    			return tomSelect;
+    		return tomSelect;
     }*/
 
     return new tom_select__WEBPACK_IMPORTED_MODULE_1__["default"](elTomSelect, options);
@@ -7145,13 +7145,13 @@ __webpack_require__.r(__webpack_exports__);
     	if ( ! el.length ) {
     		return;
     	}
-    			const id = el.attr( 'id' );
+    		const id = el.attr( 'id' );
     	if ( ! id ) {
     		return;
     	}
-    			const classHide = id.replace( 'learn_press_', '' );
+    		const classHide = id.replace( 'learn_press_', '' );
     	const elHide = $( `.show_if_${ classHide }` );
-    			if ( el.is( ':checked' ) ) {
+    		if ( el.is( ':checked' ) ) {
     		elHide.show();
     	} else {
     		elHide.hide();

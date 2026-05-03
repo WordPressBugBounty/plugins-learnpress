@@ -177,6 +177,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+Object.defineProperty(__WEBPACK_DEFAULT_EXPORT__, "name", { value: "default", configurable: true });
 /* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__() {
   window.LP = window.LP || {};
   if (typeof arguments[0] === 'string') {

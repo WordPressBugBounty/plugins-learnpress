@@ -228,7 +228,15 @@ class EditQuestion {
         wrapEditor.classList.remove('html-active');
       }
       const elTextarea = document.getElementById(id);
+      if (!elTextarea) {
+        return;
+      }
       const elQuestionEditMain = elTextarea.closest(`${EditQuestion.selectors.elQuestionEditMain}`);
+
+      // Skip if not in question edit context
+      if (!elQuestionEditMain) {
+        return;
+      }
       const questionId = elQuestionEditMain.dataset.questionId;
       editor.settings.force_p_newlines = false;
       editor.settings.forced_root_block = '';
@@ -1286,6 +1294,9 @@ class LpPopupSelectItemToAdd {
     if (!elBtnShowPopupItemsToSelect) {
       return;
     }
+
+    // Reset items selected data when opening popup
+    itemsSelectedData = [];
     const templateId = target.dataset.template || '';
     const modalTemplate = document.querySelector(templateId);
     sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({

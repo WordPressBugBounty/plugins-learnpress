@@ -519,7 +519,9 @@ const lpAJAX = () => {
               console.log(error);
             },
             completed: () => {
-              wp.hooks.doAction('lp-ajax-completed', element, dataSend);
+              if (typeof wp !== 'undefined' && wp.hooks) {
+                wp.hooks.doAction('lp-ajax-completed', element, dataSend);
+              }
               window.lpAJAXG.getElements();
               //console.log( 'completed' );
               if (elLoadingFirst) {
