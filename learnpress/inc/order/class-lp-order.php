@@ -1016,36 +1016,51 @@ if ( ! class_exists( 'LP_Order' ) ) {
 					'text' => __( 'Cancel', 'learnpress' ),
 				);
 			}
+
+			$payment_method      = sanitize_key( (string) get_post_meta( $this->get_id(), '_payment_method', true ) );
+			$subscription_status = get_post_meta( $this->get_id(), LP_Gateway_Abstract::META_SUBSCRIPTION_STATUS, true );
+			if ( ! empty( $payment_method ) && in_array( $subscription_status, array( 'active', 'trialing', 'past_due' ), true ) ) {
+				$gateway = LP_Gateways::instance()->get_gateway( $payment_method );
+				if ( $gateway instanceof LP_Gateway_Abstract ) {
+					$manage_url = $gateway->get_manage_subscription_url( $this );
+					if ( ! empty( $manage_url ) ) {
+						$actions['manage-subscription'] = array(
+							'url'  => esc_url_raw( $manage_url ),
+							'text' => __( 'Manage subscription', 'learnpress' ),
+						);
+					}
+				}
+			}
+
 			$actions = apply_filters( 'learn-press/profile-order-actions', $actions, $this->get_id() );
 
 			return $actions;
 		}
 
 		public function add_note( $note = null ) {
+			$comment_author       = '';
+			$comment_author_email = '';
 			if ( is_user_logged_in() ) {
 				$user                 = get_user_by( 'id', get_current_user_id() );
 				$comment_author       = $user->display_name;
 				$comment_author_email = $user->user_email;
-				$comment_post_ID      = $this->get_id();
-				$comment_author_url   = '';
-				$comment_content      = $note;
-				$comment_agent        = 'LearnPress';
-				$comment_type         = 'lp_order_note';
-				$comment_parent       = 0;
-				$comment_approved     = 1;
-
-				$commentdata = apply_filters(
-					'learn_press_new_order_note_data',
-					compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved' ),
-					$this->get_id()
-				);
-
-				$comment_id = wp_insert_comment( $commentdata );
-
-				return $comment_id;
 			}
 
-			return false;
+			$comment_post_ID    = $this->get_id();
+			$comment_author_url = '';
+			$comment_content    = $note;
+			$comment_agent      = 'LearnPress';
+			$comment_type       = 'lp_order_note';
+			$comment_parent     = 0;
+			$comment_approved   = 1;
+
+			$commentdata = apply_filters(
+				'learn_press_new_order_note_data',
+				compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved' ),
+				$this->get_id()
+			);
+
+			return wp_insert_comment( $commentdata );
 		}
 
 		/**
@@ -1233,7 +1248,8 @@ if ( ! class_exists( 'LP_Order' ) ) {
 
 				$return = $this->_curd->update( $this );
 			} else {
-				$return = $this->_curd->create( $this );
+				$return    = $this->_curd->create( $this );
+				$this->_id = $return;
 			}
 
 			$new_status_post = get_post_status( $this->get_id() );

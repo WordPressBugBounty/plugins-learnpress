@@ -695,7 +695,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=166") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=190") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -1946,11 +1946,8 @@ ul .clearfix {
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
-  margin-top: -2px;
 }
 
 #wpfooter {
@@ -4406,11 +4403,11 @@ input[name=_lp_course_result]:checked ~ #passing-condition-quiz-result {
   background: #eee;
 }
 .post-type-lp_order #order_details .order-data-date .order-date {
-  width: 120px;
+  width: 130px;
 }
 .post-type-lp_order #order_details .order-data-date .order-hour,
 .post-type-lp_order #order_details .order-data-date .order-minute {
-  width: 50px;
+  width: 60px;
 }
 .post-type-lp_order #order_details .order-data-note {
   display: inline-block;
@@ -7426,11 +7423,8 @@ table.lp-material--table tr:nth-child(even) {
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
-  margin-top: -2px;
 }
 
 .button.lp-material--delete {
@@ -7872,11 +7866,8 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
-  margin-top: -2px;
 }
 .course-curriculum .section-header {
   display: table;
@@ -8101,11 +8092,8 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
-  margin-top: -2px;
 }
 
 body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .form-button-finish-course {
@@ -8598,11 +8586,8 @@ Breadcrumb
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
-  margin-top: -2px;
 }
 .lp-modal-dialog .lp-button:hover {
   border-color: var(--lp-primary-color, #ffb606);
@@ -8644,11 +8629,8 @@ Breadcrumb
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
-  margin-top: -2px;
 }
 
 /**
@@ -8761,11 +8743,9 @@ Breadcrumb
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
-  margin-top: -2px;
 }
 
 @media (min-width: 992px) {
@@ -11004,10 +10984,10 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   width: 100%;
 }
 
-.lp-students-enrolled-layout.learnpress_page_lp-enrolled-students .lp-enrolled-students-table-toolbar {
+.lp-students-enrolled-layout.learnpress_page_learn-press-students-enrolled .lp-enrolled-students-table-toolbar {
   background: white;
 }
-.lp-students-enrolled-layout.learnpress_page_lp-enrolled-students .lp-list-table tbody {
+.lp-students-enrolled-layout.learnpress_page_learn-press-students-enrolled .lp-list-table tbody {
   background: white;
 }
 

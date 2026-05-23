@@ -376,11 +376,9 @@ p:last-child {
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
-  margin-top: -2px;
 }
 
 .lp-hidden {
@@ -1733,11 +1731,9 @@ input[type=password] {
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
-  margin-top: -2px;
 }
 
 button.learnpress_avatar__button {
@@ -2288,10 +2284,10 @@ button.learnpress_avatar__button + button {
   width: 100%;
 }
 
-.lp-students-enrolled-layout.learnpress_page_lp-enrolled-students .lp-enrolled-students-table-toolbar {
+.lp-students-enrolled-layout.learnpress_page_learn-press-students-enrolled .lp-enrolled-students-table-toolbar {
   background: white;
 }
-.lp-students-enrolled-layout.learnpress_page_lp-enrolled-students .lp-list-table tbody {
+.lp-students-enrolled-layout.learnpress_page_learn-press-students-enrolled .lp-list-table tbody {
   background: white;
 }
 
@@ -3132,11 +3128,9 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
-  margin-top: -2px;
 }
 .course-curriculum .section-header {
   display: table;
@@ -3361,11 +3355,9 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   margin-right: 5px;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
-  margin-top: -2px;
 }
 
 body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .form-button-finish-course {

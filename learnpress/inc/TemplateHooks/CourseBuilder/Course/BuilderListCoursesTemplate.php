@@ -22,6 +22,7 @@ use LearnPress\TemplateHooks\Course\SingleCourseOfflineTemplate;
 use LearnPress\TemplateHooks\Course\SingleCourseTemplate;
 use LearnPress\TemplateHooks\CourseBuilder\CourseBuilderTemplate;
 use LP_Course_Filter;
+use LP_WP_Filesystem;
 use Throwable;
 
 class BuilderListCoursesTemplate {
@@ -29,7 +30,16 @@ class BuilderListCoursesTemplate {
 
 	public function init() {}
 
-	public function layout( array $data = [] ) {
+	/**
+	 * HTML list courses on Course Builder screen
+	 *
+	 * @param array $data
+	 *
+	 * @since 4.3.6
+	 * @version 1.0.1
+	 * @return string
+	 */
+	public function layout( array $data = [] ): string {
 		$section = [
 			'header'       => $this->html_header( $data ),
 			'filter_bar'   => $this->html_filter_bar(),
@@ -37,7 +47,7 @@ class BuilderListCoursesTemplate {
 			'ai_templates' => AdminCreateCourseAITemplate::instance()->render_for_frontend(),
 		];
 
-		echo Template::combine_components( $section );
+		return Template::combine_components( $section );
 	}
 
 	/**
@@ -437,7 +447,7 @@ class BuilderListCoursesTemplate {
 				$settings
 			);
 
-			$more_actions_icon = wp_remote_fopen( LP_PLUGIN_URL . 'assets/images/icons/ico-cb-more.svg' );
+			$more_actions_icon = LP_WP_Filesystem::get_icon_svg( 'ico-cb-more.svg' );
 
 			// Set action by status
 			$action_by_status = [];

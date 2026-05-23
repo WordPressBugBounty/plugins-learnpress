@@ -17,6 +17,7 @@ use LearnPress\TemplateHooks\CourseBuilder\Course\BuilderCourseTemplate;
 use LearnPress\TemplateHooks\TemplateAJAX;
 use LP_Profile;
 use LP_Settings;
+use LP_WP_Filesystem;
 use Throwable;
 use WP_User;
 
@@ -253,7 +254,7 @@ class CourseBuilderTemplate {
 					<a href="%s">%s</a>
 				</div>',
 				esc_url( CourseBuilder::get_link_course_builder() ),
-				$custom_logo ?? wp_remote_fopen( LP_PLUGIN_URL . 'assets/images/icons/ico-logo-course-builder.svg' ),
+				$custom_logo ?? LP_WP_Filesystem::get_icon_svg( 'ico-logo-course-builder.svg' ),
 			),
 			'user'        => sprintf(
 				'<div class="lp-cb-top-header__user">
@@ -275,7 +276,7 @@ class CourseBuilderTemplate {
 				__( 'View Profile', 'learnpress' ),
 				esc_url( $logout_url ),
 				__( 'Logout', 'learnpress' ),
-				wp_remote_fopen( LP_PLUGIN_URL . 'assets/images/icons/ico-logout.svg' ),
+				LP_WP_Filesystem::get_icon_svg( 'ico-logout.svg' ),
 			),
 			'wrapper_end' => '</header>',
 		];
@@ -333,7 +334,7 @@ class CourseBuilderTemplate {
 			'wrapper_end' => '</ul>',
 		];
 
-		$sidebar_toggle_icon = wp_remote_fopen( LP_PLUGIN_URL . 'assets/images/icons/ico-cb-sidebar-toggle.svg' );
+		$sidebar_toggle_icon = LP_WP_Filesystem::get_icon_svg( 'ico-cb-sidebar-toggle.svg' );
 		$toggle              = sprintf(
 			'<button type="button" class="lp-cb-sidebar__toggle" aria-label="%s" title="%s">
 					%s
@@ -360,8 +361,9 @@ class CourseBuilderTemplate {
 	 * @param array $data
 	 *
 	 * @return string
+	 * @throws Exception
+	 * @version 1.0.1
 	 * @since 4.3.6
-	 * @version 1.0.0
 	 */
 	public function html_content( array $data = [] ): string {
 		$userModel = $data['userModel'] ?? false;
@@ -371,19 +373,23 @@ class CourseBuilderTemplate {
 
 		$menu_current = CourseBuilder::get_menu_current();
 
-		//Todo: new way - Switch layout display by menu, via model
+		//Switch layout display by menu, via model, @since 4.3.7
 		switch ( $menu_current ) {
 			case self::MENU_COURSES:
-				//BuilderCourseTemplate::instance()->layout( $data );
+				$content = BuilderCourseTemplate::instance()->layout( $data );
 				break;
 			default:
-				//$content = apply_filters( "learn-press/course-builder/content/layout", $menu_current, $data );
+				if ( has_action( "learn-press/course-builder/{$menu_current}/layout" ) ) {
+					// Hook old @since 4.3.6.
+					ob_start();
+					do_action( "learn-press/course-builder/{$menu_current}/layout", $data );
+					$content = ob_get_clean();
+				} else {
+					// Hook new @since 4.3.7.
+					$content = apply_filters( 'learn-press/course-builder/content/layout', '', $menu_current, $data );
+				}
 				break;
 		}
-
-		ob_start();
-		do_action( "learn-press/course-builder/{$menu_current}/layout", $data );
-		$content = ob_get_clean();
 
 		$output = [
 			'wrapper'     => '<div id="lp-course-builder-content" class="lp-cb-main">',
@@ -409,9 +415,9 @@ class CourseBuilderTemplate {
 		}
 
 		$hide_instructor_access_admin_screen = LP_Settings::is_hide_instructor_access_admin_screen();
-		$wp_user = new WP_User( $userModel );
-		$is_instructor    = user_can( $wp_user,  UserModel::ROLE_INSTRUCTOR );
-		$dashboard_url    = admin_url();
+		$wp_user                             = new WP_User( $userModel );
+		$is_instructor                       = user_can( $wp_user, UserModel::ROLE_INSTRUCTOR );
+		$dashboard_url                       = admin_url();
 
 		$footer = [
 			'wrapper' => '<div class="lp-cb-sidebar__footer">',
@@ -605,7 +611,7 @@ class CourseBuilderTemplate {
 			}
 		}
 
-		$admin_bar_icon = wp_remote_fopen( LP_PLUGIN_URL . 'assets/images/icons/ico-cb-admin-bar.svg' );
+		$admin_bar_icon = LP_WP_Filesystem::get_icon_svg( 'ico-cb-admin-bar.svg' );
 
 		$wp_admin_bar->add_node(
 			array(

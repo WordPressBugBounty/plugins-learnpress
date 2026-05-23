@@ -2370,8 +2370,52 @@ class EditQuestion {
     });
   }
   reInitTinymce(id) {
+    if (!window.tinymce || !id) {
+      return;
+    }
+    const elTextarea = document.getElementById(id);
+    if (!elTextarea) {
+      return;
+    }
+    this.reInitQuicktags(id);
+    const editor = window.tinymce.get(id);
+    const editorContainer = editor?.getContainer?.();
+    const isEditorAttached = editor && (editor.targetElm === elTextarea || editor.getElement?.() === elTextarea || editorContainer?.contains(elTextarea));
+    if (isEditorAttached) {
+      this.setDefaultEditorTab(id);
+      return;
+    }
     window.tinymce.execCommand('mceRemoveEditor', true, id);
     window.tinymce.execCommand('mceAddEditor', true, id);
+    this.setDefaultEditorTab(id);
+  }
+  reInitQuicktags(id) {
+    const toolbar = document.getElementById(`qt_${id}_toolbar`);
+    if (!toolbar || toolbar.children.length || !window.quicktags) {
+      return;
+    }
+    const settings = window.tinyMCEPreInit?.qtInit?.[id] || {
+      id
+    };
+    window.quicktags(settings);
+    if (window.QTags?._buttonsInit) {
+      window.QTags._buttonsInit();
+    }
+  }
+  setDefaultEditorTab(id) {
+    const wrapEditor = document.getElementById(`wp-${id}-wrap`);
+    if (!wrapEditor) {
+      return;
+    }
+    if (wrapEditor.classList.contains('html-active') && window.switchEditors?.go) {
+      window.switchEditors.go(id, 'tmce');
+    }
+    wrapEditor.classList.add('tmce-active');
+    wrapEditor.classList.remove('html-active');
+    const visualTab = document.getElementById(`${id}-tmce`);
+    const codeTab = document.getElementById(`${id}-html`);
+    visualTab?.setAttribute('aria-pressed', 'true');
+    codeTab?.setAttribute('aria-pressed', 'false');
   }
 
   // Events for TinyMCE editor
@@ -2385,13 +2429,7 @@ class EditQuestion {
       if (id === 'content') {
         return;
       }
-
-      // Active tab visual
-      const wrapEditor = document.querySelector(`#wp-${id}-wrap`);
-      if (wrapEditor) {
-        wrapEditor.classList.add('tmce-active');
-        wrapEditor.classList.remove('html-active');
-      }
+      this.setDefaultEditorTab(id);
       const elTextarea = document.getElementById(id);
       if (!elTextarea) {
         return;
@@ -4368,6 +4406,7 @@ if ('undefined' !== typeof lpData) {
   lplistAPI.frontend = {
     apiWidgets: lp_rest_url + 'lp/v1/widgets/api',
     apiCourses: lp_rest_url + 'lp/v1/courses/archive-course',
+    // Deprecated API, don't load from v4.3.7
     apiAJAX: lp_rest_url + 'lp/v1/load_content_via_ajax/',
     // Deprecated since 4.3.0
     apiProfileCoverImage: lp_rest_url + 'lp/v1/profile/cover-image'
@@ -4375,6 +4414,8 @@ if ('undefined' !== typeof lpData) {
 }
 if (lp_rest_url) {
   lplistAPI.apiCourses = lp_rest_url + 'lp/v1/courses/';
+  lplistAPI.apiEditCoursesArchiveBlock = lp_rest_url + 'lp/v1/courses/edit-archive-block';
+  lplistAPI.apiCoursesSuggest = lp_rest_url + 'lp/v1/courses/courses-suggest';
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (lplistAPI);
 
@@ -12697,6 +12738,7 @@ class BuilderEditQuiz {
     this.sortableAnswerInstances = [];
     this.editQuestion = null;
     this.initPromise = null;
+    this.tinyMCEInitToken = null;
     this.isInitialized = false;
   }
   static selectors = {
@@ -12716,7 +12758,8 @@ class BuilderEditQuiz {
     elAddNewQuestion: 'add-new-question',
     LPTarget: '.lp-target',
     elCollapse: 'lp-collapse',
-    elAnswersConfig: '.lp-answers-config'
+    elAnswersConfig: '.lp-answers-config',
+    elQuestionTinymce: '.lp-question-edit-main .lp-editor-tinymce'
   };
   init(container = null) {
     this.initQuizQuestionsTab(container);
@@ -12746,6 +12789,7 @@ class BuilderEditQuiz {
       this.initPromise.cancelled = true;
     }
     this.initPromise = null;
+    this.tinyMCEInitToken = null;
     this.elEditQuizWrap = null;
     this.elEditListQuestions = null;
     this.quizID = null;
@@ -12852,7 +12896,7 @@ class BuilderEditQuiz {
     // Init EditQuestion
     this._initEditQuestion(elEditQuizWrap);
 
-    // Init TinyMCE asynchronously
+    // Init TinyMCE asynchronously after EditQuestion events are registered.
     this._initTinyMCEAsync(elEditQuizWrap);
     this.isInitialized = true;
   }
@@ -12918,28 +12962,6 @@ class BuilderEditQuiz {
         console.warn('Error registering EditQuestion events:', e);
       }
     }
-
-    // Init TinyMCE for question editors
-    this._initEditQuestionTinyMCE(elEditQuizWrap);
-  }
-
-  /**
-   * Initialize TinyMCE for question editors
-   */
-  _initEditQuestionTinyMCE(elEditQuizWrap) {
-    if (!this.editQuestion || !elEditQuizWrap || typeof window.tinymce === 'undefined') {
-      return;
-    }
-    const elTextareas = elEditQuizWrap.querySelectorAll('.lp-question-edit-main .lp-editor-tinymce');
-    elTextareas.forEach(elTextarea => {
-      if (elTextarea?.id && this.editQuestion?.reInitTinymce) {
-        try {
-          this.editQuestion.reInitTinymce(elTextarea.id);
-        } catch (e) {
-          console.warn('TinyMCE init error:', e);
-        }
-      }
-    });
   }
 
   /**
@@ -12997,38 +13019,45 @@ class BuilderEditQuiz {
     if (!elEditQuizWrap) {
       return;
     }
-    const elTextareas = elEditQuizWrap.querySelectorAll('.lp-question-edit-main .lp-editor-tinymce');
-    if (elTextareas.length === 0) {
+    const elTextareas = Array.from(elEditQuizWrap.querySelectorAll(`${BuilderEditQuiz.selectors.elQuestionItem}:not(.${BuilderEditQuiz.selectors.elCollapse}) ${BuilderEditQuiz.selectors.elQuestionTinymce}`));
+    if (!elTextareas.length) {
       return;
     }
-    const textareaArray = Array.from(elTextareas);
     const chunkSize = 2;
     let index = 0;
-    const processChunk = () => {
-      const chunk = textareaArray.slice(index, index + chunkSize);
+    const initToken = {};
+    this.tinyMCEInitToken = initToken;
+    const queueInit = callback => {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => callback(), {
+          timeout: 100
+        });
+      } else {
+        setTimeout(() => callback(), 50);
+      }
+    };
+    const processChunk = (attempts = 0) => {
+      if (this.tinyMCEInitToken !== initToken) {
+        return;
+      }
+      if (typeof window.tinymce === 'undefined') {
+        if (attempts < 20) {
+          setTimeout(() => processChunk(attempts + 1), 100);
+        }
+        return;
+      }
+      const chunk = elTextareas.slice(index, index + chunkSize);
       chunk.forEach(elTextarea => {
         if (elTextarea?.id) {
           this._reInitTinymce(elTextarea.id);
         }
       });
       index += chunkSize;
-      if (index < textareaArray.length) {
-        if (window.requestIdleCallback) {
-          window.requestIdleCallback(processChunk, {
-            timeout: 100
-          });
-        } else {
-          setTimeout(processChunk, 50);
-        }
+      if (index < elTextareas.length) {
+        queueInit(processChunk);
       }
     };
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(processChunk, {
-        timeout: 100
-      });
-    } else {
-      setTimeout(processChunk, 50);
-    }
+    queueInit(processChunk);
   }
 
   /**
@@ -13065,11 +13094,7 @@ class BuilderEditQuiz {
     try {
       window.tinymce.execCommand('mceRemoveEditor', true, id);
       window.tinymce.execCommand('mceAddEditor', true, id);
-      const wrapEditor = document.querySelector(`#wp-${id}-wrap`);
-      if (wrapEditor) {
-        wrapEditor.classList.add('tmce-active');
-        wrapEditor.classList.remove('html-active');
-      }
+      this.editQuestion?.setDefaultEditorTab?.(id);
     } catch (e) {
       console.warn('Manual TinyMCE init error:', e);
     }
@@ -13085,20 +13110,7 @@ class BuilderEditQuiz {
 
     // Init answer sortable
     this._sortAbleQuestionAnswer(elQuestionEditMain);
-
-    // Init TinyMCE
-    if (this.editQuestion?.reInitTinymce) {
-      const elTextareas = elQuestionEditMain.querySelectorAll('.lp-editor-tinymce');
-      elTextareas.forEach(elTextarea => {
-        if (elTextarea?.id) {
-          try {
-            this.editQuestion.reInitTinymce(elTextarea.id);
-          } catch (e) {
-            console.warn('TinyMCE init error:', e);
-          }
-        }
-      });
-    }
+    this._initQuestionTinymce(elQuestionEditMain.closest(BuilderEditQuiz.selectors.elQuestionItem));
 
     // Init answer sortable via EditQuestion
     if (this.editQuestion?.sortAbleQuestionAnswer) {
@@ -13108,6 +13120,21 @@ class BuilderEditQuiz {
         console.warn('Error initializing answer sortable:', e);
       }
     }
+  }
+
+  /**
+   * Initialize TinyMCE only after a question item is expanded.
+   */
+  _initQuestionTinymce(elQuestionItem) {
+    if (!elQuestionItem || elQuestionItem.classList.contains(BuilderEditQuiz.selectors.elCollapse)) {
+      return;
+    }
+    const elTextareas = elQuestionItem.querySelectorAll(BuilderEditQuiz.selectors.elQuestionTinymce);
+    elTextareas.forEach(elTextarea => {
+      if (elTextarea?.id) {
+        this._reInitTinymce(elTextarea.id);
+      }
+    });
   }
   events() {
     if (BuilderEditQuiz._loadedEvents) {
@@ -13180,7 +13207,10 @@ class BuilderEditQuiz {
     // Toggle collapse
     document.addEventListener('click', e => {
       const target = e.target;
-      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.toggleCollapse(e, target, BuilderEditQuiz.selectors.elQuestionToggle, [], () => this.checkAllQuestionsCollapsed());
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.toggleCollapse(e, target, BuilderEditQuiz.selectors.elQuestionToggle, [], elQuestionItem => {
+        this._initQuestionTinymce(elQuestionItem);
+        this.checkAllQuestionsCollapsed();
+      });
     });
   }
 
@@ -13452,6 +13482,9 @@ class BuilderEditQuiz {
     elQuestionItems.forEach(el => {
       if (el) {
         el.classList.toggle(BuilderEditQuiz.selectors.elCollapse, shouldCollapse);
+        if (!shouldCollapse) {
+          this._initQuestionTinymce(el);
+        }
       }
     });
   }
@@ -16259,6 +16292,7 @@ const show = (message, status = 'success', argsCustom) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   debounce: () => (/* binding */ debounce),
 /* harmony export */   eventHandlers: () => (/* binding */ eventHandlers),
 /* harmony export */   getDataOfForm: () => (/* binding */ getDataOfForm),
 /* harmony export */   getFieldKeysOfForm: () => (/* binding */ getFieldKeysOfForm),
@@ -16282,7 +16316,7 @@ __webpack_require__.r(__webpack_exports__);
  * @param data
  * @param functions
  * @since 4.2.5.1
- * @version 1.0.5
+ * @version 1.0.6
  */
 const lpClassName = {
   hidden: 'lp-hidden',
@@ -16574,6 +16608,39 @@ const eventHandlers = (eventName, eventHandlers) => {
       }
     });
   });
+};
+
+/**
+ * Debounce - delays function execution until after `wait` ms of inactivity.
+ *
+ * Each call resets the timer. Only the last call in a burst executes.
+ *
+ * USE CASES:
+ * - Search inputs, form validation, window resize
+ * - Multiple elements need independent timers
+ * - When you need to call with different arguments
+ *
+ * EXAMPLES:
+ * const debouncedSearch = debounce( (query) => fetchResults(query), 300 );
+ * searchInput.addEventListener('input', (e) => debouncedSearch(e.target.value));
+ *
+ * const debouncedResize = debounce( recalculateLayout, 250 );
+ * window.addEventListener('resize', debouncedResize);
+ *
+ * ⚠️ Create ONCE outside event handlers, not inside.
+ *
+ * @param {Function} func - Function to debounce (can be anonymous)
+ * @param {number}   wait - Milliseconds to wait (default: 500)
+ * @return {Function} Debounced wrapper function
+ * @since 4.3.7
+ * @version 1.0.0
+ */
+const debounce = (func, wait = 500) => {
+  let timer;
+  return args => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func(args), wait);
+  };
 };
 
 /***/ },
