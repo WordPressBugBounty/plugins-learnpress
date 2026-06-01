@@ -4313,18 +4313,18 @@ const AdminUtilsFunctions = {
     	let i = 0;
     	const chunkedOptions = { ...options };
     	chunkedOptions.options = items_selected.slice( i, chunkSize );
-    		const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
+    			const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
     	i += chunkSize;
-    		const interval = setInterval( () => {
+    			const interval = setInterval( () => {
     		if ( i > ( length - 1 ) ) {
     			clearInterval( interval );
     		}
-    			const optionsSlice = items_selected.slice( i, i + chunkSize );
+    				const optionsSlice = items_selected.slice( i, i + chunkSize );
     		i += chunkSize;
     		tomSelect.addOptions( optionsSlice );
     		tomSelect.setValue( options.items );
     	}, 200 );
-    		return tomSelect;
+    			return tomSelect;
     }*/
 
     return new tom_select__WEBPACK_IMPORTED_MODULE_1__["default"](elTomSelect, options);
@@ -7918,6 +7918,29 @@ class BuilderEditLesson {
     }
     return document.querySelector(`.cb-section__lesson-edit ${BuilderEditLesson.selectors.elPermalinkRoot}`);
   }
+  isDescriptionEditorInCodeMode() {
+    const editorId = BuilderEditLesson.selectors.idDescEditor;
+    const wrapper = document.getElementById(`wp-${editorId}-wrap`) || document.getElementById(`${editorId}-wrap`);
+    if (wrapper?.classList.contains('html-active')) {
+      return true;
+    }
+    const editor = typeof tinymce !== 'undefined' ? tinymce.get(editorId) : null;
+    return !!(editor?.isHidden && editor.isHidden());
+  }
+  getDescriptionContentForUpdate() {
+    const editorId = BuilderEditLesson.selectors.idDescEditor;
+    const descEditor = document.getElementById(editorId);
+    if (this.isDescriptionEditorInCodeMode()) {
+      return descEditor ? descEditor.value : '';
+    }
+    if (typeof tinymce !== 'undefined') {
+      const editor = tinymce.get(editorId);
+      if (editor) {
+        return editor.getContent();
+      }
+    }
+    return descEditor ? descEditor.value : '';
+  }
   showPermalinkUnavailable(permalinkRoot, message = '') {
     if (!permalinkRoot) {
       return;
@@ -7950,14 +7973,7 @@ class BuilderEditLesson {
     data.lesson_id = wrapperEl ? parseInt(wrapperEl.dataset.lessonId) || 0 : 0;
     const titleInput = document.getElementById(BuilderEditLesson.selectors.idTitle);
     data.lesson_title = titleInput ? titleInput.value : '';
-    const descEditor = document.getElementById(BuilderEditLesson.selectors.idDescEditor);
-    data.lesson_description = descEditor ? descEditor.value : '';
-    if (typeof tinymce !== 'undefined') {
-      const editor = tinymce.get(BuilderEditLesson.selectors.idDescEditor);
-      if (editor) {
-        data.lesson_description = editor.getContent();
-      }
-    }
+    data.lesson_description = this.getDescriptionContentForUpdate();
     const permalinkInput = document.querySelector(`input[name="lesson_permalink"], #lesson_permalink, ${BuilderEditLesson.selectors.elPermalinkSlugInput}`);
     if (permalinkInput && permalinkInput.value) {
       data.lesson_permalink = permalinkInput.value;
@@ -10456,16 +10472,37 @@ class BuilderPopup {
     }
     const editorId = `${this.currentType}_description_editor`;
     const editor = tinymce.get(editorId);
-    if (editor) {
+    if (editor && !this.isEditorInCodeMode(editorId)) {
       editor.save();
     }
 
     // Sync additional editors
     tinymce.editors.forEach(ed => {
-      if (ed.id?.includes(this.currentType)) {
+      if (ed.id?.includes(this.currentType) && !this.isEditorInCodeMode(ed.id)) {
         ed.save();
       }
     });
+  }
+  isEditorInCodeMode(editorId) {
+    const wrapper = document.getElementById(`wp-${editorId}-wrap`) || document.getElementById(`${editorId}-wrap`);
+    if (wrapper?.classList.contains('html-active')) {
+      return true;
+    }
+    const editor = typeof tinymce !== 'undefined' ? tinymce.get(editorId) : null;
+    return !!(editor?.isHidden && editor.isHidden());
+  }
+  getEditorContent(editorId, root = document) {
+    const textarea = root?.querySelector?.(`#${editorId}`) || document.getElementById(editorId);
+    if (this.isEditorInCodeMode(editorId)) {
+      return textarea ? textarea.value : '';
+    }
+    if (typeof tinymce !== 'undefined') {
+      const editor = tinymce.get(editorId);
+      if (editor) {
+        return editor.getContent();
+      }
+    }
+    return textarea ? textarea.value : '';
   }
 
   /**
@@ -10959,15 +10996,7 @@ class BuilderPopup {
 
     // Get description
     const editorId = `${this.currentType}_description_editor`;
-    let descContent = '';
-    if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
-      descContent = tinymce.get(editorId).getContent();
-    } else {
-      const descTextarea = popup.querySelector(`#${editorId}`);
-      if (descTextarea) {
-        descContent = descTextarea.value;
-      }
-    }
+    const descContent = this.getEditorContent(editorId, popup);
     data[`${this.currentType}_description`] = descContent;
 
     // Get form settings
@@ -47533,6 +47562,7 @@ const initBuilderComponents = () => {
 
     // Initialize sidebar toggle
     initSidebarToggle();
+    initSidebarSubMenus();
     initHeaderMoreActions();
   } catch (e) {
     console.error('Error initializing builder components:', e);
@@ -47571,6 +47601,30 @@ const initSidebarToggle = () => {
 
     // Save state
     localStorage.setItem(storageKey, willCollapse ? 'true' : 'false');
+  });
+};
+
+/**
+ * Initialize nested sidebar submenu toggles.
+ */
+const initSidebarSubMenus = () => {
+  const sidebar = document.getElementById('lp-course-builder-sidebar');
+  if (!sidebar || sidebar.dataset.subMenusInitialized === 'true') {
+    return;
+  }
+  sidebar.dataset.subMenusInitialized = 'true';
+  sidebar.addEventListener('click', e => {
+    const toggleBtn = e.target.closest('.lp-cb-sidebar__sub-menu-toggle');
+    if (!toggleBtn || !sidebar.contains(toggleBtn)) {
+      return;
+    }
+    const item = toggleBtn.closest('.lp-cb-sidebar__item.has-sub-menu');
+    if (!item) {
+      return;
+    }
+    e.preventDefault();
+    const isExpanded = item.classList.toggle('is-expanded');
+    toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
   });
 };
 
