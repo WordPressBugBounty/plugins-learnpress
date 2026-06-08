@@ -197,6 +197,10 @@ class CBEditCourseAjax extends AbstractAjax {
 				}
 			}
 
+			$coursePostModel = CoursePostModel::find( $course_id, true );
+			// Save to clear cache
+			$coursePostModel->save();
+
 			ob_start();
 			$data_edit_course_html = [
 				'userModel' => $userModel,
