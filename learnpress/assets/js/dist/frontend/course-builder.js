@@ -2370,26 +2370,10 @@ class EditQuestion {
     });
   }
   reInitTinymce(id) {
-    if (!window.tinymce || !id) {
-      return;
-    }
-    const elTextarea = document.getElementById(id);
-    if (!elTextarea) {
-      return;
-    }
-    this.reInitQuicktags(id);
-    const editor = window.tinymce.get(id);
-    const editorContainer = editor?.getContainer?.();
-    const isEditorAttached = editor && (editor.targetElm === elTextarea || editor.getElement?.() === elTextarea || editorContainer?.contains(elTextarea));
-    if (isEditorAttached) {
-      this.setDefaultEditorTab(id);
-      return;
-    }
     window.tinymce.execCommand('mceRemoveEditor', true, id);
     window.tinymce.execCommand('mceAddEditor', true, id);
-    this.setDefaultEditorTab(id);
   }
-  reInitQuicktags(id) {
+  reInitQuickTags(id) {
     const toolbar = document.getElementById(`qt_${id}_toolbar`);
     if (!toolbar || toolbar.children.length || !window.quicktags) {
       return;
@@ -2409,6 +2393,10 @@ class EditQuestion {
     }
     if (wrapEditor.classList.contains('html-active') && window.switchEditors?.go) {
       window.switchEditors.go(id, 'tmce');
+      const elTextarea = document.getElementById(id);
+      if (elTextarea) {
+        elTextarea.style.visibility = '';
+      }
     }
     wrapEditor.classList.add('tmce-active');
     wrapEditor.classList.remove('html-active');
@@ -2429,7 +2417,6 @@ class EditQuestion {
       if (id === 'content') {
         return;
       }
-      this.setDefaultEditorTab(id);
       const elTextarea = document.getElementById(id);
       if (!elTextarea) {
         return;
@@ -2451,6 +2438,9 @@ class EditQuestion {
       editor.settings.convert_urls = true;
       editor.settings.document_base_url = lpData.site_url;
       // End config use absolute url
+
+      // Add quick tags
+      this.reInitQuickTags(id);
 
       // Events focus in TinyMCE editor
       editor.on('change keyup', e => {
@@ -2475,7 +2465,10 @@ class EditQuestion {
 					border: 1px dashed rebeccapurple;
 					padding: 5px;
 				}
-			`);
+				`);
+
+        // Set default tab visual
+        this.setDefaultEditorTab(id);
       });
       editor.on('setcontent', e => {
         const uniquid = this.randomString();
@@ -4313,18 +4306,18 @@ const AdminUtilsFunctions = {
     	let i = 0;
     	const chunkedOptions = { ...options };
     	chunkedOptions.options = items_selected.slice( i, chunkSize );
-    			const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
+    		const tomSelect = new TomSelect( elTomSelect, chunkedOptions );
     	i += chunkSize;
-    			const interval = setInterval( () => {
+    		const interval = setInterval( () => {
     		if ( i > ( length - 1 ) ) {
     			clearInterval( interval );
     		}
-    				const optionsSlice = items_selected.slice( i, i + chunkSize );
+    			const optionsSlice = items_selected.slice( i, i + chunkSize );
     		i += chunkSize;
     		tomSelect.addOptions( optionsSlice );
     		tomSelect.setValue( options.items );
     	}, 200 );
-    			return tomSelect;
+    		return tomSelect;
     }*/
 
     return new tom_select__WEBPACK_IMPORTED_MODULE_1__["default"](elTomSelect, options);
@@ -11416,9 +11409,8 @@ class BuilderEditQuestion {
 
           // Reset form state before potential redirect.
           document.dispatchEvent(new CustomEvent('lp-course-builder-saved'));
-          if (data?.question_id_new) {
-            const currentUrl = window.location.href;
-            window.location.href = currentUrl.replace(/post-new\/?/, `${data.question_id_new}/`);
+          if (data?.redirect_url) {
+            window.location.href = data.redirect_url;
           }
           if (data?.status) {
             const elStatus = document.querySelector(BuilderEditQuestion.selectors.elQuestionStatus);
@@ -12125,9 +12117,8 @@ class BuilderEditQuestion {
 
           // Reset form state before potential redirect.
           document.dispatchEvent(new CustomEvent('lp-course-builder-saved'));
-          if (data?.question_id_new) {
-            const currentUrl = window.location.href;
-            window.location.href = currentUrl.replace(/post-new\/?/, `${data.question_id_new}/`);
+          if (data?.redirect_url) {
+            window.location.href = data.redirect_url;
           }
           if (data?.status) {
             const elStatus = document.querySelector(BuilderEditQuestion.selectors.elQuestionStatus);
@@ -14197,9 +14188,8 @@ class BuilderStandaloneQuiz {
 
           // Reset form state before potential redirect.
           document.dispatchEvent(new CustomEvent('lp-course-builder-saved'));
-          if (data?.quiz_id_new) {
-            const currentUrl = window.location.href;
-            window.location.href = currentUrl.replace(/post-new\/?/, `${data.quiz_id_new}/`);
+          if (data?.redirect_url) {
+            window.location.href = data.redirect_url;
           }
           if (data?.status) {
             const elStatus = document.querySelector(BuilderStandaloneQuiz.selectors.elQuizStatus);
@@ -14901,9 +14891,8 @@ class BuilderStandaloneQuiz {
 
           // Reset form state before potential redirect.
           document.dispatchEvent(new CustomEvent('lp-course-builder-saved'));
-          if (data?.quiz_id_new) {
-            const currentUrl = window.location.href;
-            window.location.href = currentUrl.replace(/post-new\/?/, `${data.quiz_id_new}/`);
+          if (data?.redirect_url) {
+            window.location.href = data.redirect_url;
           }
           if (data?.status) {
             const elStatus = document.querySelector(BuilderStandaloneQuiz.selectors.elQuizStatus);

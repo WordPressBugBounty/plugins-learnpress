@@ -87,10 +87,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	elLPAdminNotices = document.querySelector( '.lp-admin-notices' );
 	elBtnDismiss = document.querySelector( '.btn-lp-notice-dismiss' );
 
-	if ( ! elLPAdminNotices ) {
-		return;
-	}
-
 	const interval = setInterval( () => {
 		if ( dataHtml !== null ) {
 			if ( dataHtml.length > 0 ) {

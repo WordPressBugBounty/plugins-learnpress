@@ -35,7 +35,7 @@ class CourseDeliverTypeDynamicElementor extends Tag {
 				return;
 			}
 
-			$course = CourseModel::find( $course->get_id(), true );
+			$course = CourseModel::find( $course->get_id() );
 			if ( ! $course ) {
 				return;
 			}
