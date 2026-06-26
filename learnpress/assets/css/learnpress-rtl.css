@@ -7988,7 +7988,7 @@ input[type=radio]:nth-child(19):checked ~ .switch-btn:nth-child(20)::before {
   display: inline-block;
   width: 32px;
   min-width: 32px;
-  line-height: 70px;
+  line-height: 1;
   height: unset;
   margin: 0;
   background: rgba(255, 255, 255, 0.1);
