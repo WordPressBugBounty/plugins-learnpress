@@ -204,8 +204,12 @@ class QuestionBase extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Compo
   };
   isCorrect = () => {
     const {
-      answered
+      answered,
+      question
     } = this.props;
+    if (typeof question.correct !== 'undefined') {
+      return question.correct;
+    }
     if (!answered) {
       return false;
     }
@@ -459,8 +463,12 @@ const {
 class QuestionMultipleChoices extends _question_base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   isCorrect = () => {
     const {
-      answered
+      answered,
+      question
     } = this.props;
+    if (typeof question.correct !== 'undefined') {
+      return question.correct;
+    }
     if (isBoolean(answered) || !answered) {
       return false;
     }
@@ -479,7 +487,8 @@ class QuestionMultipleChoices extends _question_base__WEBPACK_IMPORTED_MODULE_2_
   };
   getOptionClass = option => {
     const {
-      answered
+      answered,
+      question
     } = this.props;
     const optionClass = [...this.state.optionClass];
     if (this.maybeShowCorrectAnswer()) {
@@ -487,10 +496,11 @@ class QuestionMultipleChoices extends _question_base__WEBPACK_IMPORTED_MODULE_2_
         optionClass.push('answer-correct');
       }
       if (answered) {
-        if (option.isTrue === 'yes') {
-          answered.indexOf(option.value) !== -1 && optionClass.push('answered-correct');
+        const isSelected = answered.indexOf(option.value) !== -1;
+        if (option.isTrue === 'yes' || isSelected && question.correct) {
+          isSelected && optionClass.push('answered-correct');
         } else {
-          answered.indexOf(option.value) !== -1 && optionClass.push('answered-wrong');
+          isSelected && optionClass.push('answered-wrong');
         }
       }
     }
@@ -517,7 +527,8 @@ __webpack_require__.r(__webpack_exports__);
 class QuestionSingleChoice extends _question_base__WEBPACK_IMPORTED_MODULE_0__["default"] {
   getOptionClass = option => {
     const {
-      answered
+      answered,
+      question
     } = this.props;
     const optionClass = [...this.state.optionClass];
     if (this.maybeShowCorrectAnswer()) {
@@ -525,10 +536,13 @@ class QuestionSingleChoice extends _question_base__WEBPACK_IMPORTED_MODULE_0__["
         optionClass.push('answer-correct');
       }
       if (answered) {
-        if (option.isTrue === 'yes') {
-          answered === option.value && optionClass.push('answered-correct');
-        } else {
-          answered === option.value && optionClass.push('answered-wrong');
+        const isSelected = answered === option.value;
+        if (isSelected) {
+          if (option.isTrue === 'yes' || question.correct) {
+            optionClass.push('answered-correct');
+          } else {
+            optionClass.push('answered-wrong');
+          }
         }
       }
     }

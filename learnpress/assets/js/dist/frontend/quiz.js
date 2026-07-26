@@ -1215,8 +1215,14 @@ class Question extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Component
       isShow,
       isShowIndex,
       isShowHint,
-      status
+      status,
+      results
     } = this.props;
+    if (results && results.questions && results.questions[question.id]) {
+      if (typeof results.questions[question.id].correct !== 'undefined') {
+        question.correct = results.questions[question.id].correct;
+      }
+    }
     const QuestionTypes = LP.questionTypes.default;
     const editPermalink = this.getEditLink();
     if (editPermalink) {
@@ -1333,7 +1339,8 @@ class Question extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Component
     questionsRendered: getData('questionsRendered'),
     editPermalink: getData('editPermalink'),
     numPages: getData('numPages'),
-    mark: getQuestionMark(id) || ''
+    mark: getQuestionMark(id) || '',
+    results: getData('results')
   };
 }), (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.withDispatch)(dispatch => {
   const {
