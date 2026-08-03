@@ -3,7 +3,7 @@
         'name' => 'learnpress/learnpress',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '2376fb803c4bf4e049479db45fc0fdb584b31668',
+        'reference' => '6afaa9b574a62307e227053793565c2c439aa63b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'learnpress/learnpress' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '2376fb803c4bf4e049479db45fc0fdb584b31668',
+            'reference' => '6afaa9b574a62307e227053793565c2c439aa63b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
