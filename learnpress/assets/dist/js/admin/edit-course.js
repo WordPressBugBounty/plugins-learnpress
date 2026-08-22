@@ -1851,7 +1851,6 @@ class GenerateWithOpenai {
       });
       _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#wp-content-media-buttons', el => {
         el.insertAdjacentHTML('beforeend', `<button type="button"
-					style="padding: 5px 10px; justify-content: center;"
 					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-description-ai">
 					<i class="lp-ico-ai"></i><span>Generate description with AI</span>
@@ -1860,7 +1859,6 @@ class GenerateWithOpenai {
       _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('#postimagediv', el => {
         const elInside = el.querySelector('.postbox-header');
         elInside.insertAdjacentHTML('afterend', `<button type="button"
-					style="padding: 5px 10px; justify-content: center;"
 					class="lp-btn-generate-with-ai lp-btn-ai-style"
 					data-template="#lp-tmpl-edit-image-ai">
 					<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
@@ -1887,7 +1885,6 @@ class GenerateWithOpenai {
         // For layout Gutenberg - button for description
         _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
           el.insertAdjacentHTML('beforebegin', `<button type="button"
-						style="padding: 5px 10px; justify-content: center;"
 						class="lp-btn-generate-with-ai"
 						data-template="#lp-tmpl-edit-description-ai">
 						<i class="lp-ico-ai"></i><span>Generate description with AI</span>
@@ -1897,7 +1894,6 @@ class GenerateWithOpenai {
         // For layout Gutenberg - button for image
         _utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.editor-post-featured-image', el => {
           el.insertAdjacentHTML('afterend', `<button type="button"
-						style="padding: 5px 10px; justify-content: center;"
 						class="lp-btn-generate-with-ai"
 						data-template="#lp-tmpl-edit-image-ai">
 						<i class="lp-ico-ai"></i><span>${lpData.i18n.generate_with_ai}</span>
@@ -2855,6 +2851,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   debounce: () => (/* binding */ debounce),
 /* harmony export */   eventHandlers: () => (/* binding */ eventHandlers),
+/* harmony export */   fullScreenView: () => (/* binding */ fullScreenView),
 /* harmony export */   getDataOfForm: () => (/* binding */ getDataOfForm),
 /* harmony export */   getFieldKeysOfForm: () => (/* binding */ getFieldKeysOfForm),
 /* harmony export */   listenElementCreated: () => (/* binding */ listenElementCreated),
@@ -2868,7 +2865,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   lpSetLoadingEl: () => (/* binding */ lpSetLoadingEl),
 /* harmony export */   lpShowHideEl: () => (/* binding */ lpShowHideEl),
 /* harmony export */   mergeDataWithDatForm: () => (/* binding */ mergeDataWithDatForm),
-/* harmony export */   toggleCollapse: () => (/* binding */ toggleCollapse)
+/* harmony export */   toggleCollapse: () => (/* binding */ toggleCollapse),
+/* harmony export */   toggleEnable: () => (/* binding */ toggleEnable)
 /* harmony export */ });
 /**
  * Utils functions
@@ -2877,14 +2875,17 @@ __webpack_require__.r(__webpack_exports__);
  * @param data
  * @param functions
  * @since 4.2.5.1
- * @version 1.0.6
+ * @version 1.0.7
  */
 const lpClassName = {
   hidden: 'lp-hidden',
   loading: 'loading',
   elCollapse: 'lp-collapse',
   elSectionToggle: '.lp-section-toggle',
-  elTriggerToggle: '.lp-trigger-toggle'
+  elTriggerToggle: '.lp-trigger-toggle',
+  elBtnFullScreen: '.lp-btn-full-screen-view',
+  elFullScreen: 'lp-full-screen-view',
+  elBtnFullScreenClose: 'lp-full-screen-view__close'
 };
 const lpFetchAPI = (url, data = {}, functions = {}) => {
   if ('function' === typeof functions.before) {
@@ -3202,6 +3203,139 @@ const debounce = (func, wait = 500) => {
     clearTimeout(timer);
     timer = setTimeout(() => func(args), wait);
   };
+};
+
+/**
+ * Initialize lp-toggle-enable components.
+ *
+ * Finds all `.lp-toggle-enable` elements and wires up toggle behavior.
+ * Reads initial state from `data-enabled` attribute ("true"/"false").
+ * Calls `data-on-toggle` callback (if provided via options) on state change.
+ *
+ * HTML structure:
+ * <label class="lp-toggle-enable" data-enabled="true">
+ *   <input type="checkbox" class="lp-toggle-enable__input" />
+ *   <span class="lp-toggle-enable__track"></span>
+ * </label>
+ *
+ * @param {string}   selector CSS selector for toggle elements (default: '.lp-toggle-enable')
+ * @param {Function} onToggle Optional callback( el, isEnabled ) called on state change
+ * @since 4.4.5
+ * @version 1.0.0
+ */
+window.lpToggleEnableInit = 0;
+const toggleEnable = (onToggle = null) => {
+  if (window.lpToggleEnableInit) {
+    return;
+  }
+  window.lpToggleEnableInit = 1;
+  const selector = '.lp-toggle-enable';
+  const updateUI = (toggle, isEnabled) => {
+    toggle.classList.toggle('is-enabled', isEnabled);
+    const input = toggle.querySelector('.lp-toggle-enable__input');
+    if (input) {
+      input.checked = isEnabled;
+      input.value = isEnabled ? '1' : '0';
+    }
+  };
+
+  // Delegate click handling via eventHandlers.
+  eventHandlers('click', [{
+    selector,
+    callBack: args => {
+      const {
+        e,
+        target
+      } = args;
+      const toggle = target.closest(selector);
+      if (!toggle || toggle.classList.contains('is-disabled')) {
+        return;
+      }
+      e.preventDefault();
+      const isEnabled = !toggle.classList.contains('is-enabled');
+      updateUI(toggle, isEnabled);
+      if ('function' === typeof onToggle) {
+        onToggle(toggle, isEnabled);
+      }
+    }
+  }]);
+};
+
+/**
+ * Initialize custom fullscreen view buttons.
+ *
+ * Delegates clicks on `.lp-btn-full-screen-view` buttons to
+ * `lpToggleFullscreenView`. Reads the `data-target` attribute to find the
+ * target element. Falls back to the button's parent element when
+ * `data-target` is not provided.
+ *
+ * @since 4.4.5
+ * @version 1.0.0
+ */
+window.lpFullScreenViewInit = 0;
+const fullScreenView = () => {
+  if (window.lpFullScreenViewInit) {
+    return;
+  }
+  window.lpFullScreenViewInit = 1;
+  let lastScrollY = 0;
+  const lpToggleFullscreenView = (elTarget, elBtnFullScreen = null) => {
+    const isFullscreen = elTarget.classList.contains(lpClassName.elFullScreen);
+    if (isFullscreen) {
+      elTarget.classList.remove(lpClassName.elFullScreen);
+      document.documentElement.classList.remove('lp-full-screen-active');
+      window.scrollTo(0, lastScrollY);
+    } else {
+      lastScrollY = window.scrollY;
+      elTarget.classList.add(lpClassName.elFullScreen);
+      document.documentElement.classList.add('lp-full-screen-active');
+    }
+    if (!isFullscreen) {
+      if (!elTarget.querySelector(`.${lpClassName.elBtnFullScreenClose}`)) {
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = lpClassName.elBtnFullScreenClose;
+        closeButton.setAttribute('aria-label', 'Close');
+        closeButton.innerHTML = lpData.i18n.closeButtonFullScreen || 'Close &times;';
+        closeButton.addEventListener('click', e => {
+          e.preventDefault();
+          lpToggleFullscreenView(elTarget);
+        });
+        elTarget.appendChild(closeButton);
+      }
+    } else {
+      const closeButton = elTarget.querySelector(`.${lpClassName.elBtnFullScreenClose}`);
+      if (closeButton) {
+        closeButton.remove();
+      }
+    }
+  };
+  eventHandlers('click', [{
+    selector: lpClassName.elBtnFullScreen,
+    callBack: args => {
+      const {
+        e,
+        target
+      } = args;
+      const elBtnFullScreen = target.closest(lpClassName.elBtnFullScreen);
+      if (!elBtnFullScreen) {
+        console.log('No full screen button found');
+        return;
+      }
+      e.preventDefault();
+      let elTarget = null;
+      const targetSelector = elBtnFullScreen.dataset.targetFullscreen;
+      console.log(targetSelector);
+      if (targetSelector) {
+        elTarget = document.querySelector(targetSelector);
+      }
+      if (!elTarget) {
+        console.log('No target element found');
+        return;
+      }
+      lpToggleFullscreenView(elTarget, elBtnFullScreen);
+    }
+  }]);
 };
 
 /***/ },

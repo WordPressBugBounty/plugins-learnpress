@@ -369,12 +369,15 @@ p:last-child {
   align-items: center;
   gap: 5px;
   min-height: 30px;
-  padding: 0 10px;
+  padding: 11px 10px;
   cursor: pointer;
   -webkit-appearance: none;
   border-radius: 3px;
   white-space: nowrap;
   box-sizing: border-box;
+  margin: 0 5px 5px 0;
+  vertical-align: top;
+  justify-content: center;
 }
 .lp-btn-ai-style:active {
   box-shadow: none;
@@ -1532,6 +1535,21 @@ html {
   border-color: none;
   box-shadow: unset;
   outline: unset;
+}
+.lp-course-builder-canvas select,
+.lp-course-builder-canvas input,
+.lp-course-builder-canvas textarea,
+.lp-toast select,
+.lp-toast input,
+.lp-toast textarea,
+.swal2-container select,
+.swal2-container input,
+.swal2-container textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1a1a1a;
+  background: #fff;
 }
 
 #lp-course-builder {
@@ -17170,6 +17188,147 @@ body.lp-popup-open {
 		}
 	}
 }*/
+/**
+* Style for table LearnPress
+*/
+.lp-table-wrap {
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table.lp-list-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0;
+  min-width: 768px;
+}
+table.lp-list-table td {
+  padding: 0;
+}
+table.lp-list-table .learn-press-pagination {
+  text-align: left;
+}
+table.lp-list-table thead {
+  background-color: var(--lp-white-grey, #F7F7FB);
+  border: none;
+}
+table.lp-list-table thead tr {
+  border-bottom: 1px solid var(--lp-border-color, #E2E0DB);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+}
+table.lp-list-table thead th {
+  background: none;
+  border: none;
+  font-size: 1em;
+  padding: 10px 20px;
+  text-align: left;
+}
+table.lp-list-table thead th td {
+  border: none;
+  padding: 0;
+}
+table.lp-list-table tbody {
+  font-size: 14px;
+}
+table.lp-list-table tbody tr {
+  border: none;
+  border-bottom: 1px solid var(--lp-white-grey, #F7F7FB);
+}
+table.lp-list-table tbody tr:nth-child(odd) td {
+  background: #f6f7f7;
+}
+table.lp-list-table tbody tr:nth-child(even) td {
+  background: #fff;
+}
+table.lp-list-table tbody tr td {
+  border: none;
+  padding: 10px 20px;
+  text-align: left;
+}
+table.lp-list-table tbody tr td a {
+  text-decoration: none;
+}
+table.lp-list-table tfoot tr {
+  border: none;
+}
+table.lp-list-table tfoot tr td, table.lp-list-table tfoot tr th {
+  border: none;
+}
+table.lp-list-table tfoot tr td > div, table.lp-list-table tfoot tr th > div {
+  padding: 20px;
+}
+table.lp-list-table tfoot .pagination {
+  border: none;
+  padding: 0;
+}
+table.lp-list-table.order-table-details tbody tr:last-child {
+  --lp-white-grey: var(--lp-border-color, #E2E0DB);
+}
+table.lp-list-table.order-table-details tfoot {
+  border-top: 1px solid var(--lp-border-color, #E2E0DB);
+}
+table.lp-list-table.order-table-details tfoot tr td, table.lp-list-table.order-table-details tfoot tr th {
+  padding: 10px 20px;
+  background-color: transparent;
+}
+table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-list-table.order-table-details tfoot tr:not(:last-child) th {
+  padding-bottom: 0;
+}
+
+.lp_profile_course_progress__nav {
+  margin-top: 1rem;
+}
+
+#profile-content-order-details .lp-table-wrap {
+  margin-bottom: 1rem;
+}
+
+/**
+* Style for the Form Filter list
+* @since 4.4.5
+* @version 1.0.0
+*/
+.lp-form-filter {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.lp-form-filter__fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+}
+.lp-form-filter__fields > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.lp-form-filter .filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.lp-form-filter .filter-field label {
+  text-align: left;
+}
+.lp-form-filter button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp-form-filter__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);

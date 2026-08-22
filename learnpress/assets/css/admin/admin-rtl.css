@@ -695,7 +695,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=160") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=95") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -2226,6 +2226,20 @@ ul .clearfix {
   width: 17px;
 }
 
+.wp-submenu li.lp-menu-divider {
+  height: 0;
+  margin: 8px 0;
+  border-top: 1px solid rgba(240, 246, 252, 0.15);
+}
+.wp-submenu li.lp-menu-divider a {
+  height: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  overflow: hidden;
+  text-indent: -9999px;
+}
+
 .learnpress .rwmb-field {
   position: relative;
   margin-bottom: 20px;
@@ -3649,9 +3663,9 @@ input[name=_lp_course_result]:checked ~ #passing-condition-quiz-result {
 .related-themes .theme-footer {
   clear: both;
   overflow: hidden;
-  margin-left: -20px;
-  margin-right: -20px;
-  padding: 20px;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 16px;
   border-top: 1px solid #ddd;
   background-color: #fafafa;
 }
@@ -4921,6 +4935,37 @@ input[name=_lp_course_result]:checked ~ #passing-condition-quiz-result {
 }
 .wp-picker-container .wp-picker-holder {
   z-index: 99999;
+}
+
+.lp-payment-addons-promo {
+  margin-top: 15px;
+  padding: 12px 16px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.lp-payment-addons-promo p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #555;
+}
+.lp-payment-addons-promo__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 6px;
+  color: #7f54b3;
+  font-weight: 600;
+  text-decoration: none;
+}
+.lp-payment-addons-promo__link:hover {
+  color: #5e3d8a;
+  text-decoration: underline;
+}
+.lp-payment-addons-promo__link .dashicons {
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
 }
 
 .lp-install-sample {
@@ -10268,12 +10313,15 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   align-items: center;
   gap: 5px;
   min-height: 30px;
-  padding: 0 10px;
+  padding: 11px 10px;
   cursor: pointer;
   -webkit-appearance: none;
   border-radius: 3px;
   white-space: nowrap;
   box-sizing: border-box;
+  margin: 0 0 5px 5px;
+  vertical-align: top;
+  justify-content: center;
 }
 .lp-btn-ai-style:active {
   box-shadow: none;
@@ -11289,6 +11337,9 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   background-color: unset !important;
   outline: none !important;
   color: rgb(204, 204, 204) !important;
+  font-size: 30px;
+  box-shadow: none !important;
+  position: absolute;
 }
 .swal2-popup .swal2-close:hover {
   color: #f27474 !important;
@@ -11302,6 +11353,10 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
  *
  * @since 4.3.3
  */
+.lp-enrolled-students h1.wp-heading-inline {
+  margin-bottom: 24px;
+}
+
 .lp-enrolled-students-table-wrap {
   margin-top: 15px;
 }
@@ -11319,110 +11374,6 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.lp-enrolled-students-table-toolbar {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 20px 20px;
-  border: 1px solid var(--lp-border-color, #E2E0DB);
-  border-radius: 5px;
-  background: var(--lp-white-grey, #F7F7FB);
-  /*&__actions .button {
-  	min-width: 95px;
-  	height: 36px;
-  	padding: 0 18px;
-  	border-radius: 7px;
-  	font-size: 14px;
-  	font-weight: 600;
-  	line-height: 34px;
-  	border-color: #b9c3d2;
-  	color: #46546c;
-  	background: #fff;
-  }*/
-}
-.lp-enrolled-students-table-toolbar__row {
-  display: grid;
-  gap: 14px;
-}
-.lp-enrolled-students-table-toolbar__row--course {
-  grid-template-columns: minmax(0, 1fr);
-}
-.lp-enrolled-students-table-toolbar__row--filters {
-  grid-template-columns: minmax(0, 1fr) minmax(145px, 200px) minmax(145px, 150px) auto;
-  align-items: end;
-  max-width: 1000px;
-}
-.lp-enrolled-students-table-toolbar__field {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.lp-enrolled-students-table-toolbar__field input {
-  border: 1px solid var(--lp-border-color, #E2E0DB);
-}
-.lp-enrolled-students-table-toolbar__label {
-  color: #3f4a5c;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-bottom: 10px;
-  text-align: right;
-}
-.lp-enrolled-students-table-toolbar__input {
-  width: 100%;
-  height: 38px;
-  padding: 0 12px;
-  border: 1px solid #c6cfdb;
-  border-radius: 7px;
-  color: #2f3a4a;
-  background: #fff;
-  font-size: 14px;
-  line-height: 1.4;
-  box-shadow: none;
-}
-.lp-enrolled-students-table-toolbar__input:focus {
-  border-color: #2f75ff;
-  outline: none;
-  box-shadow: 0 0 0 1px #2f75ff;
-}
-.lp-enrolled-students-table-toolbar__actions {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-}
-.lp-enrolled-students-table-toolbar__actions .button:hover, .lp-enrolled-students-table-toolbar__actions .button:focus {
-  border-color: #99a7bc;
-  color: #2f3a4a;
-  background: #f4f7fb;
-}
-@media (max-width: 1024px) {
-  .lp-enrolled-students-table-toolbar__row--filters {
-    grid-template-columns: minmax(0, 1fr) minmax(150px, 1fr) minmax(150px, 1fr);
-  }
-  .lp-enrolled-students-table-toolbar__actions {
-    grid-column: 1/-1;
-  }
-}
-@media (max-width: 782px) {
-  .lp-enrolled-students-table-toolbar__row--filters {
-    grid-template-columns: 1fr 1fr;
-  }
-  .lp-enrolled-students-table-toolbar__field--student {
-    grid-column: 1/-1;
-  }
-  .lp-enrolled-students-table-toolbar__actions {
-    grid-column: 1/-1;
-  }
-}
-@media (max-width: 640px) {
-  .lp-enrolled-students-table-toolbar__row--filters {
-    grid-template-columns: 1fr;
-  }
-  .lp-enrolled-students-table-toolbar__actions .button {
-    width: 100%;
-  }
 }
 
 /*.lp-enrolled-students-table {
@@ -11703,19 +11654,15 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   	table-layout: fixed;
   }*/
 }
+#lp-modal-enrolled-wrap .lp-table-wrap {
+  max-height: 60vh;
+}
 
 .lp-wrap-btn-view-course-students {
   width: 100%;
 }
 .lp-wrap-btn-view-course-students button {
   width: 100%;
-}
-
-.lp-students-enrolled-layout.learnpress_page_learn-press-students-enrolled .lp-enrolled-students-table-toolbar {
-  background: white;
-}
-.lp-students-enrolled-layout.learnpress_page_learn-press-students-enrolled .lp-list-table tbody {
-  background: white;
 }
 
 .lp-btn-view-students {
@@ -11735,6 +11682,8 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   width: 100%;
   border: 1px solid var(--lp-border-color, #E2E0DB);
   overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 table.lp-list-table {
@@ -11755,6 +11704,10 @@ table.lp-list-table thead {
 }
 table.lp-list-table thead tr {
   border-bottom: 1px solid var(--lp-border-color, #E2E0DB);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
 }
 table.lp-list-table thead th {
   background: none;
@@ -11774,13 +11727,19 @@ table.lp-list-table tbody tr {
   border: none;
   border-bottom: 1px solid var(--lp-white-grey, #F7F7FB);
 }
+table.lp-list-table tbody tr:nth-child(odd) td {
+  background: #f6f7f7;
+}
 table.lp-list-table tbody tr:nth-child(even) td {
-  background: none;
+  background: #fff;
 }
 table.lp-list-table tbody tr td {
   border: none;
   padding: 10px 20px;
   text-align: right;
+}
+table.lp-list-table tbody tr td a {
+  text-decoration: none;
 }
 table.lp-list-table tfoot tr {
   border: none;
@@ -11817,6 +11776,190 @@ table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-l
   margin-bottom: 1rem;
 }
 
+/**
+* Style for the Form Filter list
+* @since 4.4.5
+* @version 1.0.0
+*/
+.lp-form-filter {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.lp-form-filter__fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+}
+.lp-form-filter__fields > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.lp-form-filter .filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.lp-form-filter .filter-field label {
+  text-align: right;
+}
+.lp-form-filter button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp-form-filter__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/**
+ * Custom fullscreen view overlay.
+ *
+ * Applied directly to the target element; a close button is injected inside it.
+ *
+ * @since 4.4.5
+ * @version 1.0.0
+ */
+html.lp-full-screen-active,
+html.lp-full-screen-active body {
+  overflow: hidden;
+}
+
+.lp-full-screen-view {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  z-index: 99999;
+  background: #fff;
+  overflow: auto;
+}
+.lp-full-screen-view__close {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 999999;
+  background: white;
+  color: #f10808;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 0.5em 0.75em;
+  cursor: pointer;
+}
+.lp-full-screen-view__close:hover {
+  border-color: #f10808;
+}
+.lp-full-screen-view > div {
+  padding: 40px 10px 0 !important;
+}
+
+.lp-toggle-enable {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.lp-toggle-enable .lp-toggle-enable__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.lp-toggle-enable .lp-toggle-enable__track {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #c3c4c7;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+.lp-toggle-enable .lp-toggle-enable__track::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+.lp-toggle-enable .lp-toggle-enable__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #50575e;
+}
+.lp-toggle-enable.is-enabled .lp-toggle-enable__track {
+  background: #28A746;
+}
+.lp-toggle-enable.is-enabled .lp-toggle-enable__track::before {
+  transform: translateX(-20px);
+}
+.lp-toggle-enable.is-enabled .lp-toggle-enable__label {
+  color: #28A746;
+}
+.lp-toggle-enable.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.lp-toggle-enable.loading {
+  position: relative;
+  cursor: default;
+  pointer-events: none;
+}
+.lp-toggle-enable.loading .lp-toggle-enable__track,
+.lp-toggle-enable.loading .lp-toggle-enable__label {
+  opacity: 0.4;
+}
+.lp-toggle-enable.loading::after {
+  content: "\f110";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "lp-icon";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  color: #2271b1;
+  background: #fff;
+  border-radius: 50%;
+  animation: lp-scorm-toggle-spin 1s linear infinite;
+  z-index: 1;
+}
+.lp-toggle-enable .lp-toggle-enable__input:focus-visible ~ .lp-toggle-enable__track {
+  outline: 2px solid #2271b1;
+  outline-offset: 2px;
+}
+
+@keyframes lp-scorm-toggle-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
 .button.disabled {
   pointer-events: none;
 }
