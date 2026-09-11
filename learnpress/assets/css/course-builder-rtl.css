@@ -180,6 +180,7 @@ p:last-child {
 
 .learn-press-message {
   position: relative;
+  margin: 0 !important;
   padding: 10px 20px;
   border-radius: var(--lp-border-radius, 5px);
   background-color: #E5F7FF;
@@ -189,6 +190,7 @@ p:last-child {
 .learn-press-message.error {
   background-color: #FEE5E5;
   color: #FF3B30;
+  border-right: none;
 }
 .learn-press-message.warning {
   background-color: #FEF7E6;
@@ -17268,6 +17270,7 @@ table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-l
 }
 .lp-form-filter .filter-field label {
   text-align: right;
+  font-weight: bold;
 }
 .lp-form-filter button {
   display: inline-flex;

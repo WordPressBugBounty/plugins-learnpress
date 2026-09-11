@@ -29,6 +29,7 @@
 
 .learn-press-message {
   position: relative;
+  margin: 0 !important;
   padding: 10px 20px;
   border-radius: var(--lp-border-radius, 5px);
   background-color: #E5F7FF;
@@ -38,6 +39,7 @@
 .learn-press-message.error {
   background-color: #FEE5E5;
   color: #FF3B30;
+  border-left: none;
 }
 .learn-press-message.warning {
   background-color: #FEF7E6;
@@ -1144,6 +1146,9 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   color: #999;
 }
 
+.info-learning .course-progress > div {
+  margin-bottom: 8px;
+}
 .info-learning .course-progress__line {
   width: 100%;
   background: #ccc;
@@ -1173,6 +1178,9 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   width: 2px;
   height: 100%;
   background: var(--lp-secondary-color);
+}
+.info-learning .start-date, .info-learning .end-date {
+  margin-bottom: 8px;
 }
 
 .lp-single-course .comment-form .comment-form-url,

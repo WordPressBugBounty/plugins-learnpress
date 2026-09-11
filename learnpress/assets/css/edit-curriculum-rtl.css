@@ -24,6 +24,7 @@
 }
 .learn-press-message {
   position: relative;
+  margin: 0 !important;
   padding: 10px 20px;
   border-radius: var(--lp-border-radius, 5px);
   background-color: #E5F7FF;
@@ -33,6 +34,7 @@
 .learn-press-message.error {
   background-color: #FEE5E5;
   color: #FF3B30;
+  border-right: none;
 }
 .learn-press-message.warning {
   background-color: #FEF7E6;

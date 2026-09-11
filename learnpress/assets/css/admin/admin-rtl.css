@@ -30,6 +30,7 @@
 
 .learn-press-message {
   position: relative;
+  margin: 0 !important;
   padding: 10px 20px;
   border-radius: var(--lp-border-radius, 5px);
   background-color: #E5F7FF;
@@ -39,6 +40,7 @@
 .learn-press-message.error {
   background-color: #FEE5E5;
   color: #FF3B30;
+  border-right: none;
 }
 .learn-press-message.warning {
   background-color: #FEF7E6;
@@ -643,7 +645,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=66") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=55") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -9117,6 +9119,9 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   color: #999;
 }
 
+.info-learning .course-progress > div {
+  margin-bottom: 8px;
+}
 .info-learning .course-progress__line {
   width: 100%;
   background: #ccc;
@@ -9146,6 +9151,9 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   width: 2px;
   height: 100%;
   background: var(--lp-secondary-color);
+}
+.info-learning .start-date, .info-learning .end-date {
+  margin-bottom: 8px;
 }
 
 /*
@@ -11722,6 +11730,7 @@ table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-l
 }
 .lp-form-filter .filter-field label {
   text-align: right;
+  font-weight: bold;
 }
 .lp-form-filter button {
   display: inline-flex;
