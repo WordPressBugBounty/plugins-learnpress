@@ -115,6 +115,7 @@
   /**
   * Style for the buttons
   */
+  /* 5. Minimal Bottom Line */
 }
 .lp-popup-items-to-select .lp-btn-edit-primary {
   border: none;
@@ -128,6 +129,30 @@
   background: #135E96;
   color: #fff;
   opacity: 1;
+}
+.lp-popup-items-to-select .btn-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 4px;
+  width: 0%;
+  background-color: #38bdf8;
+  animation: lineLoad 2s ease-in-out infinite;
+}
+@keyframes lineLoad {
+  0% {
+    width: 0%;
+    right: 0;
+  }
+  50% {
+    width: 100%;
+    right: 0;
+  }
+  100% {
+    width: 0%;
+    right: 100%;
+  }
 }
 .lp-popup-items-to-select .header {
   position: relative;
@@ -601,6 +626,7 @@
   /**
   * Style for the buttons
   */
+  /* 5. Minimal Bottom Line */
   /*.lp-btn-add-section {
   	border: none;
   	background: rgba(19, 94, 150, 0.5);
@@ -630,6 +656,30 @@
   background: #135E96;
   color: #fff;
   opacity: 1;
+}
+#lp-course-edit-curriculum .add-new-section .btn-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 4px;
+  width: 0%;
+  background-color: #38bdf8;
+  animation: lineLoad 2s ease-in-out infinite;
+}
+@keyframes lineLoad {
+  0% {
+    width: 0%;
+    right: 0;
+  }
+  50% {
+    width: 100%;
+    right: 0;
+  }
+  100% {
+    width: 0%;
+    right: 100%;
+  }
 }
 #lp-course-edit-curriculum .lp-add-item-type {
   border: 1px solid #2271B1;

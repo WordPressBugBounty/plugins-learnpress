@@ -731,7 +731,7 @@ class ListStudentsEnrolled {
       return;
     }
     lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpSetLoadingEl(btn, isLoading ? 1 : 0);
-    btn.disabled = !!isLoading;
+    //btn.disabled = !! isLoading;
   }
   getAjaxHandle() {
     const ajaxHandle = window.lpAJAXG;
@@ -775,7 +775,7 @@ class ListStudentsEnrolled {
     }
     const btn = args?.target?.closest(ListStudentsEnrolled.selectors.elBtnSearch);
     if (btn) {
-      if (this.isRequesting || btn.classList.contains('loading') || btn.disabled) {
+      if (this.isRequesting || btn.classList.contains('loading')) {
         return;
       }
     } else if (this.isRequesting) {
@@ -811,7 +811,7 @@ class ListStudentsEnrolled {
     }
     const btn = args?.target?.closest(ListStudentsEnrolled.selectors.elBtnClear);
     if (btn) {
-      if (this.isRequesting || btn.classList.contains('loading') || btn.disabled) {
+      if (this.isRequesting || btn.classList.contains('loading')) {
         return;
       }
     } else if (this.isRequesting) {

@@ -187,7 +187,7 @@
   font-weight: 400;
   line-height: 1.45;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
 }
 .lp-theme-card__footer {
   display: flex;

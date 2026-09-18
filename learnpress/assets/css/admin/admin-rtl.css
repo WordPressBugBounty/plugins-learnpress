@@ -28,6 +28,80 @@
   --lp-container-max-width: var(--wp--style--global--wide-size);
 }
 
+/**
+* Style for the buttons
+*/
+.lp-btn-edit-primary {
+  border: none;
+  background: #135e96;
+  color: #fff;
+}
+.lp-btn-edit-primary:not(.active) {
+  opacity: 0.5;
+}
+.lp-btn-edit-primary:hover, .lp-btn-edit-primary.active, .lp-btn-edit-primary.active:hover {
+  background: #135E96;
+  color: #fff;
+  opacity: 1;
+}
+
+/* 5. Minimal Bottom Line */
+.btn-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 4px;
+  width: 0%;
+  background-color: #38bdf8;
+  animation: lineLoad 2s ease-in-out infinite;
+}
+
+@keyframes lineLoad {
+  0% {
+    width: 0%;
+    right: 0;
+  }
+  50% {
+    width: 100%;
+    right: 0;
+  }
+  100% {
+    width: 0%;
+    right: 100%;
+  }
+}
+.lp-button {
+  padding: 8px 16px;
+  border: 1px solid var(--lp-border-color, #E2E0DB);
+  border-radius: var(--lp-border-radius, 5px);
+  color: #374151;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+.lp-button.loading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.2) !important;
+}
+.lp-button.loading:before {
+  position: absolute;
+  display: inline-block;
+  font-family: "lp-icon";
+  content: "\f110";
+  animation: lp-rotating 1s linear infinite;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  color: black;
+}
+
 .learn-press-message {
   position: relative;
   margin: 0 !important;
@@ -632,20 +706,9 @@ ul .clearfix {
   content: "";
 }
 
-.lp-button {
-  padding: 8px 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: var(--lp-border-radius);
-  color: #374151;
-  font-size: 0.9em;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=55") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=94") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -1864,22 +1927,6 @@ ul .clearfix {
 
 .lp-hidden {
   display: none !important;
-}
-
-.lp-button.loading {
-  pointer-events: none;
-  opacity: 0.8;
-}
-.lp-button.loading:before {
-  display: inline-block;
-  font-family: "lp-icon";
-  content: "\f110";
-  animation: lp-rotating 1s linear infinite;
-  margin-left: 5px;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .lp-max-width-768 {
@@ -7000,6 +7047,7 @@ body.lp-item-moving {
   /**
   * Style for the buttons
   */
+  /* 5. Minimal Bottom Line */
 }
 .lp-popup-items-to-select .lp-btn-edit-primary {
   border: none;
@@ -7013,6 +7061,30 @@ body.lp-item-moving {
   background: #135E96;
   color: #fff;
   opacity: 1;
+}
+.lp-popup-items-to-select .btn-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 4px;
+  width: 0%;
+  background-color: #38bdf8;
+  animation: lineLoad 2s ease-in-out infinite;
+}
+@keyframes lineLoad {
+  0% {
+    width: 0%;
+    right: 0;
+  }
+  50% {
+    width: 100%;
+    right: 0;
+  }
+  100% {
+    width: 0%;
+    right: 100%;
+  }
 }
 .lp-popup-items-to-select .header {
   position: relative;
@@ -8224,15 +8296,17 @@ table.lp-material--table tr:nth-child(even) {
 }
 
 .lp-material-btn-wrap.loading::before:before, #btn-lp--save-material.loading:before {
+  position: absolute;
   display: inline-block;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
-  margin-left: 5px;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  color: black;
 }
 
 .button.lp-material--delete {
@@ -8641,15 +8715,17 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   outline: none;
 }
 .course-curriculum .section-item__loadmore.loading button:before {
+  position: absolute;
   display: inline-block;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
-  margin-left: 5px;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  color: black;
 }
 .course-curriculum .section-header {
   display: table;
@@ -8866,15 +8942,17 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
   margin-bottom: 20px;
 }
 .course-curriculum .curriculum-more__button.loading:before {
+  position: absolute;
   display: inline-block;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
-  margin-left: 5px;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  color: black;
 }
 
 body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .form-button-finish-course {
@@ -9285,6 +9363,24 @@ Breadcrumb
   text-align: center;
   align-items: center;
   justify-content: center;
+  /*.lp-button {
+  	cursor: pointer;
+  	border: 1px solid $border-color;
+  	border-radius: $border-radius-global;
+  	padding: $spacing-base-2x $spacing-base-4x;
+
+  	&.loading {
+  		pointer-events: none;
+  		opacity: 0.8;
+  		@include loading();
+  	}
+
+  	&:hover {
+  		border-color: $color-primary;
+  		color: #fff;
+  		background: $color-primary;
+  	}
+  }*/
 }
 .lp-modal-dialog .learn-press-message {
   width: auto;
@@ -9355,32 +9451,6 @@ Breadcrumb
   align-items: center;
   gap: 10px;
 }
-.lp-modal-dialog .lp-button {
-  cursor: pointer;
-  border: 1px solid #C3C4C7;
-  border-radius: var(--lp-border-radius, 5px);
-  padding: 8px 16px;
-}
-.lp-modal-dialog .lp-button.loading {
-  pointer-events: none;
-  opacity: 0.8;
-}
-.lp-modal-dialog .lp-button.loading:before {
-  display: inline-block;
-  font-family: "lp-icon";
-  content: "\f110";
-  animation: lp-rotating 1s linear infinite;
-  margin-left: 5px;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.lp-modal-dialog .lp-button:hover {
-  border-color: var(--lp-primary-color, #ffb606);
-  color: #fff;
-  background: var(--lp-primary-color, #ffb606);
-}
 
 .lp-button.btn-finish-course {
   cursor: pointer;
@@ -9400,21 +9470,6 @@ Breadcrumb
 .lp-button.btn-finish-course:hover {
   background-color: var(--lp-secondary-color, #442e66);
   border-color: var(--lp-secondary-color, #442e66);
-}
-.lp-button.btn-finish-course.loading {
-  pointer-events: none;
-  opacity: 0.8;
-}
-.lp-button.btn-finish-course.loading:before {
-  display: inline-block;
-  font-family: "lp-icon";
-  content: "\f110";
-  animation: lp-rotating 1s linear infinite;
-  margin-left: 5px;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /**
@@ -9487,16 +9542,17 @@ Breadcrumb
 }
 .wp-block-learnpress-course-button-read-more.loading:before,
 .wp-block-learnpress-course-button.loading:before {
+  position: absolute;
   display: inline-block;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
-  margin-left: 5px;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
+  color: black;
 }
 
 @media (min-width: 992px) {
@@ -10773,6 +10829,10 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   align-items: center;
   gap: 8px;
 }
+.lp-generate-data-ai-wrap .lp-form-generate-data-ai .btn.loading:before,
+.lp-generate-data-ai-wrap .lp-form-generate-data-ai .lp-button.loading:before {
+  color: white !important;
+}
 .lp-generate-data-ai-wrap .lp-form-generate-data-ai .btn-primary,
 .lp-generate-data-ai-wrap .lp-form-generate-data-ai .lp-button-primary {
   background-color: #7E6CE2;
@@ -11612,6 +11672,7 @@ table.lp-list-table {
   width: 100%;
   margin: 0;
   min-width: 768px;
+  border: none;
 }
 table.lp-list-table td {
   padding: 0;
@@ -11620,23 +11681,21 @@ table.lp-list-table .learn-press-pagination {
   text-align: right;
 }
 table.lp-list-table thead {
-  background-color: var(--lp-white-grey, #F7F7FB);
   border: none;
+}
+table.lp-list-table thead tr:first-child td, table.lp-list-table thead tr:first-child th {
+  border-block-start: none;
 }
 table.lp-list-table thead tr {
   border-bottom: 1px solid var(--lp-border-color, #E2E0DB);
   position: sticky;
   top: 0;
   z-index: 2;
-  background: #fff;
-}
-table.lp-list-table thead tr:hover {
-  background: #eff6ff;
+  background-color: var(--lp-white-grey, #F7F7FB);
 }
 table.lp-list-table thead th {
   background: none;
   border: none;
-  font-size: 1em;
   padding: 10px 20px;
   text-align: right;
 }
@@ -11644,35 +11703,36 @@ table.lp-list-table thead th td {
   border: none;
   padding: 0;
 }
-table.lp-list-table tbody {
-  font-size: 14px;
-}
 table.lp-list-table tbody tr {
   border: none;
-  border-bottom: 1px solid var(--lp-white-grey, #F7F7FB);
-}
-table.lp-list-table tbody tr:hover {
-  background: #eff6ff !important;
-}
-table.lp-list-table tbody tr:nth-child(odd) {
-  background: #f6f7f7;
 }
 table.lp-list-table tbody tr:nth-child(even) {
-  background: #fff;
+  background-color: hsla(0, 0%, 50%, 0.05);
+}
+table.lp-list-table tbody tr:hover {
+  background-color: #eff6ff;
 }
 table.lp-list-table tbody tr td {
   border: none;
+  border-bottom: 1px solid var(--lp-border-color, #E2E0DB);
   padding: 10px 20px;
   text-align: right;
 }
 table.lp-list-table tbody tr td a {
   text-decoration: none;
 }
+table.lp-list-table tbody tr:last-child td {
+  border-bottom: none;
+}
+table.lp-list-table tbody th {
+  padding: 10px 20px;
+}
 table.lp-list-table tfoot tr {
   border: none;
 }
 table.lp-list-table tfoot tr td, table.lp-list-table tfoot tr th {
   border: none;
+  border-top: 1px solid var(--lp-border-color, #E2E0DB);
 }
 table.lp-list-table tfoot tr td > div, table.lp-list-table tfoot tr th > div {
   padding: 20px;

@@ -419,7 +419,6 @@ class ViewStudentsModal {
       return;
     }
     lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_1__.lpSetLoadingEl(btn, isLoading ? 1 : 0);
-    btn.disabled = !!isLoading;
   }
   init() {
     if (ViewStudentsModal._loadedEvents) {
@@ -457,7 +456,7 @@ class ViewStudentsModal {
   }
   handleOpenModal(args) {
     const btn = args?.target?.closest(ViewStudentsModal.selectors.courseTrigger);
-    if (!btn || this.isRequesting || btn.classList.contains('loading') || btn.disabled) {
+    if (!btn || this.isRequesting || btn.classList.contains('loading')) {
       return;
     }
     const courseId = parseInt(btn.dataset.courseId, 10) || 0;
@@ -509,7 +508,7 @@ class ViewStudentsModal {
     if (args?.e) {
       args.e.preventDefault();
     }
-    if (this.isRequesting || btn.classList.contains('loading') || btn.disabled) {
+    if (this.isRequesting || btn.classList.contains('loading')) {
       return;
     }
     form.reset();
