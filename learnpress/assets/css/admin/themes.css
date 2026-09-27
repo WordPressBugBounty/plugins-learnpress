@@ -2,6 +2,12 @@
   max-width: 100%;
   color: #6b7280;
 }
+.learn-press-themes > .wp-heading-inline {
+  color: #1e1e1e;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.25;
+}
 .learn-press-themes a:focus-visible,
 .learn-press-themes button:focus-visible {
   outline: none;
@@ -13,8 +19,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  box-sizing: border-box;
   margin-bottom: 30px;
-  padding: 16px;
+  padding: 20px;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   background: #ffffff;
@@ -24,7 +31,7 @@
 .lp-themes-search {
   position: relative;
   flex-shrink: 0;
-  width: 280px;
+  width: 360px;
   max-width: 100%;
 }
 .lp-themes-search__icon {
@@ -45,12 +52,12 @@
 .learn-press-themes input.lp-themes-search__input {
   box-sizing: border-box;
   width: 100%;
-  min-height: 36px;
+  min-height: 48px;
   margin: 0;
   padding: 4px 12px;
   padding-inline-start: 40px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 12px;
   color: #1a1a1a;
   background: #ffffff;
   font-size: 14px;
@@ -71,8 +78,14 @@
 .lp-themes-filter {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  gap: 12px;
+  margin: -4px;
+  padding: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 .lp-themes-filter__count {
   margin-inline-start: 4px;
@@ -81,13 +94,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 8px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  color: #374151;
-  background: #ffffff;
-  font-size: 14px;
+  min-height: 49px;
+  padding: 8px 20px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: #7067ED;
+  background: #EEF1FF;
+  font-size: 16px;
   font-weight: 500;
   line-height: 150%;
   cursor: pointer;
@@ -313,27 +326,24 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
-}
-@media (max-width: 782px) {
-  .lp-themes-filter {
-    flex-wrap: nowrap;
-    gap: 8px;
-    max-width: 100%;
-    overflow-x: auto;
-  }
-  .lp-themes-filter__item {
-    flex: 1 0 auto;
-    min-height: 44px;
-    padding: 4px 8px;
-    font-size: 13px;
-    white-space: nowrap;
-  }
   .lp-themes-toolbar {
     align-items: stretch;
     flex-direction: column;
   }
+  .lp-themes-filter {
+    width: 100%;
+    min-width: 0;
+  }
   .lp-themes-search {
     width: 100%;
+  }
+}
+@media (max-width: 782px) {
+  .lp-themes-filter__item {
+    flex: 0 0 auto;
+  }
+  .lp-themes-toolbar {
+    padding: 12px;
   }
 }
 @media (max-width: 500px) {

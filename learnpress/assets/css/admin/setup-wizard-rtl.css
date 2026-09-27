@@ -417,6 +417,12 @@
   stroke-linejoin: round;
   stroke-width: 2;
 }
+.lp-setup--wizard .lp-setup-choice__icon .lp-setup-choice__svg--solid {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+  stroke: none;
+}
 .lp-setup--wizard .lp-setup-choice__icon [class^=lp-icon-],
 .lp-setup--wizard .lp-setup-choice__icon [class*=" lp-icon-"] {
   font-size: 25px;
@@ -787,6 +793,17 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.6;
+}
+.lp-setup-step--pages .lp-setup-page-card__edit [class^=lp-icon-],
+.lp-setup-step--pages .lp-setup-page-card__edit [class*=" lp-icon-"],
+.lp-setup-step--pages .lp-setup-page-card__view [class^=lp-icon-],
+.lp-setup-step--pages .lp-setup-page-card__view [class*=" lp-icon-"] {
+  display: inline-flex;
+  flex: 0 0 18px;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
 }
 .lp-setup-step--pages .lp-setup-page-card__edit:hover, .lp-setup-step--pages .lp-setup-page-card__edit:focus,
 .lp-setup-step--pages .lp-setup-page-card__view:hover,
@@ -1245,10 +1262,6 @@
 .lp-setup-step--finish .lp-setup-finish-next .lp-setup-finish-card__heading {
   color: #1e1e1e;
 }
-.lp-setup-step--finish .lp-setup-finish-next .lp-setup-finish-card__heading > strong {
-  font-size: 20px;
-  font-weight: 600;
-}
 .lp-setup-step--finish .lp-setup-finish-next .lp-setup-finish-card__heading-icon {
   width: 24px;
   height: 24px;
@@ -1335,6 +1348,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
+  margin-bottom: 12px !important;
 }
 .lp-setup-step--finish .lp-setup-demo-course__error strong,
 .lp-setup-step--finish .lp-setup-demo-course__error span {

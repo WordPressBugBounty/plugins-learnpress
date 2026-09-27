@@ -504,17 +504,17 @@ const fullScreenView = () => {
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
-/******/ 	const __webpack_module_cache__ = {};
+/******/ 	var __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		const cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
-/******/ 		const module = __webpack_module_cache__[moduleId] = {
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
 /******/ 			// no module.id needed
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
@@ -523,7 +523,7 @@ const fullScreenView = () => {
 /******/ 		// Execute the module function
 /******/ 		if (!(moduleId in __webpack_modules__)) {
 /******/ 			delete __webpack_module_cache__[moduleId];
-/******/ 			const e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
 /******/ 			e.code = 'MODULE_NOT_FOUND';
 /******/ 			throw e;
 /******/ 		}
@@ -536,26 +536,11 @@ const fullScreenView = () => {
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
-/******/ 		// define getter/value functions for harmony exports
+/******/ 		// define getter functions for harmony exports
 /******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			if(Array.isArray(definition)) {
-/******/ 				var i = 0;
-/******/ 				while(i < definition.length) {
-/******/ 					var key = definition[i++];
-/******/ 					var binding = definition[i++];
-/******/ 					if(!__webpack_require__.o(exports, key)) {
-/******/ 						if(binding === 0) {
-/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
-/******/ 						} else {
-/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
-/******/ 						}
-/******/ 					} else if(binding === 0) { i++; }
-/******/ 				}
-/******/ 			} else {
-/******/ 				for(var key in definition) {
-/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 					}
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
@@ -563,14 +548,14 @@ const fullScreenView = () => {
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.hasOwn(obj, prop))
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
 /******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(Symbol.toStringTag) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
@@ -578,7 +563,7 @@ const fullScreenView = () => {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-let __webpack_exports__ = {};
+var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
 /*!***********************************!*\
@@ -588,12 +573,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils.js */ "./assets/src/js/utils.js");
+/* harmony import */ var lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lpAssetsJsPath/utils.js */ "./assets/src/js/utils.js");
 /**
  * Load all you need via AJAX
  *
  * @since 4.2.5.7
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 
@@ -609,7 +594,7 @@ if ('undefined' !== typeof lpDataAdmin) {
 
 const lpAJAX = () => {
   const classLPTarget = '.lp-target';
-  const urlCurrent = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpGetCurrentURLNoParam)();
+  const urlCurrent = lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpGetCurrentURLNoParam();
   return {
     autoLoadAPIs: () => {
       console.log('autoLoadAPIs');
@@ -635,43 +620,62 @@ const lpAJAX = () => {
       } else {
         params.args = JSON.stringify(params.args);
         params.callback = JSON.stringify(params.callback);
-        url = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs)(url, params);
+        url = lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs(url, params);
       }
-      ;(0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI)(url, option, callBack);
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI(url, option, callBack);
     },
     fetchAJAX: (params, callBack) => {
       let urlAjax = lpSettings.lpAjaxUrl;
 
       // Set param id_url for identify.
       if (params.hasOwnProperty('args') && params.args.hasOwnProperty('id_url')) {
-        urlAjax = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs)(urlAjax, {
+        urlAjax = lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs(urlAjax, {
           id_url: params.args.id_url
         });
       } else if (params.hasOwnProperty('id_url')) {
-        urlAjax = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs)(urlAjax, {
+        urlAjax = lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs(urlAjax, {
           id_url: params.id_url
         });
       }
       // Set param lang here if exits, for detect translate
       if (lpSettings.urlParams.hasOwnProperty('lang')) {
-        urlAjax = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs)(urlAjax, {
+        urlAjax = lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs(urlAjax, {
           lang: lpSettings.urlParams.lang
         });
       }
-      const formData = new FormData();
       const action = params.hasOwnProperty('action') ? params.action : 'load_content_via_ajax';
-      formData.append('nonce', lpSettings.nonce);
-      formData.append('lp-load-ajax', action);
-      formData.append('data', JSON.stringify(params));
-      const dataSend = {
-        method: 'POST',
-        headers: {},
-        body: formData
-      };
+      const isGet = params.hasOwnProperty('method_request') && 'GET' === String(params.method_request).toUpperCase();
+      let dataSend;
+      if (isGet) {
+        // Don't send method_request back to server; keep URL shorter.
+        const paramsForSend = {
+          ...params
+        };
+        delete paramsForSend.method_request;
+        urlAjax = lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs(urlAjax, {
+          nonce: lpSettings.nonce,
+          'lp-load-ajax': action,
+          data: JSON.stringify(paramsForSend)
+        });
+        dataSend = {
+          method: 'GET',
+          headers: {}
+        };
+      } else {
+        const formData = new FormData();
+        formData.append('nonce', lpSettings.nonce);
+        formData.append('lp-load-ajax', action);
+        formData.append('data', JSON.stringify(params));
+        dataSend = {
+          method: 'POST',
+          headers: {},
+          body: formData
+        };
+      }
       if (0 !== parseInt(lpSettings.user_id)) {
         dataSend.headers['X-WP-Nonce'] = lpSettings.nonce;
       }
-      ;(0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI)(urlAjax, dataSend, callBack);
+      lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpFetchAPI(urlAjax, dataSend, callBack);
     },
     getElements: () => {
       // Finds all elements with the class '.lp-load-ajax-element'
@@ -761,7 +765,7 @@ const lpAJAX = () => {
       // Set url params to reload page.
       if (!dataSend.args.hasOwnProperty('enableUpdateParamsUrl') || dataSend.args.enableUpdateParamsUrl) {
         lpSettings.urlParams.paged = dataSend.args.paged;
-        window.history.pushState({}, '', (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs)(urlCurrent, lpSettings.urlParams));
+        window.history.pushState({}, '', lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpAddQueryArgs(urlCurrent, lpSettings.urlParams));
       }
       // End.
 
@@ -805,7 +809,7 @@ const lpAJAX = () => {
     showHideLoading: (elLPTarget, status) => {
       const elLoading = elLPTarget.nextElementSibling?.querySelector('.lp-loading-change');
       if (elLoading) {
-        (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl)(elLoading, status);
+        lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpShowHideEl(elLoading, status);
       }
     }
   };
@@ -820,7 +824,7 @@ document.addEventListener('click', function (e) {
 });
 
 // Listen element created
-(0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.listenElementCreated)(node => {
+lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.listenElementCreated(node => {
   if (node.classList.contains('lp-load-ajax-element')) {
     //console.log( 'Element created', node );
     window.lpAJAXG.getElements();
@@ -828,7 +832,7 @@ document.addEventListener('click', function (e) {
 });
 
 // Listen element ready
-(0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady)('.lp-load-ajax-element', element => {
+lpAssetsJsPath_utils_js__WEBPACK_IMPORTED_MODULE_0__.lpOnElementReady('.lp-load-ajax-element', element => {
   //console.log( 'Element ready', element );
   window.lpAJAXG.getElements();
 });

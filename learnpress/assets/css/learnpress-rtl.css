@@ -90,20 +90,25 @@
 }
 .lp-button.loading:before {
   position: absolute;
-  display: inline-block;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
+  line-height: 1;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
   color: black;
 }
 
 .learn-press-message {
   position: relative;
+  display: flex;
+  align-items: center;
   margin: 0 !important;
   padding: 10px 20px;
   border-radius: var(--lp-border-radius, 5px);
@@ -111,22 +116,51 @@
   color: #007AFF;
   max-width: 100%;
 }
+.learn-press-message::before {
+  display: inline-block;
+  margin-left: 8px;
+  font-family: "lp-icon";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+}
 .learn-press-message.error {
   background-color: #FEE5E5;
   color: #FF3B30;
-  border-right: none;
+  border: 1px solid #E31A1A;
+  padding: 10px 20px;
+}
+.learn-press-message.error::before {
+  content: "\f071";
+  color: #E31A1A;
 }
 .learn-press-message.warning {
   background-color: #FEF7E6;
   color: #FF9500;
+  border: 1px solid #F8A100;
+}
+.learn-press-message.warning::before {
+  content: "\f06a";
+  color: #F8A100;
 }
 .learn-press-message.success {
   background-color: #EBF8E5;
   color: #3AB500;
+  border: 1px solid #28A746;
+}
+.learn-press-message.success::before {
+  content: "\f058";
+  color: #28A746;
 }
 .learn-press-message.info {
   background-color: rgba(0, 122, 255, 0.1019607843);
   color: #007AFF;
+  border: 1px solid #2E91FA;
+}
+.learn-press-message.info::before {
+  content: "\e931";
+  color: #2E91FA;
 }
 .learn-press-message a {
   text-decoration: underline;
@@ -1700,15 +1734,18 @@ input[type=password] {
 }
 .learnpress_avatar__button--loading:before {
   position: absolute;
-  display: inline-block;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
+  line-height: 1;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
   color: black;
 }
 
@@ -2053,7 +2090,6 @@ button.learnpress_avatar__button + button {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  border-top: 1px solid #e2e8f0;
 }
 .lp-enrolled-students-table-footer__count {
   color: #64748b;
@@ -2709,6 +2745,14 @@ button.learnpress_avatar__button + button {
   margin-top: 16px;
 }
 
+.lp_profile_course_progress__nav {
+  margin-top: 1rem;
+}
+
+#profile-content-order-details .lp-table-wrap {
+  margin-bottom: 1rem;
+}
+
 .course-extra-box {
   margin-bottom: 16px;
   border: 1px solid var(--lp-border-color, #E2E0DB);
@@ -2975,15 +3019,18 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
 }
 .course-curriculum .section-item__loadmore.loading button:before {
   position: absolute;
-  display: inline-block;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
+  line-height: 1;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
   color: black;
 }
 .course-curriculum .section-header {
@@ -3202,15 +3249,18 @@ input[name=course-faqs-box-ratio]:checked + .course-faqs-box .course-faqs-box__t
 }
 .course-curriculum .curriculum-more__button.loading:before {
   position: absolute;
-  display: inline-block;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "lp-icon";
   content: "\f110";
   animation: lp-rotating 1s linear infinite;
+  line-height: 1;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
   color: black;
 }
 
@@ -8643,6 +8693,8 @@ ul.learn-press-breadcrumb a {
 
 /**
 * Style for table LearnPress
+* @since 4.3.3
+* @version 1.0.1
 */
 .lp-table-wrap {
   border-radius: 5px;
@@ -8739,14 +8791,6 @@ table.lp-list-table.order-table-details tfoot tr td, table.lp-list-table.order-t
 }
 table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-list-table.order-table-details tfoot tr:not(:last-child) th {
   padding-bottom: 0;
-}
-
-.lp_profile_course_progress__nav {
-  margin-top: 1rem;
-}
-
-#profile-content-order-details .lp-table-wrap {
-  margin-bottom: 1rem;
 }
 
 /**
@@ -8862,6 +8906,10 @@ table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-l
   display: flex;
   gap: 8px;
   align-items: center;
+}
+.lp-form-filter input, .lp-form-filter select {
+  min-height: 40px;
+  padding: 0 12px;
 }
 
 /*  end reset css */
