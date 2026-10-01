@@ -82,7 +82,7 @@
 }
 .lp-button.loading {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
@@ -742,7 +742,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=189") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=73") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -770,11 +770,11 @@ ul .clearfix {
   content: "\e901";
 }
 
-.lp-icon-ico-students:before {
+.lp-icon-students:before {
   content: "\e902";
 }
 
-.lp-icon-ico-courses:before {
+.lp-icon-courses:before {
   content: "\e903";
 }
 
@@ -12482,6 +12482,27 @@ table.lp-list-table thead th {
   padding: 10px 20px;
   text-align: right;
 }
+table.lp-list-table thead th.sortable > a, table.lp-list-table thead th.sorted > a {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+table.lp-list-table thead th .sorting-indicator {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05em;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+}
+table.lp-list-table thead th .sorting-indicator i {
+  color: #aaa;
+  height: 10px;
+}
+table.lp-list-table thead th .sorting-indicator i.is-active {
+  color: #000;
+}
 table.lp-list-table thead th td {
   border: none;
   padding: 0;
@@ -12504,11 +12525,14 @@ table.lp-list-table tbody tr td {
 table.lp-list-table tbody tr td a {
   text-decoration: none;
 }
-table.lp-list-table tbody tr:last-child td {
+table.lp-list-table tbody tr:last-child td, table.lp-list-table tbody tr:last-child th {
   border-bottom: none;
 }
 table.lp-list-table tbody th {
+  border: none;
+  border-bottom: 1px solid var(--lp-border-color, #E2E0DB);
   padding: 10px 20px;
+  text-align: right;
 }
 table.lp-list-table tfoot tr {
   border: none;
@@ -12558,10 +12582,21 @@ table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-l
   flex: 1 1 0;
   min-width: 0;
 }
+@media screen and (max-width: 782px) {
+  .lp-form-filter__fields > * {
+    flex: 1 1 50%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .lp-form-filter__fields > * {
+    flex: 1 1 100%;
+  }
+}
 .lp-form-filter .filter-field {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-width: 200px;
 }
 .lp-form-filter .filter-field label {
   text-align: right;
@@ -12578,6 +12613,17 @@ table.lp-list-table.order-table-details tfoot tr:not(:last-child) td, table.lp-l
   align-items: center;
 }
 .lp-form-filter input, .lp-form-filter select {
+  min-height: 40px;
+  padding: 0 12px;
+}
+.lp-form-filter .lp-tom-select.ts-wrapper {
+  width: 100%;
+  min-width: auto;
+  /*&.dropdown-active {
+  	width: 100%;
+  }*/
+}
+.lp-form-filter .lp-tom-select.ts-wrapper .ts-control {
   min-height: 40px;
   padding: 0 12px;
 }

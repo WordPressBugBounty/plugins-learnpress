@@ -127,8 +127,11 @@ if ( ! function_exists( 'LP_Install' ) ) {
 				// flush_rewrite_rules();
 			}
 
-			// Soft flush: clear cached rewrite rules so WordPress rebuilds them with LP CPTs and pages on next request.
-			flush_rewrite_rules( false );
+			// Set roles and capabilities.
+			learn_press_add_user_roles();
+
+			// Rebuilds them with LP CPTs and pages on next request.
+			flush_rewrite_rules();
 
 			// Force option users_can_register to ON.
 			/*if ( ! get_option( 'users_can_register' ) ) {
