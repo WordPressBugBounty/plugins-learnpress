@@ -3365,6 +3365,7 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   font-weight: 600;
   font-size: 1em;
   line-height: 1.5em;
+  flex: 1;
 }
 .lp-course-curriculum .course-section__description {
   margin: 4px 0 0 0;
@@ -3510,6 +3511,10 @@ body .content-item-summary .form-button-finish-course, body .lp-quiz-buttons .fo
   }
   .lp-course-curriculum .course-section .course-item, .lp-course-curriculum .course-section .course-section-header {
     padding: 12px 15px;
+  }
+  .lp-course-curriculum .course-section .course-section-info {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
