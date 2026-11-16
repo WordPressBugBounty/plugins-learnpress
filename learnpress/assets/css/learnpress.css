@@ -2200,24 +2200,21 @@ button.learnpress_avatar__button + button {
   padding: 0 10px;
   border-radius: 20px;
   color: #94a3b8;
-  background: #f8fafc;
-  font-weight: bold;
+  background: #eef7fb;
   line-height: 1.25rem;
   transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 3px rgba(29, 78, 216, 0.08);
 }
 .lp-course-student-counter.disabled {
   background: #ddd;
 }
 
 a .lp-course-student-counter {
-  color: #1d4ed8;
-  background: #eff6ff;
+  color: #235af3;
+  background: #d4e8fb;
 }
 a .lp-course-student-counter:hover {
   background: #2563eb;
   color: white;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   transform: translateY(-1.5px);
 }
 
@@ -9435,6 +9432,8 @@ table.lp-list-table.profile-list-quizzes tfoot td {
 .lp-form-filter input, .lp-form-filter select {
   min-height: 40px;
   padding: 0 12px;
+  border-radius: 5px;
+  border: 1px solid #949494;
 }
 .lp-form-filter .lp-tom-select.ts-wrapper {
   width: 100%;
@@ -9448,6 +9447,116 @@ table.lp-list-table.profile-list-quizzes tfoot td {
   padding: 0 12px;
 }
 
+/**
+ * Input search suggest (autocomplete).
+ * HTML: AdminInputSearchSuggest::layout(), JS: assets/src/js/lp-input-search-suggest.js
+ */
+.lp-wrap-input-search-suggest {
+  position: relative;
+  display: inline-block;
+  min-width: 250px;
+  max-width: 100%;
+}
+.lp-wrap-input-search-suggest .lp-input-search-suggest {
+  width: 100%;
+  margin: 0;
+}
+.lp-form-filter .lp-wrap-input-search-suggest {
+  display: block;
+  min-width: 0;
+}
+.lp-wrap-input-search-suggest.loading .lp-input-search-suggest {
+  background-image: linear-gradient(90deg, transparent 0%, #2271b1 50%, transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 40% 2px;
+  background-position: -40% 100%;
+  animation: lp-input-search-suggest-loading 1s linear infinite;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-result {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  margin-top: 2px;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-result .learn-press-message {
+  margin: 0;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-list {
+  margin: 0;
+  padding: 4px 0;
+  max-height: 240px;
+  overflow-y: auto;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-item,
+.lp-wrap-input-search-suggest .lp-search-suggest-empty {
+  margin: 0;
+  padding: 6px 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-item {
+  cursor: pointer;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-item:hover, .lp-wrap-input-search-suggest .lp-search-suggest-item.is-active {
+  background: #f0f6fc;
+  color: #2271b1;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-item--multiple {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-item--multiple .lp-search-suggest-checkbox {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  margin: 2px 0 0;
+  padding: 0;
+  cursor: pointer;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-item--multiple.is-selected {
+  font-weight: 600;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-actions {
+  margin: 0;
+  padding: 2px 12px 6px;
+  border-bottom: 1px solid #f0f0f1;
+  text-align: right;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-actions .lp-search-suggest-clear-all {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #b32d2e;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-actions .lp-search-suggest-clear-all:hover, .lp-wrap-input-search-suggest .lp-search-suggest-actions .lp-search-suggest-clear-all:focus {
+  text-decoration: underline;
+}
+.lp-wrap-input-search-suggest .lp-search-suggest-empty {
+  color: #646970;
+  font-style: italic;
+}
+
+@keyframes lp-input-search-suggest-loading {
+  from {
+    background-position: -40% 100%;
+  }
+  to {
+    background-position: 140% 100%;
+  }
+}
 /*  end reset css */
 @media (max-width: 1024px) {
   body.learnpress-page {
