@@ -4,9 +4,6 @@ namespace LearnPress\AI\Assistant;
 
 use LearnPress\Models\CourseModel;
 use LearnPress\Models\PostModel;
-use LearnPress\Models\UserItems\UserCourseModel;
-use LearnPress\Models\UserItems\UserItemModel;
-use LearnPress\Models\UserModel;
 use LP_Settings;
 use LP_User;
 use LearnPress\Services\OpenAiService;
@@ -146,32 +143,29 @@ class AIAssistantController {
 		 * course_id/item_id pair from different courses cannot be combined, and a quiz
 		 * ID cannot be resolved as a lesson.
 		 */
-		$itemModel = $courseModel->get_item_model( $item_id, $item_type );
+		$itemModel = $courseModel->get_item_model( $item_id, $item_type, true );
 		if ( ! $itemModel instanceof PostModel ) {
 			throw new Exception( $denied );
 		}
 
-		$userModel = UserModel::find( $user_id, true );
-		if ( ! $userModel instanceof UserModel ) {
+		// Reject drafts, pending, private and trashed items — get_item_model() does not filter status.
+		if ( PostModel::STATUS_PUBLISH !== $itemModel->post_status ) {
 			throw new Exception( $denied );
 		}
 
-		$userCourseModel = UserCourseModel::find( $userModel->get_id(), $courseModel->get_id(), true );
-		if ( ! $userCourseModel instanceof UserCourseModel ) {
+		// Canonical LearnPress access policy: course-level gate, then the item-level rule
+		// that lets preview items through. Both must pass.
+		$user = learn_press_get_user( $user_id );
+		if ( ! $user instanceof LP_User ) {
 			throw new Exception( $denied );
 		}
 
-		$userItemModel = UserItemModel::find_user_item(
-			$userModel->get_id(),
-			$itemModel->get_id(),
-			$itemModel->post_type ?? '',
-			$courseModel->get_id(),
-			LP_COURSE_CPT,
-			true
-		);
+		$can_view_course = $user->can_view_content_course( $course_id );
+		$can_view_item   = $user->can_view_item( $item_id, $can_view_course );
+		if ( empty( $can_view_item->flag ) ) {
+			$message = (string) ( $can_view_item->message ?? '' );
 
-		if ( ! $userItemModel instanceof UserItemModel ) {
-			throw new Exception( $denied );
+			throw new Exception( '' !== $message ? $message : $denied );
 		}
 
 		return array(

@@ -10,6 +10,7 @@ namespace LearnPress\TemplateHooks\CourseBuilder\Lesson;
 
 use Exception;
 use LearnPress\CourseBuilder\CourseBuilder;
+use LearnPress\CourseBuilder\CourseBuilderAccessPolicy;
 use LearnPress\Helpers\Singleton;
 use LearnPress\Helpers\Template;
 use LearnPress\Models\CourseModel;
@@ -46,6 +47,10 @@ class BuilderEditLessonTemplate {
 		if ( empty( $item_id ) ) {
 			throw new Exception( __( 'Invalid lesson ID', 'learnpress' ) );
 		}
+
+		/*if ( ! CourseBuilderAccessPolicy::can_access_tab_post( 'lessons', $item_id ) ) {
+			throw new Exception( __( "Sorry, you don't have permission to access this content", 'learnpress' ) );
+		}*/
 
 		$is_create_new   = $item_id === CourseBuilder::POST_NEW;
 		$lessonPostModel = false;

@@ -24,11 +24,6 @@ export const lpFetchAPI = ( url, data = {}, functions = {} ) => {
 	}
 
 	fetch( url, { method: 'GET', ...data } )
-		.then( ( response ) =>
-			'function' === typeof functions.checkResponse
-				? functions.checkResponse( response )
-				: response
-		)
 		.then( ( response ) => response.json() )
 		.then( ( response ) => {
 			if ( 'function' === typeof functions.success ) {
