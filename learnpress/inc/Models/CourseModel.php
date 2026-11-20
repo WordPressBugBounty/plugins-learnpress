@@ -15,6 +15,7 @@ namespace LearnPress\Models;
 
 use Exception;
 use LearnPress\Databases\Course\CourseSectionItemsDB;
+use LearnPress\Databases\UserItemsDB;
 use LearnPress\Filters\PostFilter;
 use LearnPress\Models\UserItems\UserCourseModel;
 use LearnPress\Models\UserItems\UserItemModel;
@@ -990,8 +991,8 @@ class CourseModel {
 				return $total;
 			}
 
-			$lp_course_db = LP_Course_DB::getInstance();
-			$total        = $lp_course_db->get_total_user_enrolled_or_purchased( $this->get_id() );
+			$db    = UserItemsDB::getInstance();
+			$total = $db->get_total_users_enrolled_by_course( $this->get_id() );
 			$lp_course_cache->set_total_students_enrolled_or_purchased( $this->get_id(), $total );
 		} catch ( Throwable $e ) {
 			LP_Debug::error_log( $e );
@@ -1319,8 +1320,6 @@ class CourseModel {
 					break;
 				case LP_QUIZ_CPT:
 					$item = QuizPostModel::find( $item_id, true );
-					break;
-				case LP_QUESTION_CPT:
 					break;
 				default:
 					$item = apply_filters( 'learn-press/course/get-item-model', $item, $item_id, $item_type, $this );

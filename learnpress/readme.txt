@@ -3,7 +3,7 @@ Contributors: thimpress, tungnx89, nhamdv, nguyenlammanh, tunnhn, phonglq.foobla
 Donate link:
 Tags: elearning, education, course, lms, learning management system
 Tested up to: 7.1
-Stable tag: 4.4.15
+Stable tag: 4.5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -304,10 +304,19 @@ https://translate.wordpress.org/projects/wp-plugins/learnpress/
 
 == Changelog ==
 
-= 4.4.15 (2026-11-16) =
+= 4.5.0 (2026-11-20) =
+* Refactor storing results and question answers for quizzes.
+* Fix: minor bugs.
+* Fix: security.
+
+= 4.4.15 (2026-11-17) =
+* Hot fix.
+
+= 4.4.14 (2026-11-16) =
 * Fixed: security.
 * Fixed: minor bugs.
-
+* Students enrolled: update search suggest for course, student
+* Course edit: add tab more features.
 
 = 4.4.13 (2026-10-30) =
 * Fixed: security (Props @Alveni).

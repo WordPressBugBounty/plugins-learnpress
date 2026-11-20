@@ -124,6 +124,9 @@
   font-weight: normal;
   line-height: 1;
 }
+.learn-press-message.hidden-icon::before {
+  display: none;
+}
 .learn-press-message.error {
   background-color: #FEE5E5;
   color: #FF3B30;
@@ -728,7 +731,7 @@ ul .clearfix {
 
 @font-face {
   font-family: "lp-icon";
-  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=46") format("woff2");
+  src: url("../../src/css/vendor/fonts/lp-icon/lp-icon.woff2?v=180") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -12977,80 +12980,6 @@ a.block-editor-block-list__block.wp-block-learnpress-course-button:hover {
   border-top: none;
 }
 
-.lp-enrolled-students-table-footer .learn-press-pagination {
-  margin: 0;
-  text-align: right;
-}
-.lp-enrolled-students-table-footer .learn-press-pagination ul.page-numbers {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.lp-enrolled-students-table-footer .learn-press-pagination ul.page-numbers > li {
-  margin: 0;
-}
-.lp-enrolled-students-table-footer .learn-press-pagination a.page-numbers,
-.lp-enrolled-students-table-footer .learn-press-pagination span.page-numbers {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 40px;
-  height: 40px;
-  width: 40px;
-  line-height: 40px;
-  padding: 0 8px;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  color: #475569;
-  background: #fff;
-  font-size: 13px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.lp-enrolled-students-table-footer .learn-press-pagination a.page-numbers:hover:not(.current),
-.lp-enrolled-students-table-footer .learn-press-pagination span.page-numbers:hover:not(.current) {
-  border-color: #3b82f6;
-  color: #3b82f6 !important;
-  background: #eff6ff;
-}
-.lp-enrolled-students-table-footer .learn-press-pagination span.page-numbers.current {
-  border-color: #3b82f6;
-  color: #fff;
-  background: #3b82f6;
-  cursor: default;
-}
-.lp-enrolled-students-table-footer .learn-press-pagination span.page-numbers.dots {
-  min-width: auto;
-  border: 0;
-  background: transparent;
-  cursor: default;
-}
-.lp-enrolled-students-table-footer .learn-press-pagination span.page-numbers.current,
-.lp-enrolled-students-table-footer .learn-press-pagination span.page-numbers.dots {
-  pointer-events: none;
-}
-
-.lp-enrolled-empty {
-  padding: 40px 20px;
-  color: #94a3b8;
-  text-align: center;
-}
-.lp-enrolled-empty p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.lp-enrolled-error {
-  padding: 15px 20px;
-  color: #dc2626;
-  font-size: 13px;
-}
-
 #lp-modal-enrolled-wrap {
   position: relative;
   /*tbody {
@@ -14151,10 +14080,12 @@ html.lp-full-screen-active body {
 
 .lp-notice-update-database {
   border: 1px solid rebeccapurple;
-  border-left-color: #f00;
   border-radius: 3px;
   color: white;
   background: rebeccapurple;
+}
+.lp-notice-update-database p {
+  color: white;
 }
 .lp-notice-update-database.do-updating::before {
   display: inline-block;

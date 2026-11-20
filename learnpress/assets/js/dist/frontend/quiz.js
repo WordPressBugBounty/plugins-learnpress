@@ -1055,7 +1055,6 @@ class Questions extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Componen
       isShow = false;
     }
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      tabIndex: 100,
       onKeyUp: this.nav
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "quiz-questions",
@@ -1216,9 +1215,14 @@ class Question extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Component
       isShowIndex,
       isShowHint,
       status,
-      results
+      results,
+      isCorrect
     } = this.props;
-    if (results && results.questions && results.questions[question.id]) {
+
+    // Result of instant check, results not update when check, options not have isTrue when not show correct answer.
+    if (typeof isCorrect !== 'undefined') {
+      question.correct = isCorrect;
+    } else if (results && results.questions && results.questions[question.id]) {
       if (typeof results.questions[question.id].correct !== 'undefined') {
         question.correct = results.questions[question.id].correct;
       }
@@ -1330,7 +1334,8 @@ class Question extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Component
   const {
     getData,
     getQuestionAnswered,
-    getQuestionMark
+    getQuestionMark,
+    isCorrect
   } = select('learnpress/quiz');
   return {
     status: getData('status'),
@@ -1340,7 +1345,8 @@ class Question extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Component
     editPermalink: getData('editPermalink'),
     numPages: getData('numPages'),
     mark: getQuestionMark(id) || '',
-    results: getData('results')
+    results: getData('results'),
+    isCorrect: isCorrect(id)
   };
 }), (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.withDispatch)(dispatch => {
   const {
@@ -1662,7 +1668,7 @@ const Status = () => {
       return;
     }
     const $sc = $pc.find('.content-item-scrollable:eq(1)');
-    const $qs = $pc.find('.quiz-status');
+    const $qs = $pc.find('.quiz-doing-bar-info');
     const pcTop = $qs.offset().top - 92;
     let isFixed = false;
 
@@ -1718,7 +1724,7 @@ const Status = () => {
   const submitting = getData('submitting');
   const duration = getData('duration');
   const userMark = getUserMark();
-  const classNames = ['quiz-status'];
+  const classNames = ['quiz-doing-bar-info'];
   const start = (currentPage - 1) * questionsPerPage + 1;
   let end = start + questionsPerPage - 1;
   let indexHtml = '';
@@ -1830,6 +1836,9 @@ const Timer = () => {
       m = seconds % 3600;
       t.push((m - m % 60) / 60);
       t.push(m % 60);
+    }
+    if (seconds <= 0) {
+      return '00:00';
     }
     return t.map(a => {
       return a < 10 ? `0${a}` : a;
@@ -2179,22 +2188,24 @@ function* submitQuiz() {
   if (lpQuizSettings.checkNorequizenroll === 1) {
     const keyQuizOff = `quiz_off_${lpQuizSettings.id}`;
     const quizDataOffStr = window.localStorage.getItem(keyQuizOff);
-    const quizDataOff = JSON.parse(quizDataOffStr);
-    const keyAnswer = `LP_Quiz_${itemId}_Answered`;
-    const answerDataStr = localStorage.getItem(keyAnswer);
-    if (null !== answerDataStr) {
-      const data = JSON.parse(answerDataStr);
-      for (const [k, v] of Object.entries(data)) {
-        answered[k] = v.answered;
+    if (null !== quizDataOffStr) {
+      const quizDataOff = JSON.parse(quizDataOffStr);
+      const keyAnswer = `LP_Quiz_${itemId}_Answered`;
+      const answerDataStr = localStorage.getItem(keyAnswer);
+      if (null !== answerDataStr) {
+        const data = JSON.parse(answerDataStr);
+        for (const [k, v] of Object.entries(data)) {
+          answered[k] = v.answered;
+        }
       }
-    }
 
-    // Added questions not answered
-    quizDataOff.question_ids.forEach(question_id => {
-      if (!answered[question_id]) {
-        answered[question_id] = '';
-      }
-    });
+      // Added questions not answered
+      quizDataOff.question_ids.forEach(question_id => {
+        if (!answered[question_id]) {
+          answered[question_id] = '';
+        }
+      });
+    }
   }
 
   // Get time spend did quiz - tungnx
@@ -2224,6 +2235,25 @@ function* submitQuiz() {
         const quizDataOff = JSON.parse(quizDataOffStr);
         quizDataOff.status = response.results.status;
         quizDataOff.results = response.results.results;
+        quizDataOff.results.answered = Object.entries(answered).reduce((resultAnswered, [questionId, answer]) => {
+          resultAnswered[questionId] = {
+            ...(resultAnswered[questionId] || {}),
+            answered: answer
+          };
+          return resultAnswered;
+        }, quizDataOff.results.answered || {});
+        const questionOptions = Object.values(quizDataOff.questions || {}).reduce((options, question) => {
+          if (question.options) {
+            options[question.id] = question.options;
+          }
+          return options;
+        }, quizDataOff.question_options || {});
+        quizDataOff.question_options = Object.entries(response.results.results.questions || {}).reduce((options, [questionId, question]) => {
+          if (question.options) {
+            options[questionId] = question.options;
+          }
+          return options;
+        }, questionOptions);
         window.localStorage.setItem(keyQuizOff, JSON.stringify(quizDataOff));
         window.localStorage.removeItem('LP_Quiz_' + lpQuizSettings.id + '_Answered');
       }
@@ -2911,7 +2941,18 @@ function isCheckedAnswer(state, id) {
   const checkedQuestions = get(state, 'userQuiz.checkedQuestions') || [];
   return checkedQuestions.indexOf(id) !== -1;
 }
-function isCorrect(state, id) {}
+
+/**
+ * Result correct of question from server (instant check or submit).
+ *
+ * @param {Object} state - Global state for app.
+ * @param {number} id
+ * @return {boolean|undefined} undefined if question not checked yet.
+ */
+function isCorrect(state, id) {
+  const correct = get(state, `userQuiz.answered.${id}.correct`);
+  return typeof correct === 'undefined' ? undefined : !!correct;
+}
 
 /**
  * Get questions user has selected answers.
@@ -3473,17 +3514,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
+/******/ 	const __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		const cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 		const module = __webpack_module_cache__[moduleId] = {
 /******/ 			// no module.id needed
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
@@ -3492,7 +3533,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 		// Execute the module function
 /******/ 		if (!(moduleId in __webpack_modules__)) {
 /******/ 			delete __webpack_module_cache__[moduleId];
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			const e = new Error("Cannot find module '" + moduleId + "'");
 /******/ 			e.code = 'MODULE_NOT_FOUND';
 /******/ 			throw e;
 /******/ 		}
@@ -3507,7 +3548,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
 /******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
+/******/ 			const getter = module && module.__esModule ?
 /******/ 				() => (module['default']) :
 /******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
@@ -3517,11 +3558,26 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
+/******/ 		// define getter/value functions for harmony exports
 /******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			if(Array.isArray(definition)) {
+/******/ 				var i = 0;
+/******/ 				while(i < definition.length) {
+/******/ 					var key = definition[i++];
+/******/ 					var binding = definition[i++];
+/******/ 					if(!__webpack_require__.o(exports, key)) {
+/******/ 						if(binding === 0) {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
+/******/ 						} else {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
+/******/ 						}
+/******/ 					} else if(binding === 0) { i++; }
+/******/ 				}
+/******/ 			} else {
+/******/ 				for(var key in definition) {
+/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 					}
 /******/ 				}
 /******/ 			}
 /******/ 		};
@@ -3529,14 +3585,14 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.hasOwn(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
 /******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			if(Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
@@ -3544,7 +3600,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
+let __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
@@ -3585,7 +3641,6 @@ const init = (elem, settings) => {
       } else if ('completed' === quizDataOff.status) {
         settings.results = quizDataOff.results;
         settings.answered = quizDataOff.results.answered;
-        settings.questions = quizDataOff.results.questions;
       }
       if (undefined !== quizDataOff.checked_questions) {
         settings.checked_questions = quizDataOff.checked_questions;

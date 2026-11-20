@@ -101,8 +101,19 @@ class QuestionBase extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Compo
   };
 
   /**
-   * Only show correct answer
-   * status = completed
+   * Show result of user's answer (correct/incorrect), not show correct answer.
+   * When question checked (instant check) or quiz completed.
+   */
+  maybeShowResult = () => {
+    const {
+      status,
+      isCheckedAnswer
+    } = this.props;
+    return status === 'completed' || !!isCheckedAnswer;
+  };
+
+  /**
+   * Show correct answer (options must choose), only when option "Show the correct answer" enabled.
    * todo: check isset answered but if skip it will not show.
    *
    * @author Nhamdv
@@ -114,7 +125,7 @@ class QuestionBase extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Compo
       showCorrectReview,
       isReviewing
     } = this.props;
-    return status === 'completed' && showCorrectReview || isCheckedAnswer && !isReviewing;
+    return !!showCorrectReview && (status === 'completed' || isCheckedAnswer && !isReviewing);
   };
 
   /**
@@ -238,7 +249,7 @@ class QuestionBase extends _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Compo
     } = this.props;
     const checker = LP.config.isQuestionCorrect[question.type] || this.isCorrect;
     const isCorrect = checker.call(this);
-    return this.maybeShowCorrectAnswer() && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    return this.maybeShowResult() && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: `question-response` + (isCorrect ? ' correct' : ' incorrect')
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
       className: "label"
@@ -368,7 +379,7 @@ class QuestionFillInBlanks extends _question_base__WEBPACK_IMPORTED_MODULE_2__["
         getMark = mark.toFixed(2);
       }
     }
-    return this.maybeShowCorrectAnswer() && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    return this.maybeShowResult() && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "question-response correct"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
       className: "label"
@@ -391,27 +402,30 @@ class QuestionFillInBlanks extends _question_base__WEBPACK_IMPORTED_MODULE_2__["
   convertInputField = option => {
     const {
       answered,
-      isReviewing,
-      showCorrectReview,
-      isCheckedAnswer
+      isReviewing
     } = this.props;
     let title = option.title;
     const answers = option?.answers;
+    const showResult = this.maybeShowResult();
+    const showCorrectAnswer = this.maybeShowCorrectAnswer();
     option.ids.map((id, index) => {
       const textReplace = '{{FIB_' + id + '}}';
       let elContent = '';
       const answerID = answers ? answers?.[id] : undefined;
       if (answerID || isReviewing) {
-        var _answerID$correct;
-        elContent += `<span class="lp-fib-answered ${(showCorrectReview || isCheckedAnswer) && answerID?.correct ? answerID?.isCorrect ? 'correct' : 'fail' : ''}">`;
-        if (!answerID?.isCorrect) {
+        // answerID.correct (fill) not send when option "Show the correct answer" off, only isCorrect.
+        const showFill = showCorrectAnswer && !!answerID?.correct;
+        elContent += `<span class="lp-fib-answered ${showResult && answerID?.isCorrect !== undefined ? answerID.isCorrect ? 'correct' : 'fail' : ''}">`;
+        if (!answerID?.isCorrect || !showFill) {
           var _answered$id;
           elContent += `<span class="lp-fib-answered__answer">${(_answered$id = answered?.[id]) !== null && _answered$id !== void 0 ? _answered$id : ''}</span>`;
         }
-        if (!answerID?.isCorrect && answerID?.correct) {
+        if (!answerID?.isCorrect && showFill) {
           elContent += ' → ';
         }
-        elContent += `<span class="lp-fib-answered__fill">${(_answerID$correct = answerID?.correct) !== null && _answerID$correct !== void 0 ? _answerID$correct : ''}</span>`;
+        if (showFill) {
+          elContent += `<span class="lp-fib-answered__fill">${answerID.correct}</span>`;
+        }
         elContent += '</span>';
       } else {
         elContent += '<div class="lp-fib-input" style="display: inline-block; width: auto;">';
@@ -491,17 +505,15 @@ class QuestionMultipleChoices extends _question_base__WEBPACK_IMPORTED_MODULE_2_
       question
     } = this.props;
     const optionClass = [...this.state.optionClass];
-    if (this.maybeShowCorrectAnswer()) {
-      if (option.isTrue === 'yes') {
-        optionClass.push('answer-correct');
-      }
-      if (answered) {
-        const isSelected = answered.indexOf(option.value) !== -1;
-        if (option.isTrue === 'yes' || isSelected && question.correct) {
-          isSelected && optionClass.push('answered-correct');
-        } else {
-          isSelected && optionClass.push('answered-wrong');
-        }
+    if (this.maybeShowCorrectAnswer() && option.isTrue === 'yes') {
+      optionClass.push('answer-correct');
+    }
+    if (this.maybeShowResult() && answered) {
+      const isSelected = answered.indexOf(option.value) !== -1;
+      if (option.isTrue === 'yes' || isSelected && question.correct) {
+        isSelected && optionClass.push('answered-correct');
+      } else {
+        isSelected && optionClass.push('answered-wrong');
       }
     }
     return optionClass;
@@ -531,18 +543,16 @@ class QuestionSingleChoice extends _question_base__WEBPACK_IMPORTED_MODULE_0__["
       question
     } = this.props;
     const optionClass = [...this.state.optionClass];
-    if (this.maybeShowCorrectAnswer()) {
-      if (option.isTrue === 'yes') {
-        optionClass.push('answer-correct');
-      }
-      if (answered) {
-        const isSelected = answered === option.value;
-        if (isSelected) {
-          if (option.isTrue === 'yes' || question.correct) {
-            optionClass.push('answered-correct');
-          } else {
-            optionClass.push('answered-wrong');
-          }
+    if (this.maybeShowCorrectAnswer() && option.isTrue === 'yes') {
+      optionClass.push('answer-correct');
+    }
+    if (this.maybeShowResult() && answered) {
+      const isSelected = answered === option.value;
+      if (isSelected) {
+        if (option.isTrue === 'yes' || question.correct) {
+          optionClass.push('answered-correct');
+        } else {
+          optionClass.push('answered-wrong');
         }
       }
     }
@@ -568,19 +578,20 @@ __webpack_require__.r(__webpack_exports__);
 class QuestionTrueOrFalse extends _question_base__WEBPACK_IMPORTED_MODULE_0__["default"] {
   getOptionClass = option => {
     const {
-      answered
+      answered,
+      question
     } = this.props;
     const optionClass = [...this.state.optionClass];
-    if (this.maybeShowCorrectAnswer()) {
-      if (option.isTrue === 'yes') {
-        optionClass.push('answer-correct');
-      }
-      if (answered) {
-        if (option.isTrue === 'yes') {
-          answered === option.value && optionClass.push('answered-correct');
-        } else {
-          answered === option.value && optionClass.push('answered-wrong');
-        }
+    if (this.maybeShowCorrectAnswer() && option.isTrue === 'yes') {
+      optionClass.push('answer-correct');
+    }
+
+    // isTrue not send when option "Show the correct answer" off, use result of server.
+    if (this.maybeShowResult() && answered && answered === option.value) {
+      if (option.isTrue === 'yes' || question.correct) {
+        optionClass.push('answered-correct');
+      } else {
+        optionClass.push('answered-wrong');
       }
     }
     return optionClass;
@@ -732,17 +743,17 @@ module.exports = window["wp"]["i18n"];
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
+/******/ 	const __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		const cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 		const module = __webpack_module_cache__[moduleId] = {
 /******/ 			// no module.id needed
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
@@ -751,7 +762,7 @@ module.exports = window["wp"]["i18n"];
 /******/ 		// Execute the module function
 /******/ 		if (!(moduleId in __webpack_modules__)) {
 /******/ 			delete __webpack_module_cache__[moduleId];
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			const e = new Error("Cannot find module '" + moduleId + "'");
 /******/ 			e.code = 'MODULE_NOT_FOUND';
 /******/ 			throw e;
 /******/ 		}
@@ -766,7 +777,7 @@ module.exports = window["wp"]["i18n"];
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
 /******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
+/******/ 			const getter = module && module.__esModule ?
 /******/ 				() => (module['default']) :
 /******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
@@ -776,11 +787,26 @@ module.exports = window["wp"]["i18n"];
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
+/******/ 		// define getter/value functions for harmony exports
 /******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			if(Array.isArray(definition)) {
+/******/ 				var i = 0;
+/******/ 				while(i < definition.length) {
+/******/ 					var key = definition[i++];
+/******/ 					var binding = definition[i++];
+/******/ 					if(!__webpack_require__.o(exports, key)) {
+/******/ 						if(binding === 0) {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
+/******/ 						} else {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
+/******/ 						}
+/******/ 					} else if(binding === 0) { i++; }
+/******/ 				}
+/******/ 			} else {
+/******/ 				for(var key in definition) {
+/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 					}
 /******/ 				}
 /******/ 			}
 /******/ 		};
@@ -788,14 +814,14 @@ module.exports = window["wp"]["i18n"];
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.hasOwn(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
 /******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			if(Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
@@ -803,7 +829,7 @@ module.exports = window["wp"]["i18n"];
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
+let __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
 /*!*******************************************************!*\
